@@ -40,10 +40,10 @@ class Publication(models.Model):
     license = models.ForeignKey(License, on_delete=DO_NOTHING)
     title = models.CharField(max_length=255)
     abstract = models.TextField()
-    publication_link = models.CharField(max_length=255)
-    year_of_publication = models.DateField()
+    publication_link = models.CharField(max_length=255, unique=True)
+    year_of_publication = models.IntegerField()
     place_of_publication = models.CharField(max_length=255)
-    isbn = models.CharField(max_length=255)
+    isbn = models.CharField(max_length=255, unique=True)
     publisher = models.CharField(max_length=255)
     tags = models.CharField(max_length=255)
     created_at = models.DateTimeField(
