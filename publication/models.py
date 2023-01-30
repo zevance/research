@@ -14,7 +14,6 @@ class Collection(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    
 class PublicationType(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -40,6 +39,12 @@ class Publication(models.Model):
     publication_type = models.ForeignKey(PublicationType, on_delete=DO_NOTHING)
     license = models.ForeignKey(License, on_delete=DO_NOTHING)
     title = models.CharField(max_length=255)
+    abstract = models.TextField()
+    publication_link = models.CharField(max_length=255)
+    year_of_publication = models.DateField()
+    place_of_publication = models.CharField(max_length=255)
+    isbn = models.CharField(max_length=255)
+    publisher = models.CharField(max_length=255)
     tags = models.CharField(max_length=255)
     created_at = models.DateTimeField(
         default=datetime.now)
