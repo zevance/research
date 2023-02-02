@@ -45,7 +45,7 @@ class Publication(models.Model):
     place_of_publication = models.CharField(max_length=255)
     isbn = models.CharField(max_length=255, unique=True)
     publisher = models.CharField(max_length=255)
-    tags = models.CharField(max_length=255)
+    tags = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(
         default=datetime.now)
     
@@ -54,13 +54,23 @@ class Publication(models.Model):
     
 class Innovation(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
-    license = models.ForeignKey(License,on_delete= DO_NOTHING)
     title = models.CharField(max_length=255)
+    patent = models.CharField(max_length=255)
     created_at = models.DateTimeField(
         default=datetime.now)
     
     def __str__(self):
         return f"{self.title}"
+
+class InnovationMedia(models.Model):
+    id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
+    innovation = models.ForeignKey(Innovation, on_delete=DO_NOTHING)
+    media = models.FileField(upload_to='innovation_media/%Y/%m/%d/', blank=True)
+    created_at = models.DateTimeField(
+        default=datetime.now)
+
+    def __str__(self):
+        return f"{self.innovation}"
     
 class AuthorRank(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)

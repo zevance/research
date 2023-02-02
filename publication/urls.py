@@ -2,12 +2,12 @@ from django.urls import path
 from . import views
 from .views import (
     Collections,CollectionDetails,IndexView,
-    PublicationsView,PublicationsDetail, LicenseView, PublicationTypeView)
+    PublicationsView,PublicationDetails, LicenseView, PublicationTypeView)
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('publication/', PublicationsView.as_view(), name='publications'),
-    path('publication-details/<uuid:pk>', PublicationsDetail.as_view(), name='publication-details'),
+    path('publication-details/<uuid:pk>', PublicationDetails.as_view(), name='publication-details'),
 
     path('api/collection/', Collections.as_view(), name='home'),
     path('api/collection/collections/<uuid:pk>', CollectionDetails.as_view(), name='collection_details'),

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import CollectionSerializer, LicenseSerializer, PublicationTypeSerializer
 from .models import Collection, Publication, License, PublicationType
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views import View
 import uuid
 
@@ -16,28 +16,22 @@ class PublicationsView(ListView):
     template_name = 'publication/publications.html'
     model = Publication
     paginate_by = 3
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, self.template_name) 
 
-class PublicationsDetail(View):
-    template_name = 'publication/publication_details.html'
+class PublicationDetails(DetailView):
+    template_name = 'publication/publication-details.html'
     context_object_name = 'publication'
-
-    def get(self, request,id = None, *args, **kwargs):
-        context = {}
-        if uuid is None:
-            obj = get_object_or_404(Publication, uuid = id)
-            context[object] = obj
-        return render(request, self.template_name, context) 
+    queryset = Publication.objects.all()
     
 # Api
 class Collections(APIView):
-    def get(self, request):
-        collections = Collection.objects.all()
-        serializer = CollectionSerializer(collections, many = True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        instance = Collection.objects.all()
+        data = {}
+        if instance:
+            data = CollectionSerializer(instance, many = True).data
+        return Response(data)
     
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         collecton = Collection.objects.create(
             name = request.data['name'],
         )
