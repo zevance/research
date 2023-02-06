@@ -11,4 +11,4 @@ class ProjectsView(ListView):
 class ProjectDetails(DetailView):
     template_name = 'project/project-details.html'
     context_object_name = 'project'
-    queryset = Project.objects.all()
+    queryset   = Project.objects.all()

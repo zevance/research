@@ -18,7 +18,7 @@
                       <a href="blog-single.html"><span class="fa fa-user"></span> </a>
                     </li>
                   </ul>
-                  <p class="mb-3"></p>
+                  <p class="mb-3">{{ project.description }}</p>
                   <a
                     href="{{publication.publication_link}}"
                     class="btn btn-theme2 mt-3" target="_blank"
@@ -40,8 +40,8 @@
                   <div class="cont-subs">
                       <div class="cont-add">
                          <div class="cont-add-rgt">
-                          <h4>Year of Publication</h4>
-                          <p class="contact-text-sub"></p>
+                          <h4>Donor</h4>
+                          <p class="contact-text-sub">{{ project.donorprojects.donor }}</p>
                       </div>
                   </div>
                       <div class="cont-add add-2">     

@@ -17,65 +17,46 @@ class Donor(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Project(models.Model):
+class Partner(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(
+        default=datetime.now)
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.name}"
 
-class DonorProjects(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    donor = models.ForeignKey(Donor, on_delete= DO_NOTHING)
-    project = models.ForeignKey(Project, on_delete= DO_NOTHING)
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4) 
+    name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(
+        default=datetime.now)
 
     def __str__(self):
-        return f"{self.donor}" + f"{self.project}"
+        return f"{self.name}"
 
 class Member(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     title = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    role = models.ForeignKey(Role, on_delete= DO_NOTHING)
+    created_at = models.DateTimeField(
+        default=datetime.now)
 
     def __str__(self):
         return f"{self.first_name}"
 
-class Partner(models.Model):
+class Project(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"{self.name}"
-
-class ProjectPartners(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    project = models.ForeignKey(Project, on_delete= DO_NOTHING)
-    partner = models.ForeignKey(Partner, on_delete= DO_NOTHING)
-
-    def __str__(self):
-        return f"{self.partner}" + f"{self.project}"
-
-class Role(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4) 
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"{self.name}"
-
-class ProjectMembers(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    project = models.ForeignKey(Project, on_delete= DO_NOTHING)
-    member = models.ForeignKey(Member, on_delete= DO_NOTHING)
-    role = models.ForeignKey(Role, on_delete= DO_NOTHING)
-
-    def __str__(self):
-        return f"{self.member}" + f"{self.project}" + f"{self.role}"
-
-class ProjectDocuments(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    project = models.ForeignKey(Project, on_delete= DO_NOTHING)
+    donor = models.ManyToManyField(Donor)
+    partner = models.ManyToManyField(Partner)
+    member = models.ManyToManyField(Member)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
     file_name = models.FileField(upload_to='project_documents/%Y/%m/%d/', blank=True)
+    created_at = models.DateTimeField(
+        default=datetime.now)
 
     def __str__(self):
-        return f"{self.project}"
+        return f"{self.title}"
