@@ -13,33 +13,33 @@
 			<!-- left side blog post content -->
 			<div class="single-left">
 			<div class="single-left1">
-				{% for publication in page_obj %}
+				{% for project in page_obj %}
 					<div class="btom-cont">
 					<h5 class="card-title">
-						<a href="{% url 'publication-details' publication.id %}"
-						>{{ publication.title }}</a
+						<a href="{% url 'project-details' project.id %}"
+						>{{ project.title }}</a
 						>
 					</h5>
 					<ul class="admin-post">
 						<li>
 						<a href="#"
-							>{{ publication.place_of_publication }}, {{ publication.year_of_publication }}</a
+							></a
 						>
 						</li>
 						<li>
 						<a href="#"
-							class="text-bl">{{ publication.license }}</a
+							class="text-bl"></a
 						>
 						</li>
 						<li>
 						<a href="#"
-							>{{ publication.collection }}</a
+							></a
 						>
 						</li>
 					</ul>
-					<p class="">{{ publication.abstract | truncatewords:20}}.</p>
+					<p class=""></p>
 					<a
-						href="{% url 'publication-details' publication.id %}"
+						href="{% url 'project-details' project.id %}"
 						class="btn btn-theme2 mt-3"
 						>Continue Reading</a
 					>
