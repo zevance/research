@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import CollectionSerializer, LicenseSerializer, PublicationTypeSerializer
-from .models import Collection, Publication, License, PublicationType
+from .models import Collection, Publication, License, PublicationType, Innovation
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views import View
 import uuid
@@ -78,3 +78,13 @@ class PublicationTypeView(APIView):
         )
         serializer = PublicationTypeSerializer(publication_type, many =False)
         return Response(serializer.data)
+
+class InnovationsView(ListView):
+    template_name = 'innovation/innovations.html'
+    model = Innovation
+    paginate_by = 3
+
+class InnovationDetails(DetailView):
+    template_name = 'innovation/innovation-details.html'
+    context_object_name = 'innovation'
+    queryset = Innovation.objects.all()
