@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.db.models import DO_NOTHING
+from publication.models import Innovation, Publication
 import uuid
 
 # Create your models here.
@@ -54,9 +55,11 @@ class Project(models.Model):
     donor = models.ManyToManyField(Donor)
     partner = models.ManyToManyField(Partner)
     member = models.ManyToManyField(Member)
+    innovation = models.ManyToManyField(Innovation, blank=True, null=True)
+    publication = models.ManyToManyField(Publication, blank=True, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    file_name = models.FileField(upload_to='project_documents/%Y/%m/%d/', blank=True)
+    file_name = models.FileField(upload_to='project_documents/%Y/%m/%d/', blank=True, null=True)
     created_at = models.DateTimeField(
         default=datetime.now)
 

@@ -11,14 +11,19 @@
             <!-- left side blog post content -->
             <div class="single-left">
               <div class="single-left1">
-                    
-                <!--<div class="blg-img">
-                  <img src="{{ project.file_name.url }}" alt=" " class="img-responsive img-fluid">
-                   <div class="bl-top">
-                  </div>
-                 </div>  -->       
+                <div class="posts-grid">
+                  
+                    <img src="{{project.file_name.url}}" alt=" " class="img-responsive ">
+                  
+                  <div class="">
+                    <a
+                      href="#"
+                      class="btn btn-theme2 mt-3"
+                      >Download PDF</a>
+                    </div>
+                </div>    
                 <div class="btom-cont1 pt-4">
-                  <h5 class="card-title"><a href="#">{{ project.title }}</a></h5><hr>
+                  <h5 class="card-title">{{ project.title }}</h5><hr>
                   <!-- <ul class="admin-post">
                     <li>
                       <a href="blog-single.html"><span class="fa fa-user"></span> </a>
@@ -33,7 +38,7 @@
             <div class="right-side-bar">
               <!-- contact -->
 <section class="w3l-contacts-12" id="contact">
-  <div class="contact-top pt-5">
+  <div class="contact-top">
       <div class="container py-md-3">
           <div class="row cont-main-top">
               <!-- contact address -->
@@ -41,16 +46,26 @@
                   <div class="cont-subs">
                       <div class="cont-add">
                           <div class="cont-add-rgt">
-                            <h4>Donor</h4>
-                            <p class="contact-text-sub">{% for donor in project.donor.all %}
-                              <a href="">{{ donor }}</a>{% endfor %}</p>
+                            <h4>Project donor</h4>
+                            <ul class="category">
+                              {% for donor in project.donor.all %}
+                                <li><a href=""><span class="fa fa-angle-right"></span>
+                                  {{ donor }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
                           </div>
                       </div>
                       <div class="cont-add add-2">     
                           <div class="cont-add-rgt">
-                            <h4>Partners</h4>
-                              <p class="contact-text-sub">{% for partner in project.partner.all %}
-                                <a href="">{{ partner }}</a>{% endfor %}</p>
+                            <h4>Project partners</h4>
+                            <ul class="category">
+                              {% for partner in project.partner.all %}
+                                <li><a href=""><span class="fa fa-angle-right"></span>
+                                  {{ partner }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
                           </div> 
                       </div>
                       <div class="cont-add add-2">     
@@ -68,16 +83,23 @@
                       <div class="cont-add add-2">     
                         <div class="cont-add-rgt">
                           <h4>Project publications</h4>
-                            <p class="contact-text-sub"></p>
+                            <ul class="category">
+                              {% for publication in project.publication.all %}
+                                <li><a href="{% url 'publication-details' publication.id %}"><span class="fa fa-angle-right"></span>
+                                  {{ publication | truncatewords:2 }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
                         </div> 
                       </div>
+                      <!--
                       <div class="cont-add">
                           <div class="cont-add-rgt">
                                <h4>Key Members</h4>
                                   <p class="contact-text-sub">{% for member in project.member.all %}
                                     <a href="">{{ member }},</a>{% endfor %}</p>
                           </div>
-                      </div>
+                      </div>-->
                     </div>                   
                   </div>
                   
