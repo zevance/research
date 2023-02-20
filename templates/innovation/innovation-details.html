@@ -15,12 +15,24 @@
                   <h5 class="card-title"><a href="#">{{ innovation.title }}</a></h5>
                   <ul class="admin-post">
                     <li>
-                      <a href="blog-single.html"><span class="fa fa-user"></span> {{ innovation.author.name }}</a>
+                      <a href="blog-single.html"><span class="fa fa-user"></span>{% for innovator in innovation.innovators%}
+
+                        {{innovator.name}},
+
+                        {% endfor %}
+                      </p></a>
                     </li>
                   </ul>
-                  <p class="mb-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                  <p class="mb-3">{{innovation.description}}</p>
+
+                 
+
+                  {% for media in innovation.media %}
+
+                  <div>
+
                   
-                  
+                    
                   <video
                     id="my-video"
                     class="video-js"
@@ -30,16 +42,22 @@
                     height="360"
                     data-setup="{}"
                   >
-                    <source src="{{ MEDIA_URL }}innovation_media/2023/02/08/Jesu_Doh_-_Eben__Jahdiel_-_YouTube.mkv" type="video/mp4" />
+                    <source src="{{ MEDIA_URL }}{{media.media}}" type="video/mp4" />
                     
                   </video>
+                  <br>
+
+                  
+                  <br><br>
+
+
+              
+                  </div>
+                  
+                  {% endfor %}
 
                  
-                  <a
-                    href="{{publication.publication_link}}"
-                    class="btn btn-theme2 mt-3" target="_blank"
-                    >Publication Link</a
-                  >
+                  
               </div>
           </div>
             </div>
@@ -56,32 +74,31 @@
                   <div class="cont-subs">
                       <div class="cont-add">
                          <div class="cont-add-rgt">
-                          <h4>Year of Publication</h4>
-                          <p class="contact-text-sub">{{publication.year_of_publication}}</p>
+                          <h4>Year of Release</h4>
+                          <p class="contact-text-sub">{{innovation.year_of_innovation}}</p>
                       </div>
                   </div>
+                  <div class="cont-subs">
+                    <div class="cont-add">
+                       <div class="cont-add-rgt">
+                        <h4>Patent No:</h4>
+                        <p class="contact-text-sub">{{innovation.patent}}</p>
+                    </div>
+                </div>
                       <div class="cont-add add-2">     
                          <div class="cont-add-rgt">
-                          <h4>Place of Publication</h4>
-                              <p class="contact-text-sub">{{publication.place_of_publication}}</p>
+                          <h4>Innovators</h4>
+                              <p class="contact-text-sub">
+                                {% for innovator in innovation.innovators%}
+
+                                {{innovator.name}},
+
+                                {% endfor %}
+                              </p>
                       </div> 
                   </div>
-                      <div class="cont-add">
-                          <div class="cont-add-rgt">
-                               <h4>ISBN</h4>
-                                  <p class="contact-text-sub">{{publication.isbn}}</p>
-                          </div>
-                      </div>
-                      <div class="cont-add add-3">
-                          <div class="cont-add-rgt">
-                               <h4>Publisher</h4>
-                               <p class="contact-text-sub">{{publication.publisher}}</p>
-                          </div>
-                          <div class="cont-add-lft">
-                             
-                         </div>
-                      </div>
-                    </div>
+                      
+                    
                     <!-- //contact address -->
                   </div>
                 </section>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import License, Collection, PublicationType, Publication, Innovation, InnovationMedia
+from .models import License, Collection, PublicationType, Publication, Innovation, InnovationMedia, Innovator
 
 # Register your models here.
 class LicenceAdmin(admin.ModelAdmin):
@@ -23,12 +23,17 @@ class PublicationAdmin(admin.ModelAdmin):
     search_fields = ['title',]
 
 class InnovationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'patent']
+    list_display = ['id', 'title', 'patent', 'year_of_innovation']
     list_display_links = ['title',]
     search_fields = ['title',]
 
 class InnovationMediaAdmin(admin.ModelAdmin):
     list_display = ['id', 'innovation', 'media']
+    list_display_links = ['innovation',]
+    search_fields = ['innovations',]
+
+class InnovatorAdmin(admin.ModelAdmin):
+    list_display = ['id', 'innovation', 'title', 'first_name', 'last_name']
     list_display_links = ['innovation',]
     search_fields = ['innovations',]
 
@@ -39,3 +44,4 @@ admin.site.register(PublicationType, PublicationTypeAdmin)
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Innovation, InnovationAdmin)
 admin.site.register(InnovationMedia, InnovationMediaAdmin)
+admin.site.register(Innovator, InnovatorAdmin)

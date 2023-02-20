@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'luanar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'foodma',
-        'USER': 'postgres',
-	    'PASSWORD': 'password',
+        'NAME': 'luanar',
+        'USER': 'root',
+	    'PASSWORD': "password",
 	    'HOST':  'localhost'
     }
 }

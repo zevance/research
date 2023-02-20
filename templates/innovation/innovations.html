@@ -23,21 +23,26 @@
 					<ul class="admin-post">
 						<li>
 						<a href="#"
-							>{{ innovation.patent }}</a
+							><b>Patent No: </b>{{ innovation.patent }}</a
 						>
 						</li>
 						<li>
 						<a href="#"
-							class="text-bl">{{ innovation.license }}</a
+							class="text-bl">{{ innovation.year_of_innovation }}</a
 						>
 						</li>
 						<li>
 						<a href="#"
-							>{{ innovation.collection }}</a
+							>{% for innovator in innovation.innovators%}
+
+							{{innovator.name}},
+
+							{% endfor %}
+						  </p></a
 						>
 						</li>
 					</ul>
-					<p class="">{{ "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." | truncatewords:30}}.</p>
+					<p class="">{{ innovation.description | truncatewords:100}}</p>
 					<a
 						href="{% url 'innovation-details' innovation.id %}"
 						class="btn btn-theme2 mt-3"
