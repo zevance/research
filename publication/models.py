@@ -14,7 +14,6 @@ class Collection(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    
 class PublicationType(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -40,23 +39,20 @@ class Publication(models.Model):
     publication_type = models.ForeignKey(PublicationType, on_delete=DO_NOTHING)
     license = models.ForeignKey(License, on_delete=DO_NOTHING)
     title = models.CharField(max_length=255)
-    tags = models.CharField(max_length=255)
+    abstract = models.TextField()
+    publication_source = models.CharField(max_length=255, unique=True)
+    year_of_publication = models.IntegerField()
+    place_of_publication = models.CharField(max_length=255)
+    isbn = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    publisher = models.CharField(max_length=255)
+    publisher_email = models.EmailField()
+    attachment = models.FileField(upload_to='publications/%Y/%m/%d/', blank=True, null=True)
     created_at = models.DateTimeField(
         default=datetime.now)
     
     def __str__(self):
         return f"{self.title}"
-    
-class Innovation(models.Model):
-    id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
-    license = models.ForeignKey(License,on_delete= DO_NOTHING)
-    title = models.CharField(max_length=255)
-    created_at = models.DateTimeField(
-        default=datetime.now)
-    
-    def __str__(self):
-        return f"{self.title}"
-    
+        
 class AuthorRank(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -83,17 +79,7 @@ class Researcher(models.Model):
     
     def __str__(self):
         return f"{self.user}"
-    
-class ResearcherInnovation(models.Model):
-    id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
-    researcher = models.ForeignKey(Researcher,on_delete=DO_NOTHING)
-    innovation = models.ForeignKey(Innovation,on_delete=DO_NOTHING)
-    created_at = models.DateTimeField(
-        default=datetime.now)
-    
-    def __str__(self) -> str:
-        return f"{self.researcher}" + f"{self.innovation}"
-    
+        
 class ResearcherPublication(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     researcher = models.ForeignKey(Researcher, on_delete=DO_NOTHING)
@@ -103,8 +89,14 @@ class ResearcherPublication(models.Model):
     created_at = models.DateTimeField(
         default=datetime.now)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.researcher}" + f"{self.publication}"
     
 
-
+class PublicationAuthor(models.Model):
+    id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
+    author = models.ManyToManyField(User)
+    publication_id = models.ForeignKey(Publication, on_delete=DO_NOTHING)
+    author_rank = models.ForeignKey(AuthorRank, on_delete=DO_NOTHING)
+    created_at = models.DateTimeField(
+        default=datetime.now)

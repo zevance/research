@@ -21,8 +21,10 @@ from luanar.settings import MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/publication/', include('publication.urls')),
+    path('api/', include('publication.urls')),
     
     path('', include('publication.urls')),
+    path('project/', include('project.urls')),
+    path('innovation/', include('innovation.urls')),
     path('account/', include('account.urls'))
 ]+ static(settings.MEDIA_URL, document_root=MEDIA_ROOT)

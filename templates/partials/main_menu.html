@@ -18,23 +18,41 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
+          <li 
+            {% if '/' == request.path %}
+                class="nav-item active"
+            {% else %}
+                class="nav-item"
+            {% endif %} 
+          >
+            <a class="nav-link" href="{% url 'index' %}">Home</a>
+          </li>
+          <li 
+             {% if 'projects' in request.path %}
+                class="nav-item active"
+              {% else %}
+                  class="nav-item"
+              {% endif %}
+            >
+            <a class="nav-link" href="{% url 'projects' %}">Projects</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">Projects</a>
+            <a class="nav-link" href="#">Innovations</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">Innovations</a>
-          </li>
-          <li class="nav-item">
+          <li 
+            {% if 'publication' in request.path %}
+              class="nav-item active"
+            {% else %}
+                class="nav-item"
+            {% endif %}
+          >
             <a class="nav-link" href="{% url 'publications' %}">Publications</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">Staff</a>
+            <a class="nav-link" href="#">Staff</a>
           </li>
         </ul>
-        <form action="https://demo.w3layouts.com/demos_new/template_demo/29-02-2020/master-liberty-demo_Free/389771183/web/search-results.html" class="form-inline position-relative my-2 my-lg-0">
+        <form action="" class="form-inline position-relative my-2 my-lg-0">
           <input class="form-control search" type="search" placeholder="Search here..." aria-label="Search" required="">
           <button class="btn btn-search position-absolute" type="submit"><span class="fa fa-search" aria-hidden="true"></span></button>
         </form>

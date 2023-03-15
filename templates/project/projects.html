@@ -1,0 +1,113 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+{% if page_obj %}
+
+	<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+		<div class="d-grid grid-colunm-2">
+			<!-- left side blog post content -->
+			<div class="single-left">
+			<div class="single-left1">
+				{% for project in page_obj %}
+					<div class="btom-cont">
+					<h5 class="card-title">
+						<a href="{% url 'project-details' project.id %}"
+						>{{ project.title }}</a
+						>
+					</h5>
+					<ul class="admin-post">						
+					</ul>
+					<p class="">{{ project.description | truncatewords:20 }}</p>
+					<a
+						href="{% url 'project-details' project.id %}"
+						class="btn btn-theme2 mt-3"
+						>Continue Reading</a
+					>
+					</div>
+
+					<br />
+				{% endfor %}
+			</div>
+
+			<!-- pagination -->
+			<div class="pagination">
+				<ul>
+				<li>
+					{% if page_obj.has_previous %}
+						<a
+						href="?page={{ page_obj.previous_page_number }}"
+						class="not-allowed"
+						disabled=""
+						>
+						<span
+							class="fa fa-angle-double-left"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				<li>
+					<a class="active" href="#"> {{ page_obj.number }} </a>
+				</li>
+				<li>
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}">
+						<span
+							class="fa fa-angle-double-right"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				</ul>
+			</div>
+			</div>
+			<!-- left side blog post content -->
+
+			<!-- right side bar -->
+			<div class="right-side-bar">
+			<aside class="posts p-4 border">
+				<h3 class="aside-title">Categories</h3>
+				<ul class="category">
+				<li>
+					<a href="#link"
+					><span class="fa fa-angle-right"></span> Year
+					<label>(18)</label></a
+					>
+				</li>
+				<li>
+					<a href="#link"
+					><span class="fa fa-angle-right"></span> Countries
+					<label>(18)</label></a
+					>
+				</li>
+				<li>
+					<a href="#link"
+					><span class="fa fa-angle-right"></span> Collections
+					<label> (11)</label></a
+					>
+				</li>
+				<li>
+					<a href="#link"
+					><span class="fa fa-angle-right"></span> License
+					<label>(24)</label></a
+					>
+				</li>
+				</ul>
+			</aside>
+			</div>
+			<!-- //right side bar -->
+		</div>
+		</div>
+	</div>
+	</section>
+	<!-- grids block 5 -->
+
+{% else %}
+{% endif %} 
+{% endblock %}

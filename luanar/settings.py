@@ -44,6 +44,8 @@ INSTALLED_APPS = [
        
     'publication.apps.PublicationConfig',
     'account.apps.AccountConfig',
+    'project.apps.ProjectConfig',
+    'innovation.apps.InnovationConfig',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.User'
 
 #CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ['https://research.luanar.ac.mw']
