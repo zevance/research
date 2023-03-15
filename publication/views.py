@@ -1,37 +1,28 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import CollectionSerializer, LicenseSerializer, PublicationTypeSerializer
-from .models import Collection, Publication, License, PublicationType
-from django.views.generic import TemplateView, ListView, DetailView
+from .serializer import CollectionSerializer
+from .models import Collection
+from django.views.generic import TemplateView
 from django.views import View
-import uuid
 
 # Create your views here.
-# web
 class IndexView(TemplateView):
     template_name ='publication/index.html'
 
-class PublicationsView(ListView):
+class PublicationsView(View):
     template_name = 'publication/publications.html'
-    model = Publication
-    paginate_by = 3
 
-class PublicationDetails(DetailView):
-    template_name = 'publication/publication-details.html'
-    context_object_name = 'publication'
-    queryset = Publication.objects.all()
-    
-# Api
-class Collections(APIView):
     def get(self, request, *args, **kwargs):
-        instance = Collection.objects.all()
-        data = {}
-        if instance:
-            data = CollectionSerializer(instance, many = True).data
-        return Response(data)
+        return render(request, self.template_name) 
     
-    def post(self, request, *args, **kwargs):
+class Collections(APIView):
+    def get(self, request):
+        collections = Collection.objects.all()
+        serializer = CollectionSerializer(collections, many = True)
+        return Response(serializer.data)
+    
+    def post(self, request):
         collecton = Collection.objects.create(
             name = request.data['name'],
         )
@@ -52,29 +43,3 @@ class CollectionDetails(APIView):
     
     def put(self, request, pk):
         pass
-
-class LicenseView(APIView):
-    def get(self, request):
-        license = License.objects.all()
-        serializer = LicenseSerializer(license, many = True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        license = License.objects.create(
-            name = request.data['name'],
-        )
-        serializer = LicenseSerializer(license, many =False)
-        return Response(serializer.data)
-
-class PublicationTypeView(APIView):
-    def get(self, request):
-        publication_type = PublicationType.objects.all()
-        serializer = PublicationTypeSerializer(publication_type, many = True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        publication_type = PublicationType.objects.create(
-            name = request.data['name'],
-        )
-        serializer = PublicationTypeSerializer(publication_type, many =False)
-        return Response(serializer.data)

@@ -1,143 +1,127 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% load static %} 
+{% load static %}
 
 {% block content %}
-
-{% if page_obj %}
-
-	<section class="w3l-blog-single">
-	<div class="single blog py-4">
-		<div class="container py-md-2">
+<br/> <br/>
+  
+<!---728x90--->
+<section class="w3l-blog-single">
+	<div class="single blog py-5">
+	  <div class="container py-md-3">
+	
 		<div class="d-grid grid-colunm-2">
-			<!-- left side blog post content -->
-			<div class="single-left">
+		  <!-- left side blog post content -->
+		  <div class="single-left">
 			<div class="single-left1">
-				{% for publication in page_obj %}
-					<div class="btom-cont">
-					<h5 class="card-title">
-						<a href="{% url 'publication-details' publication.id %}"
-						>{{ publication.title }}</a
-						>
-					</h5>
-					<ul class="admin-post">
-						<li>
-						<a href="#"
-							>{{ publication.place_of_publication }}, {{ publication.year_of_publication }}</a
-						>
-						</li>
-						<li>
-						<a href="#"
-							class="text-bl">{{ publication.license }}</a
-						>
-						</li>
-						<li>
-						<a href="#"
-							>{{ publication.collection }}</a
-						>
-						</li>
-					</ul>
-					<p class="">{{ publication.abstract | truncatewords:20}}.</p>
-					<a
-						href="{% url 'publication-details' publication.id %}"
-						class="btn btn-theme2 mt-3"
-						>Continue Reading</a
-					>
-					</div>
-
-					<br />
-				{% endfor %}
+				<div class="blg-img">
+			  <a href="blog-single.html"><img src="assets/images/blog-1.jpg" alt=" " class="img-responsive img-fluid">
+			  <div class="bl-top">
+				<h4>15 Feb</h4>
+				<h6>2018</h6>
+			 </div></a>
 			</div>
-
+			 
+			  <div class="btom-cont">
+				<h5 class="card-title"><a href="blog-single.html">Summer Course Starts From Comingsoon</a></h5>
+				<ul class="admin-post">
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-user"></span> Alexander</a>
+				  </li>
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-tag"></span>Design, Php</a>
+				  </li>
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-comments-o"></span>Comments (20)</a>
+				  </li>
+				</ul>
+				<p class="">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium tatum
+				  deleniti atque corrupti quos dolores et quas molestias excepturi sint,
+				  similique sunt in culpa qui officia deserunt mollitia animi.</p>
+				<a href="blog-single.html" class="btn btn-theme2 mt-3">Continue Reading</a>
+				
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="single-left1 mt-5">
+				<div class="blg-img">
+					<a href="blog-single.html"><img src="assets/images/blog-2.jpg" alt=" " class="img-responsive img-fluid">
+					<div class="bl-top">
+					  <h4>15 Feb</h4>
+					  <h6>2019</h6>
+				   </div></a>
+				  </div>
+			  <div class="btom-cont">
+				<h5 class="card-title"><a href="blog-single.html">Guest Interview will Occur Soon in the Auditorium About Artificial Intelligence</a></h5>
+				<ul class="admin-post">
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-user"></span> Monstery</a>
+				  </li>
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-tag"></span>Design, Php</a>
+				  </li>
+				  <li>
+					<a href="blog-single.html"><span class="fa fa-comments-o"></span>Comments (15)</a>
+				  </li>
+				</ul>
+				<p class="">Fermentum viverra eros. Praesent neque purus, rhoncus nec nibh non, mollis
+				  sodales odio. Nullam
+				  facilisis diam non magna porta luctus. Aenean facilisis erat posuere erat ornare
+				  ultrices.
+				  semper augue. </p>
+				  <a href="blog-single.html" class="btn btn-theme2 mt-3">Continue Reading</a>
+			  </div>
+			</div>
+			<br/><br/>
+			
 			<!-- pagination -->
 			<div class="pagination">
-				<ul>
+			  <ul>
+				<li> <a href="#none" class="not-allowed" disabled="">
+					<span class="fa fa-angle-double-left" aria-hidden="true"></span>
+				  </a>
+				</li>
+				<li><a class="active" href="#page">1</a></li>
 				<li>
-					{% if page_obj.has_previous %}
-						<a
-						href="?page={{ page_obj.previous_page_number }}"
-						class="not-allowed"
-						disabled=""
-						>
-						<span
-							class="fa fa-angle-double-left"
-							aria-hidden="true"
-						></span>
-						</a>
-					{% endif %}
+				  <a href="#page">2</a>
 				</li>
 				<li>
-					<a class="active" href="#"> {{ page_obj.number }} </a>
+				  <a href="#page">3</a>
 				</li>
 				<li>
-					{% if page_obj.has_next %}
-						<a href="?page={{ page_obj.next_page_number }}">
-						<span
-							class="fa fa-angle-double-right"
-							aria-hidden="true"
-						></span>
-						</a>
-					{% endif %}
+				  <a href="#page"><span class="fa fa-angle-double-right" aria-hidden="true"></span>
+				  </a>
 				</li>
-				</ul>
+			  </ul>
 			</div>
-			</div>
-			<!-- left side blog post content -->
-
-			<!-- right side bar -->
-			<div class="right-side-bar">
+		  </div>
+		  <!-- left side blog post content -->
+  
+		  <!-- right side bar -->
+		  <div class="right-side-bar">
 			<aside>
-				<h3 class="aside-title mb-3">Search</h3>
-				<form class="form-inline search-form" action="#" method="post">
-				<input
-					class="form-control"
-					type="search"
-					placeholder="Search here"
-					aria-label="email"
-					required=""
-				/>
-				<button class="btn search" type="submit">
-					<span class="fa fa-search"></span>
-				</button>
-				</form>
+			  <h3 class="aside-title mb-3">Search</h3>
+			  <form class="form-inline search-form" action="#" method="post">
+				<input class="form-control" type="search" placeholder="Search here" aria-label="email" required="">
+				<button class="btn search" type="submit"><span class="fa fa-search"></span></button>
+			  </form>
 			</aside>
 			<aside class="posts p-4 border">
-				<h3 class="aside-title">Categories</h3>
-				<ul class="category">
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Year
-					<label>(18)</label></a
-					>
-				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Countries
-					<label>(18)</label></a
-					>
-				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Collections
-					<label> (11)</label></a
-					>
-				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> License
-					<label>(24)</label></a
-					>
-				</li>
-				</ul>
-			</aside>
-			</div>
-			<!-- //right side bar -->
+			  <h3 class="aside-title">Categories</h3>
+			  <ul class="category">
+				<li><a href="#link"><span class="fa fa-angle-right"></span> Year <label>(18)</label></a></li>
+				<li><a href="#link"><span class="fa fa-angle-right"></span> Countries <label>(18)</label></a></li>
+				<li><a href="#link"><span class="fa fa-angle-right"></span> Collections <label> (11)</label></a></li>
+				<li><a href="#link"><span class="fa fa-angle-right"></span> License <label>(24)</label></a></li>
+			  </ul>
+			</aside>		
+		  </div>
+		  <!-- //right side bar -->
 		</div>
-		</div>
+	  </div>
 	</div>
-	</section>
-	<!-- grids block 5 -->
+  </section>
+  <!---728x90--->
+<!-- grids block 5 -->
 
-{% else %}
-{% endif %} 
-{% endblock %}
+  {% endblock %}

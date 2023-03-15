@@ -14,6 +14,7 @@ class Collection(models.Model):
     def __str__(self):
         return f"{self.name}"
     
+    
 class PublicationType(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -39,13 +40,7 @@ class Publication(models.Model):
     publication_type = models.ForeignKey(PublicationType, on_delete=DO_NOTHING)
     license = models.ForeignKey(License, on_delete=DO_NOTHING)
     title = models.CharField(max_length=255)
-    abstract = models.TextField()
-    publication_link = models.CharField(max_length=255, unique=True)
-    year_of_publication = models.IntegerField()
-    place_of_publication = models.CharField(max_length=255)
-    isbn = models.CharField(max_length=255, unique=True)
-    publisher = models.CharField(max_length=255)
-    tags = models.CharField(max_length=255, blank=True)
+    tags = models.CharField(max_length=255)
     created_at = models.DateTimeField(
         default=datetime.now)
     
@@ -54,23 +49,13 @@ class Publication(models.Model):
     
 class Innovation(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
+    license = models.ForeignKey(License,on_delete= DO_NOTHING)
     title = models.CharField(max_length=255)
-    patent = models.CharField(max_length=255)
     created_at = models.DateTimeField(
         default=datetime.now)
     
     def __str__(self):
         return f"{self.title}"
-
-class InnovationMedia(models.Model):
-    id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
-    innovation = models.ForeignKey(Innovation, on_delete=DO_NOTHING)
-    media = models.FileField(upload_to='innovation_media/%Y/%m/%d/', blank=True)
-    created_at = models.DateTimeField(
-        default=datetime.now)
-
-    def __str__(self):
-        return f"{self.innovation}"
     
 class AuthorRank(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
