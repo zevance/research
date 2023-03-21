@@ -52,6 +52,8 @@ class Member(models.Model):
 
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    #total_value = models.DecimalField(max_digits=50,decimal_places=3)
+    #project_status = models.CharField(max_length=255)
     donor = models.ManyToManyField(Donor)
     partner = models.ManyToManyField(Partner)
     member = models.ManyToManyField(Member)

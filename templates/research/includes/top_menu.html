@@ -1,0 +1,66 @@
+{% load static %}
+ 
+<!-- .app-header -->
+<header class="app-header app-header-dark">
+ <!-- .top-bar -->
+ <div class="top-bar">
+   <!-- .top-bar-brand -->
+   <div class="top-bar-brand">
+     <!-- toggle aside menu -->
+     <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+     <a href="{% url 'dashboard' %}">Research & Outreach</a>
+   </div><!-- /.top-bar-brand -->
+   <!-- .top-bar-list -->
+   <div class="top-bar-list">
+     <!-- .top-bar-item -->
+     <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+       <!-- toggle menu -->
+       <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+     </div><!-- /.top-bar-item -->
+     <!-- .top-bar-item -->
+     <div class="top-bar-item top-bar-item-full">
+       <!-- .top-bar-search -->
+       <form class="top-bar-search" action="#">
+         <!-- .input-group -->
+         <div class="input-group input-group-search dropdown">
+           <div class="input-group-prepend">
+             <span class="input-group-text"><span class="oi oi-magnifying-glass"></span></span>
+           </div><input type="text" name="keyword" class="form-control" data-toggle="dropdown" aria-label="Search" placeholder="Search Items"> <!-- .dropdown-menu -->
+           <div class="dropdown-menu dropdown-menu-rich dropdown-menu-xl ml-n4 mw-100">
+           </div><!-- /.dropdown-menu -->
+         </div><!-- /.input-group -->
+       </form><!-- /.top-bar-search -->
+     </div><!-- /.top-bar-item -->
+     <!-- .top-bar-item -->
+     <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+       <!-- .nav -->
+       <ul class="header-nav nav">
+         <!-- .nav-item -->
+         <li class="nav-item dropdown header-nav-dropdown has-notified">
+           <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="oi oi-pulse"></span></a> <!-- .dropdown-menu -->
+         </li><!-- /.nav-item -->
+         <!-- .nav-item -->
+         <li class="nav-item dropdown header-nav-dropdown has-notified">
+           <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="oi oi-envelope-open"></span></a> <!-- .dropdown-menu -->
+         </li><!-- /.nav-item -->
+         <!-- .nav-item -->
+         <li class="nav-item dropdown header-nav-dropdown">
+           <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="oi oi-grid-three-up"></span></a> <!-- .dropdown-menu -->
+         </li><!-- /.nav-item -->
+       </ul><!-- /.nav -->
+
+       {% if user.is_authenticated %}
+         <!-- .btn-account -->
+         <div class="dropdown d-none d-md-flex">
+           <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'assets/images/avatars/profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ user.first_name}} {{ user.last_name }}</span> <span class="account-description">Systems Engineer</span></span></button> <!-- .dropdown-menu -->
+           <div class="dropdown-menu">
+             <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
+             <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
+             <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.first_name }}{{ user.last_name }} </h6><a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'sign-out' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+           </div><!-- /.dropdown-menu -->
+         </div><!-- /.btn-account -->
+       {% endif %}
+     </div><!-- /.top-bar-item -->
+   </div><!-- /.top-bar-list -->
+ </div><!-- /.top-bar -->
+</header><!-- /.app-header -->

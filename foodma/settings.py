@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'project.apps.ProjectConfig',
     'publication.apps.PublicationConfig',
-
+    'research.apps.ResearchConfig',
 ]
 
 MIDDLEWARE = [

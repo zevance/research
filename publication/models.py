@@ -47,6 +47,7 @@ class Publication(models.Model):
     publisher = models.CharField(max_length=255)
     publisher_email = models.EmailField()
     attachment = models.FileField(upload_to='publications/%Y/%m/%d/', blank=True, null=True)
+    #is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(
         default=datetime.now)
     
