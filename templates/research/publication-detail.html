@@ -26,9 +26,13 @@
               <h6 class="card-header"> Fill the form below to submit a publication* </h6><!-- .card-body -->
               <div class="card-body">
                         <!-- form -->
-                        <form action="#" method="POST" class="needs-validation">
+                        <form action="{% url 'upload_publication' %}" method="POST" class="needs-validation">
+
                           {% csrf_token %}
                           
+                          {% if user.is_authenticated %}
+                          <input type="hidden" name="author_id" value="{{ user.id }}" class="form-control">
+                          {% endif %}
                             <!-- .row -->
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right">Publication Type</label>
@@ -45,7 +49,7 @@
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right">Publication Title</label>
                           <div class="col-lg-8 col-xl-7">
-                            <input type="text" id="maskUsphone" name="publication_title" value="{{ publication.title }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication Title">
+                            <input type="text" id="maskUsphone" name="title" value="{{ publication.title }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication Title">
                           </div>
                         </div><!-- /.row -->
                         <div class="row mb-3">
@@ -69,7 +73,7 @@
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right">Year</label>
                           <div class="col-lg-8 col-xl-7">
-                            <input type="text" id="maskUsphone" name="publication_year" value="{{ publication.year }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication Type">
+                            <input type="text" id="maskUsphone" name="year_of_publication" value="{{ publication.year }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication Type">
                           </div>
                         </div><!-- /.row -->
                         {% if publication.pages %}
@@ -88,6 +92,7 @@
                           </div>
                         </div><!-- /.row -->
                         {% endif %}
+                        {% if publication.volume %}
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right">Abstract</label>
                           <div class="col-lg-8 col-xl-7">
@@ -96,33 +101,68 @@
                             </textarea>
                           </div>
                         </div><!-- /.row -->
+                        {% else %}
+                        <div class="row mb-3">
+                          <label for="maskUsphone" class="col-lg-2 text-lg-right">Abstract</label>
+                          <div class="col-lg-8 col-xl-7">
+                            <textarea name="abstract" class="form-control" placeholder="Abstract" rows="10" required="">
+                            </textarea>
+                          </div>
+                        </div><!-- /.row -->
+                        {% endif %}
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right">Author 1</label>
                           <div class="col-lg-8 col-xl-7">
                             <input type="text" id="maskUsphone" name="authors" value="{{ publication.author_1 }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication author">
                           </div>
                         </div><!-- /.row -->
-                        {% if publication.author_2 %}
+                        {% if publication.co_authors %}
                           <div class="row mb-3">
-                            <label for="maskUsphone" class="col-lg-2 text-lg-right">Author 2</label>
+                            <label for="maskUsphone" class="col-lg-2 text-lg-right">Other authors</label>
                             <div class="col-lg-8 col-xl-7">
-                              <input type="text" id="maskUsphone" name="authors" value="{{ publication.author_2 }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication author">
+                              <input type="text" id="maskUsphone" name="co_authors" value="{{ publication.co_authors|join:", " }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication author">
                             </div>
                           </div><!-- /.row -->
-                        {% endif %}
-                        {% if publication.author_2 %}
+                        {% endif %}   
+                        
                         <div class="row mb-3">
-                          <label for="maskUsphone" class="col-lg-2 text-lg-right">Author 3</label>
+                        <label for="maskUsphone" class="col-lg-2 text-lg-right">License</label>
+                        <div class="col-lg-8 col-xl-7">
+                          <select class="custom-select" id="appeal" required="" name="license">
+                              <option value="">Select License</option>
+                              {% for key,value in license_choices.items %}
+                                <option value="{{ key }}">
+                                  {% if key == values.name %}
+                                    selected
+                                    {% endif %}
+                                  {{ value }}
+                                </option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="maskUsphone" class="col-lg-2 text-lg-right">Collection</label>
                           <div class="col-lg-8 col-xl-7">
-                            <input type="text" id="maskUsphone" name="authors" value="{{ publication.author_3 }}" class="form-control" autocomplete="off" data-mask="usphone" placeholder="Publication author">
+                            <select class="custom-select" id="appeal" required="" name="collection">
+                                <option value="">Select Collection</option>
+                                {% for key,value in collection_choices.items %}
+                                  <option value="{{ key }}">
+                                    {% if key == values.name %}
+                                      selected
+                                      {% endif %}
+                                    {{ value }}
+                                  </option>
+                                {% endfor %}
+                            </select>
                           </div>
-                        </div><!-- /.row -->
-                        {% endif %}
+                          </div>
+                       
                           <hr class="mb-4">
                           <div class="row mb-3">
                             <label class="col-lg-2"></label>
                             <div class="col-lg-8 col-xl-7">
-                              <button class="btn btn-primary btn-lg btn-block " type="submit" style="width:100%;">
+                              <button class="btn btn-primary btn-lg btn-block " name="submit" type="submit" style="width:100%;">
                                 Submit
                               </button>
                             </div>

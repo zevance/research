@@ -15,12 +15,12 @@
                   <h5 class="card-title">{{ publication.title }}</h5>
                   <ul class="admin-post">
                     <li>
-                      <a href="blog-single.html"> {{ publication.license }} | {{ publication.collection }}</a>
+                      <a href="#"> {{ publication.license }} | {{ publication.collection }}</a>
                     </li>
                   </ul>
-                  <p class="mb-3">{{ publication.abstract }}</p>
+                  <p class="mb-3">{{ publication.abstract | striptags }}</p>
                   <a
-                    href="{{publication.publication_link}}"
+                    href="http://dx.doi.org/{{publication.doi}}"
                     class="btn btn-theme2 mt-3" target="_blank"
                     >Publication Link</a
                   >
@@ -31,10 +31,10 @@
             <!-- right side bar -->
             <div class="right-side-bar">
               <!-- contact -->
-<section class="w3l-contacts-12" id="contact">
-  <div class="contact-top pt-5">
-      <div class="container py-md-3">
-          <div class="row cont-main-top">
+            <section class="w3l-contacts-12" id="contact">
+              <div class="contact-top pt-5">
+                  <div class="container py-md-3">
+                      <div class="row cont-main-top">
               <!-- contact address -->
               <div class="contact col-lg-12">
                   <div class="cont-subs">

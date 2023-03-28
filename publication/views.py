@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import CollectionSerializer, LicenseSerializer, PublicationTypeSerializer
-from .models import Collection, Publication, License, PublicationType
+from .serializer import PublicationSerializer
+from .models import Publication
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views import View
 import uuid
+from django.utils.html import strip_tags
 
 # Create your views here.
 # web
@@ -13,68 +14,56 @@ class IndexView(TemplateView):
     template_name ='publication/index.html'
 
 class PublicationsView(ListView):
+    html = '<jats:p>'
+    stripped = strip_tags(html)
     template_name = 'publication/publications.html'
     model = Publication
     paginate_by = 3
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_approved=True)
+        return queryset
+
 class PublicationDetails(DetailView):
+    html = '<jats:p>'
+    stripped = strip_tags(html)
+    
     template_name = 'publication/publication-details.html'
     context_object_name = 'publication'
     queryset = Publication.objects.all()
     
 # Api
-class Collections(APIView):
+class PublicationsAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        instance = Collection.objects.all()
+        instance = Publication.objects.all()
         data = {}
         if instance:
-            data = CollectionSerializer(instance, many = True).data
+            data = PublicationSerializer(instance, many = True).data
         return Response(data)
     
-    def post(self, request, *args, **kwargs):
-        collecton = Collection.objects.create(
-            name = request.data['name'],
-        )
-        serializer = CollectionSerializer(collecton, many =False)
-        return Response(serializer.data)
-    
-class CollectionDetails(APIView):
+    # def post(self, request, *args, **kwargs):
+    #     publicaction = Publication.objects.create(
+    #         title = request.data['title'],
+    #     )
+    #     serializer = PublicationSerializer(publicaction, many =False)
+    #     return Response(serializer.data)
+publications_api_view = PublicationsAPIView.as_view()
+
+class PublicationDetailsAPIView(APIView):
     def get_object(self, pk):
         try:
-            return Collection.objects.get(id =pk)
-        except Collection.DoesNotExist:
-            return Response('Collection does not exist...!!!!')
+            return Publication.objects.get(id =pk)
+        except Publication.DoesNotExist:
+            return Response('Publication does not exist...!!!!')
         
     def get(self, request, pk):
-        collection = self.get_object(pk)
-        serializer = CollectionSerializer(collection, many=False)
+        publication = self.get_object(pk)
+        serializer = PublicationSerializer(publication, many=False)
         return Response(serializer.data)
     
     def put(self, request, pk):
         pass
 
-class LicenseView(APIView):
-    def get(self, request):
-        license = License.objects.all()
-        serializer = LicenseSerializer(license, many = True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        license = License.objects.create(
-            name = request.data['name'],
-        )
-        serializer = LicenseSerializer(license, many =False)
-        return Response(serializer.data)
+publications_details_api_view = PublicationDetailsAPIView.as_view()
 
-class PublicationTypeView(APIView):
-    def get(self, request):
-        publication_type = PublicationType.objects.all()
-        serializer = PublicationTypeSerializer(publication_type, many = True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        publication_type = PublicationType.objects.create(
-            name = request.data['name'],
-        )
-        serializer = PublicationTypeSerializer(publication_type, many =False)
-        return Response(serializer.data)

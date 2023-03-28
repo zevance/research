@@ -23,21 +23,12 @@
 					<ul class="admin-post">
 						<li>
 						<a href="#"
-							>{{ publication.place_of_publication }}, {{ publication.year_of_publication }}</a
+							>{{ publication.author.first_name }} {{ publication.author.last_name }}, {{ publication.co_authors }}</a
 						>
 						</li>
-						<li>
-						<a href="#"
-							class="text-bl">{{ publication.license }}</a
-						>
-						</li>
-						<li>
-						<a href="#"
-							>{{ publication.collection }}</a
-						>
-						</li>
+						
 					</ul>
-					<p class="">{{ publication.abstract | truncatewords:20}}.</p>
+					<p class="">{{ publication.abstract | truncatewords:30 | striptags }}.</p>
 					<a
 						href="{% url 'publication-details' publication.id %}"
 						class="btn btn-theme2 mt-3"

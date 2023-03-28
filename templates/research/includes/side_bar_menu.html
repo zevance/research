@@ -50,9 +50,13 @@
                    >
                 <a href="{% url 'add-publication' %}" class="menu-link">Add Articles</a>
               </li>
-              <li class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                  >
-                <a href="#" class="menu-link">All Articles</a>
+              <li   {% if 'publication_list' in request.path %}
+                        class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}
+                >
+                <a href="{% url 'publication_list' %}" class="menu-link">All Articles</a>
               </li>
               <li class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               >
