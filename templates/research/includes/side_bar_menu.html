@@ -58,9 +58,13 @@
                 >
                 <a href="{% url 'publication_list' %}" class="menu-link">All Articles</a>
               </li>
-              <li class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+              <li {% if 'approved_publications' in request.path %}
+                      class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                  {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% endif %}
               >
-               <a href="#" class="menu-link">Approved Articles</a>
+               <a href="{% url 'approved_publications' %}" class="menu-link">Approved Articles</a>
               </li>
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
@@ -69,8 +73,13 @@
           <li class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8">
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-bar-chart"></span> <span class="menu-text">Research Projects</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
-              <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
-                <a href="collection-flot-charts.html" class="menu-link">Add Project</a>
+              <li {% if 'add_project' in request.path %}
+                      class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                  {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% endif %}
+              >
+                <a href="{% url 'add_project' %}" class="menu-link">Add Project</a>
               </li>
               <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
                 <a href="collection-inline-charts.html" class="menu-link">All Projects</a>

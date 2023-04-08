@@ -125,3 +125,31 @@ class PublicationDetailsView(DetailView):
     queryset = Publication.objects.all()
 
 publication_details_view = PublicationDetailsView.as_view()
+
+
+class ApprovedPublicationListView(ListView):
+    template_name = 'research/approved-publications.html'
+    model = Publication
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(author_id=self.request.user).filter(is_approved =True)
+        return queryset
+        
+approved_publication_list_view = ApprovedPublicationListView.as_view()
+
+
+class AddProjectView(View):
+    template_name = 'research/add-project.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
+add_project_view = AddProjectView.as_view()

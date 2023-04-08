@@ -5,7 +5,7 @@
         <!-- .section-block -->
         <div class="alert alert-primary has-icon alert-dismissible fade show">
 
-            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. </p>
+            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Below is the list of your Approved Publications</p>
 
         </div>
     </div>
@@ -30,15 +30,14 @@
 
               <thead class="thead-">
                 <tr>
-
                   <th>#</th>
+                  {% comment %} <th>Submitted By</th> {% endcomment %}
                   <th>Author</th>
                   <th>Title</th>
                   <th>Publication Type</th>
                   <th>Journal Name</th>
                   <th>Publisher</th>
                   <th>Doi</th>
-                  <th>Status</th>
                   <th>action</th>
                 </tr>
               </thead><!-- /thead -->
@@ -49,6 +48,10 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ publication.author.first_name }} 
                         {{ publication.author.last_name}}</td>
+                    {% comment %} <td>{{ publication.author.first_name }} 
+                        {{ publication.author.last_name}}, 
+                        {{ publication.co_authors }}
+                    </td> {% endcomment %}
                     <td>{{ publication.title }}</td>
                     <td>{{ publication.publication_type }}</td>
                     <td>{{ publication.journal_name }}</td>
@@ -58,19 +61,9 @@
                         {{ publication.doi }}</a>
                     </td>
                     <td>
-                        {% if publication.is_approved == False %}
-                          <span style='color:red;font-size:11px;font-weight:bold;'>Not Approved</span>
-                        {% else %}
-                          <span style='color:green;font-size:11px;font-weight:bold;'>Approved</span>
-                        {% endif %}
-                    </td>
-                    <td>
                         <a href="{% url 'publication' publication.id %}" class="btn btn-sm btn-icon">
                            <i class="fa fa-eye"></i> <span class="sr-only">View</span>
                         </a>
-                        <a href="#" class="btn btn-sm btn-icon">
-                          <i class="fa fa-trash-alt" style="color:red"></i> <span class="sr-only">Delete</span>
-                       </a>
                     </td>
                   </tr>
                   {% endfor %}
@@ -83,7 +76,7 @@
     {% else %}
     <div class="col-lg-12">
         <div class="alert alert-danger alert-dismissible fade show">
-        No Publications found
+        Approved Publications not found
         </div>
     </div>
              <!-- /.card -->

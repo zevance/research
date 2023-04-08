@@ -52,6 +52,7 @@ class Member(models.Model):
 
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    #submitted_by = models.ForeignKey(User, on_delete=DO_NOTHING, related_name=user)
     #total_value = models.DecimalField(max_digits=50,decimal_places=3)
     #project_status = models.CharField(max_length=255)
     donor = models.ManyToManyField(Donor)
@@ -59,6 +60,10 @@ class Project(models.Model):
     member = models.ManyToManyField(Member)
     publication = models.ManyToManyField(Publication, blank=True, null=True)
     title = models.CharField(max_length=255)
+    #country = models.CharField(max_length=255)
+    #date_from = models.DateField()
+    #expected_completion_date = models.DateField()
+    #project_leader = models.CharField(max_length=255)
     description = models.TextField()
     file_name = models.FileField(upload_to='project_documents/%Y/%m/%d/', blank=True, null=True)
     created_at = models.DateTimeField(
