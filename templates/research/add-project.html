@@ -24,12 +24,12 @@
               <h6 class="card-header"> Adding Research Project </h6><!-- .card-body -->
               <div class="card-body">
                         <!-- form -->
-                        <form action="#" method="POST" class="needs-validation">
+                        <form action="{% url 'add_project' %}" method="POST" class="needs-validation" enctype="multipart/form-data" id="myForm">
 
                         {% csrf_token %}
                         
                         {% if user.is_authenticated %}
-                        <input type="hidden" name="author_id" value="{{ user.id }}" class="form-control">
+                        <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
                         {% endif %}
                         <!-- .row -->
                         <div class="form-group">
@@ -43,20 +43,24 @@
                         <!-- .form-group -->
                         <div class="form-group">
                             <label class="col-form-label" for="selDefault">Project Status<abbr Project Status="Required">*</abbr></label> 
-                              <select class="custom-select" id="selDefault">
+                              <select class="custom-select" id="selDefault" name="project_status">
                                 <option value=""> Choose... </option>
-                                <option> Completed </option>
-                                <option> In progress </option>
+                                <option value="Completed"> Completed </option>
+                                <option value="In Progress"> In Progress </option>
                             </select>
                         </div><!-- /.form-group --> 
                         <div class="form-group">
                             <label class="col-form-label" for="selDefault">Project Type<abbr Project Type="Required">*</abbr></label> 
-                                <select class="custom-select" id="selDefault">
+                                <select class="custom-select" id="selDefault" name="project_type">
                                 <option value=""> Choose... </option>
-                                <option> Consultancy </option>
-                                <option> Grant based </option>
+                                <option value="Consultancy"> Consultancy </option>
+                                <option value="Grant Based"> Grant based </option>
                             </select>
-                        </div><!-- /.form-group -->   
+                        </div><!-- /.form-group --> 
+                        <div class="form-group">
+                          <label for="tf1">Country <abbr Project Title="Required">*</abbr></label> 
+                          <input type="text" name="country" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Country"> 
+                      </div><!-- /.form-group -->  
                         <div class="form-group">
                             <label class="control-label" for="flatpickr-wrap">Date From<abbr Date From="Required">*</abbr></label> 
                             <div class="input-group input-group-alt flatpickr" id="flatpickr9" data-toggle="flatpickr" data-wrap="true" data-alt-input="true" data-alt-format="F j, Y" data-alt-input-class="form-control" data-date-format="Y-m-d" value="" placeholder="DD/MM/YYYY">
@@ -79,23 +83,15 @@
                         </div><!-- /.form-group -->  
                         <div class="form-group">
                             <label for="tf1">Project Leader (PI) <abbr Project Leader="Required">*</abbr></label> 
-                            <input type="text" name="project_leader" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Leader (PI)"> 
+                            <input type="text" name="project_pi" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Leader (PI)"> 
                         </div><!-- /.form-group -->  
-                        <!-- .form-group -->
                         <div class="form-group">
-                            <label for="tf6">Description <abbr title="Required">*</abbr></label>
-                            <textarea name="decription" class="form-control" id="tf6" rows="10" placeholder="Description of the project" required=""></textarea>
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="tf3">Upload File<abbr title="Required">*</abbr></label>
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="tf3"> 
-                              <label class="custom-file-label" for="tf3">Choose file</label>
-                            </div>
-                        </div><!-- /.form-group -->   
-                        <div class="form-group">
-                            <label for="tf1">Project Member<abbr Project Members ="Required">*</abbr></label> 
-                            <input type="text" name="project_members" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Member"> 
+                          <label for="tf1">Project Co-PI <abbr Project Leader="Required">*</abbr></label> 
+                          <input type="text" name="project_co_pi" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Co-PI"> 
+                      </div><!-- /.form-group --> 
+                      <div class="form-group">
+                        <label for="tf1">Project Member<abbr Project Members ="Required">*</abbr></label> 
+                        <input type="text" name="project_member" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Member"> 
                         </div><!-- /.form-group -->   
                         <div class="form-group" id="text-fields">
                           {% comment %} <label for="tf1">Project Members <abbr Project Members ="Required">*</abbr></label>  {% endcomment %}
@@ -106,10 +102,22 @@
                             <div class="col-sm-9" style="text-align:center;">
                                 <a style="font-size:15px;cursor:pointer;" onclick="displayTextField()"><u><i class="fa fa-plus"></i>Add Project Member</u></a>
                             </div>
-                        </div>              
+                        </div>
+                        <!-- .form-group -->
+                        <div class="form-group">
+                            <label for="tf6">Description <abbr title="Required">*</abbr></label>
+                            <textarea name="description" class="form-control" id="tf6" rows="10" placeholder="Description of the project" required=""></textarea>
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="tf3">Upload File<abbr title="Required">*</abbr></label>
+                            <div class="custom-file">
+                              <input type="file" name="supporting_document" class="custom-file-input" id="tf3"> 
+                              <label class="custom-file-label" for="tf3">Choose file</label>
+                            </div>
+                        </div><!-- /.form-group -->                 
                         <div class="form-group">
                           <label for="tf1">Project Donor<abbr Project Members ="Required">*</abbr></label> 
-                          <input type="text" name="project_donors" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Donor"> 
+                          <input type="text" name="project_donor" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Donor"> 
                       </div><!-- /.form-group -->   
                       <div class="form-group" id="donor-text-fields">
                         
@@ -121,8 +129,9 @@
                           </div>
                       </div>  
                       <div class="form-group">
-                        <label for="tf1">Project Partner <abbr Project Members ="Required">*</abbr></label> 
-                        <input type="text" name="project_partner" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Partner"> 
+                        <label for="tf1">Project Partner</label> 
+                        <input type="text" name="data" class="project_partner" id="tf1" style="width:100%;" aria-describedby="tf1Help" placeholder="Project Partner">
+                        <input type="hidden" id="concatenatedData" name="concatenated_data"> 
                       </div><!-- /.form-group -->
                       <div class="form-group" id="partner-text-fields">
                         
@@ -146,9 +155,11 @@
               function displayTextField() {
                 const textField = document.createElement("input");
                 textField.type = "text";
-                textField.name = "project_members";
-                textField.style ="width:100%";
-                //textField.placeholder="Project Member";
+                textField.name = "project_member";
+                textField.classList.add("form-control");
+                textField.style="margin-bottom:10px";
+                textField.style="margin-bottom:10px";
+                textField.placeholder = "Project Member";
                 document.getElementById("text-fields").appendChild(textField);
                 
                 counter++;
@@ -156,9 +167,10 @@
               function displayDonorField() {
                 const textField = document.createElement("input");
                 textField.type = "text";
-                textField.name = "project_donors";
-                textField.style ="width:100%";
-                //textField.placeholder="Project Member";
+                textField.name = "project_donor";
+                textField.classList.add("form-control");
+                textField.style="margin-bottom:10px";
+                textField.placeholder = "Project Donor";
                 document.getElementById("donor-text-fields").appendChild(textField);
                 
                 counter++;
@@ -166,13 +178,34 @@
               function displayPartnerField() {
                 const textField = document.createElement("input");
                 textField.type = "text";
-                textField.name = "project_partner";
-                textField.style ="width:100%";
-                //textField.placeholder="Project Member";
+                //textField.name = "project_partner";
+                textField.name = "data";
+                textField.class = "project_partner"
+                textField.classList.add("project_partner");
+                textField.style="margin-bottom:10px";
+                textField.style = "width:100%"
+                textField.placeholder = "Project Partner";
                 document.getElementById("partner-text-fields").appendChild(textField);
                 
                 counter++;
               }
+
+              
+                $(document).ready(function() {
+                  $('#myForm').on('submit', function(e) {
+                    e.preventDefault();
+                
+                    var concatenatedData = '';
+                    $('.project_partner').each(function() {
+                      concatenatedData += ' ,'.$(this).val();
+                    });
+                
+                    $('#concatenatedData').val(concatenatedData);
+                
+                    this.submit();
+                  });
+                });
+                
               </script>
             {% comment %} <script>
               function showTextField() {

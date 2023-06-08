@@ -8,7 +8,12 @@ class ProjectsView(ListView):
     model = Project
     paginate_by = 3
 
+
+project_list_view = ProjectsView.as_view()
+
 class ProjectDetails(DetailView):
     template_name = 'project/project-details.html'
     context_object_name = 'project'
     queryset   = Project.objects.all()
+
+project_details_view = ProjectDetails.as_view()

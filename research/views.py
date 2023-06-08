@@ -10,6 +10,7 @@ from publication.models import Publication
 from .choices import license_choices, collection_choices
 from django.utils.html import strip_tags
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 class DashboardPageView(TemplateView):
@@ -150,6 +151,52 @@ class AddProjectView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.POST['user_id']
+        title = request.POST['title']
+        total_value = request.POST['total_value']
+        project_status = request.POST['project_status']
+        project_type = request.POST['project_type']
+        date_from = request.POST['date_from']
+        expected_completion_date = request.POST['expected_completion_date']
+        project_pi = request.POST['project_pi']
+        project_co_pi = request.POST['project_co_pi']
+        country = request.POST['country']
+        description = request.POST['description']
+        project_member = request.POST.getlist('project_member')
+        # project_partner = request.POST.getlist('project_partner')
+        project_partner = request.POST.get('concatenated_data')
+        project_donor = request.POST.getlist('project_donor')
+        supporting_document = request.FILES['supporting_document']
+
+        # for project_partner in project_partner:
+        #     project_partner = ''.join(project_partner)
+
+        # for project_member in project_member:
+        #     project_member = ''.join(project_member)
+
+        # for project_donor in project_donor:
+        #     project_donor = ''.join(project_donor)
+
+        fs = FileSystemStorage()
+        name = fs.save(supporting_document.name, supporting_document)
+
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            project = Project(title=title,total_value=total_value,project_status=project_status,project_type=project_type,
+            project_pi=project_pi,project_co_pi=project_co_pi,country=country,date_from=date_from,expected_completion_date=expected_completion_date,
+            project_member=project_member,project_donor=project_donor,project_partner=project_partner,
+            description=description,supporting_document= fs.url(name),user_id=user_id)
+            project.save()
+            return render(request, self.template_name)
+        else:
+            pass
+        # project_members = ''
+        # for project_members in project_member:
+        #     project_members += project_members.value() + ' '
+
+        #     pass
 
 
 add_project_view = AddProjectView.as_view()
