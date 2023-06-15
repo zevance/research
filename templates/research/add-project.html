@@ -89,14 +89,14 @@
                           <label for="tf1">Project Co-PI <abbr Project Leader="Required">*</abbr></label> 
                           <input type="text" name="project_co_pi" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Co-PI"> 
                       </div><!-- /.form-group --> 
-                      <div class="form-group">
-                        <label for="tf1">Project Member<abbr Project Members ="Required">*</abbr></label> 
-                        <input type="text" name="project_member" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Member"> 
+                        <div class="form-group">
+                          <label for="tf1">Project Member<abbr Project Members ="Required">*</abbr></label> 
+                          <input type="text" name="member" class="project_member" id="tf1" style="width:100%;" aria-describedby="tf1Help" placeholder="Project Member"> 
+                          <input type="hidden" id="cData" name="c_data"> 
                         </div><!-- /.form-group -->   
                         <div class="form-group" id="text-fields">
-                          {% comment %} <label for="tf1">Project Members <abbr Project Members ="Required">*</abbr></label>  {% endcomment %}
-                          {% comment %} <input type="text" name="project_members" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Member">  {% endcomment %}
-                      </div><!-- /.form-group -->  
+                          
+                        </div><!-- /.form-group -->  
                         <div class="form-group" id="add_project_member">
                             <label class="col-sm-2 control-label no-padding-right"></label>
                             <div class="col-sm-9" style="text-align:center;">
@@ -117,7 +117,8 @@
                         </div><!-- /.form-group -->                 
                         <div class="form-group">
                           <label for="tf1">Project Donor<abbr Project Members ="Required">*</abbr></label> 
-                          <input type="text" name="project_donor" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Project Donor"> 
+                          <input type="text" name="donor" class="project_donor" id="tf1" style="width:100%;" aria-describedby="tf1Help" placeholder="Project Donor"> 
+                          <input type="hidden" id="concatData" name="concat_data"> 
                       </div><!-- /.form-group -->   
                       <div class="form-group" id="donor-text-fields">
                         
@@ -153,39 +154,41 @@
               let counter = 0;
 
               function displayTextField() {
-                const textField = document.createElement("input");
-                textField.type = "text";
-                textField.name = "project_member";
-                textField.classList.add("form-control");
-                textField.style="margin-bottom:10px";
-                textField.style="margin-bottom:10px";
-                textField.placeholder = "Project Member";
-                document.getElementById("text-fields").appendChild(textField);
+                const projectMember = document.createElement("input");
+                projectMember.type = "text";
+                projectMember.name = "member";
+                projectMember.classList.add("project_member");
+                projectMember.style="margin-bottom:10px";
+                projectMember.style = "width:100%";
+                projectMember.placeholder = "Project Member";
+                document.getElementById("text-fields").appendChild(projectMember);
                 
                 counter++;
               }
+              
               function displayDonorField() {
-                const textField = document.createElement("input");
-                textField.type = "text";
-                textField.name = "project_donor";
-                textField.classList.add("form-control");
-                textField.style="margin-bottom:10px";
-                textField.placeholder = "Project Donor";
-                document.getElementById("donor-text-fields").appendChild(textField);
+                const projectDonor = document.createElement("input");
+                projectDonor.type = "text";
+                projectDonor.name = "donor";
+                projectDonor.classList.add("project_donor");
+                projectDonor.style="margin-bottom:10px";
+                projectDonor.style = "width:100%";
+                projectDonor.placeholder = "Project Donor";
+                document.getElementById("donor-text-fields").appendChild(projectDonor);
                 
                 counter++;
               }
+
               function displayPartnerField() {
-                const textField = document.createElement("input");
-                textField.type = "text";
-                //textField.name = "project_partner";
-                textField.name = "data";
-                textField.class = "project_partner"
-                textField.classList.add("project_partner");
-                textField.style="margin-bottom:10px";
-                textField.style = "width:100%"
-                textField.placeholder = "Project Partner";
-                document.getElementById("partner-text-fields").appendChild(textField);
+                const projectPartner = document.createElement("input");
+                projectPartner.type = "text";
+                projectPartner.name = "data";
+                projectPartner.class = "project_partner";
+                projectPartner.classList.add("project_partner");
+                projectPartner.style = "margin-bottom:10px";
+                projectPartner.style = "width:100%";
+                projectPartner.placeholder = "Project Partner";
+                document.getElementById("partner-text-fields").appendChild(projectPartner);
                 
                 counter++;
               }
@@ -197,26 +200,54 @@
                 
                     var concatenatedData = '';
                     $('.project_partner').each(function() {
-                      concatenatedData += ' ,'.$(this).val();
+                      concatenatedData += ','+$(this).val();
                     });
                 
                     $('#concatenatedData').val(concatenatedData);
                 
+                    var concatData = '';
+                    $('.project_donor').each(function() {
+                      concatData += ','+$(this).val();
+                    });
+                
+                    $('#concatData').val(concatData);
+
+                    var cData = '';
+                    $('.project_member').each(function() {
+                      cData += ','+$(this).val();
+                    });
+                
+                    $('#cData').val(cData);
+                
                     this.submit();
                   });
                 });
+
+                {% comment %} $(document).ready(function() {
+                  $('#myForm').on('submit', function(e) {
+                    e.preventDefault();
                 
+                   
+                  });
+                });'
+                
+                $(document).ready(function() {
+                  $('#myForm').on('submit', function(e) {
+                    e.preventDefault();
+                
+                    var cData = '';
+                    $('.project_member').each(function() {
+                      cData += $(this).val();
+                    });
+                
+                    $('#cData').val(cData);
+                
+                    this.submit();
+                  });
+                });
+                 {% endcomment %}
               </script>
-            {% comment %} <script>
-              function showTextField() {
-                var textField = document.getElementById("textfield");
-                if (textField.style.display === "none") {
-                  textField.style.display = "block";
-                } else {
-                  textField.style.display = "none";
-                }
-              }
-            </script> {% endcomment %}
+          
 <!-- grid row -->
 <!-- /.page-section -->
 {% endblock %}

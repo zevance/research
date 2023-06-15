@@ -6,6 +6,15 @@
 
 {% if page_obj %}
 
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>Projects</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Projects</p>
+    </div>
+  </div>
+</section>
+
 	<section class="w3l-blog-single">
 	<div class="single blog py-4">
 		<div class="container py-md-2">
@@ -13,7 +22,23 @@
 			<!-- left side blog post content -->
 			<div class="single-left">
 			<div class="single-left1">
-				{% for project in page_obj %}
+            {% for project in page_obj %}
+
+				{% if project.image_path %}
+					<div class="blg-img">
+						<a href="#"><img src="{{project.image_path.url}}" alt=" " class="img-responsive img-fluid">
+						<div class="bl-top">
+							<h4>{{project.date_from}}</h4>
+						</div></a>
+					</div>
+				{% else %}
+				<div class="blg-img">
+					<a href="#"><img src="{% static 'assets/images/project_default.jpg' %}" alt=" " class="img-responsive img-fluid">
+					<div class="bl-top">
+						<h4>{{project.date_from}}</h4>
+					</div></a>
+				</div>
+				{% endif %}
 					<div class="btom-cont">
 					<h5 class="card-title">
 						<a href="{% url 'project-details' project.id %}"
@@ -22,20 +47,10 @@
 					</h5>
 					<ul class="admin-post">
 						<li>
-						<a href="#"
-							></a
-						>
+						<a href="#"></a>
+                            Project PI: <b>{{project.project_pi}}</b>
 						</li>
-						<li>
-						<a href="#"
-							class="text-bl"></a
-						>
-						</li>
-						<li>
-						<a href="#"
-							></a
-						>
-						</li>
+						
 					</ul>
 					<p class="">{{ project.description | truncatewords:20 }}</p>
 					<a
@@ -86,8 +101,23 @@
 
 			<!-- right side bar -->
 			<div class="right-side-bar">
+			<aside>
+				<h3 class="aside-title mb-3">Search</h3>
+				<form class="form-inline search-form" action="#" method="post">
+				<input
+					class="form-control"
+					type="search"
+					placeholder="Search here"
+					aria-label="email"
+					required=""
+				/>
+				<button class="btn search" type="submit">
+					<span class="fa fa-search"></span>
+				</button>
+				</form>
+				</aside>
 			<aside class="posts p-4 border">
-				<h3 class="aside-title">Categories</h3>
+				<h3 class="aside-title">Filter by Categories</h3>
 				<ul class="category">
 				<li>
 					<a href="#link"
@@ -98,19 +128,25 @@
 				<li>
 					<a href="#link"
 					><span class="fa fa-angle-right"></span> Countries
-					<label>(18)</label></a
+					<label>(1)</label></a
 					>
 				</li>
 				<li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> Collections
-					<label> (11)</label></a
+					><span class="fa fa-angle-right"></span> Project Status
+					<label> (2)</label></a
 					>
 				</li>
 				<li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> License
+					><span class="fa fa-angle-right"></span> Project PI
 					<label>(24)</label></a
+					>
+				</li>
+                <li>
+					<a href="#link"
+					><span class="fa fa-angle-right"></span> Type
+					<label>(3)</label></a
 					>
 				</li>
 				</ul>

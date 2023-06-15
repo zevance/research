@@ -9,7 +9,7 @@ class Project(models.Model):
     id            = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     user          = models.ForeignKey(User, on_delete=DO_NOTHING)
     title         = models.CharField(max_length=255)
-    total_value    = models.DecimalField(max_digits=50,decimal_places=3)
+    total_value    = models.FloatField()
     project_status = models.CharField(max_length=255)
     project_type   = models.CharField(max_length=255)
     project_pi = models.CharField(max_length=255)
@@ -22,7 +22,9 @@ class Project(models.Model):
     project_partner = models.TextField(blank=True, null=True)
     description = models.TextField()
     supporting_document = models.FileField(upload_to='project_documents/%Y/%m/%d/', blank=True, null=True)
+    image_path = models.ImageField(upload_to='projects/', blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title}"

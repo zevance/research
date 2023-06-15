@@ -5,7 +5,7 @@ from .views import (
     PublicationsView,PublicationDetails)
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', views.index, name='index'),
     path('publication/', PublicationsView.as_view(), name='publications'),
     path('publication-details/<uuid:pk>', PublicationDetails.as_view(), name='publication-details'),
 

@@ -34,12 +34,7 @@
           </li><!-- /.menu-item -->
           <!-- .menu-item -->  
           <!-- .menu-item -->
-          <li  {% if 'add-publication' in request.path %}
-                    class="menu-item has-child has-active" style="border-bottom: 1px solid #E8E8E8"
-                {% else %}
-                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                {% endif %}
-            >
+          <li class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8">
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-puzzle-piece"></span> <span class="menu-text">Journal Articles</span></a> <!-- child menu -->
             <ul class="menu">
               <li  {% if 'add-publication' in request.path %}
@@ -82,13 +77,13 @@
                 <a href="{% url 'add_project' %}" class="menu-link">Add Project</a>
               </li>
               <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
-                <a href="collection-inline-charts.html" class="menu-link">All Projects</a>
+                <a href="{% url 'project_list' %}" class="menu-link">All Projects</a>
               </li>
               <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
-                <a href="collection-jqvmap.html" class="menu-link">Approved Projects</a>
+                <a href="{% url 'approved_projects' %}" class="menu-link">Approved Projects</a>
               </li>
               <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
-                <a href="collection-jqvmap.html" class="menu-link">Waiting Approval</a>
+                <a href="{% url 'projects_waiting_approval' %}" class="menu-link">Waiting Approval</a>
               </li>
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->

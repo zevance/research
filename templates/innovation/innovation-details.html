@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>{{ innovation.title }}</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Innovation Details</p>
+    </div>
+  </div>
+</section>   
+  <section class="w3l-blog-single">
+      <div class="single blog py-5">
+        <div class="container py-md-3">
+          <div class="d-grid grid-colunm-2">
+            <!-- left side blog post content -->
+            <div class="single-left">
+              <div class="single-left1">
+              {% if innovation.image_path %}
+                    <div class="column-6">
+                        <img src="{{innovation.image_path.url}}" alt="" class="img-fluid">
+                    </div>
+                  {% else %}
+                     <div class="column-6">
+                        <img src="{% static 'assets/images/pub_default.jpg' %}" alt="" class="img-fluid">
+                    </div>
+                {% endif %}
+                <div class="btom-cont1 pt-4">
+                  <h5 class="card-title"><a href="#">{{ innovation.title }}</a></h5>
+                  <ul class="admin-post">
+                    <li>
+                      <a href=""><span class="fa fa-user"></span>
+
+                        {{innovation.user.first_name}} {{innovation.user.last_name}}
+
+                      </a>
+                    </li>
+                  </ul>
+                  <p class="mb-3" style="text-align: justify">{{innovation.description}}</p>
+                  <div>
+                  </div>
+              </div>
+          </div>
+            </div>
+            <!-- left side blog post content -->
+            <!-- right side bar -->
+            <div class="right-side-bar">
+              <aside>
+                <h3 class="aside-title mb-3">Search</h3>
+                <form class="form-inline search-form" action="#" method="post">
+                <input
+                  class="form-control"
+                  type="search"
+                  placeholder="Search here"
+                  aria-label="email"
+                  required=""
+                />
+                <button class="btn search" type="submit">
+                  <span class="fa fa-search"></span>
+                </button>
+                </form>
+              </aside>
+
+              <section class="w3l-contacts-12" id="contact">
+                <div class="contact-top">
+                    <div class="container py-md-3">
+                        <div class="row cont-main-top">
+                            <!-- contact address -->
+                            <div class="contact col-lg-12">
+                                <div class="cont-subs">
+                                    <div class="cont-add">
+                                        <div class="cont-add-rgt">
+                                          <h4>Year of Release</h4><hr/>
+                                          <p class="contact-text-sub">{{innovation.year_of_innovation}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="cont-add add-2">     
+                                        <div class="cont-add-rgt">
+                                          <h4>Patent No:</h4><hr/>
+                                          <p class="contact-text-sub">{{innovation.patent}}</p>
+                                        </div> 
+                                    </div>
+                                    <div class="cont-add add-2">     
+                                      <div class="cont-add-rgt">
+                                        <h4>Innovators</h4><hr/>
+                                        <p class="contact-text-sub">
+                                          {{innovation.user.first_name}} {{innovation.user.last_name}}
+                                        </p>
+                                      </div> 
+                                  </div>
+                                  </div>                   
+                                </div>
+                                
+                                  <!-- //contact address -->
+                                </div>
+                              </section>
+              <!-- contact -->
+                <!-- //contact -->    
+            </div>
+            </div>
+            <!-- //right side bar -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!---728x90--->
+  <!-- grids block 5 -->
+
+{% endblock %}

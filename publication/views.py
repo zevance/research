@@ -10,6 +10,14 @@ from django.utils.html import strip_tags
 
 # Create your views here.
 # web
+def index(request):
+    publications = Publication.objects.order_by('-created_at').filter(is_approved=True)[:3]
+    context = {
+        'publications': publications
+    }
+
+    return render(request,'publication/index.html',context)
+    
 class IndexView(TemplateView):
     template_name ='publication/index.html'
 
