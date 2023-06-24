@@ -1,0 +1,85 @@
+{% extends 'research/base.html' %} {% block content %}
+
+<div class="col-lg-12">
+  <div class="page-section">
+    <!-- .section-block -->
+    <div class="alert alert-primary has-icon alert-dismissible fade show">
+      <p class="mb-0">
+        Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Please fill the form below to add Innovation
+      </p>
+    </div>
+  </div>
+</div>
+<!-- /.section-block -->
+<!-- grid row -->
+<hr />
+
+<br />
+<div class="page-section">
+    <!-- .card-deck-xl -->
+    <div class="card-deck-xl">
+      <!-- .card -->
+      <div class="col-lg-8">
+            <div class="card card-fluid">
+              <h6 class="card-header"> Adding Innovation </h6><!-- .card-body -->
+              <div class="card-body">
+                        <!-- form -->
+                        <form action="{% url 'upload_innovation' %}" method="POST" class="needs-validation" enctype="multipart/form-data" id="myForm">
+
+                        {% csrf_token %}
+                        
+                        {% if user.is_authenticated %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
+                        {% endif %}
+                        <!-- .row -->
+                        <div class="form-group">
+                            <label for="tf1">Title <abbr Project Title="Required">*</abbr></label> 
+                            <input type="text" name="title" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Innovation title"> 
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="tf1">Patent<abbr Total Value="Required">*</abbr></label> 
+                            <input type="text" name="patent" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Patent"> 
+                        </div><!-- /.form-group -->
+                        <!-- .form-group -->
+                        <div class="form-group">
+                          <label for="tf1">Year <abbr Project Title="Required">*</abbr></label> 
+                          <input type="text" name="year_of_innovation" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Year of innovation"> 
+                        </div><!-- /.form-group -->  
+                        <div class="form-group">
+                            <label for="tf6">Description <abbr title="Required">*</abbr></label>
+                            <textarea name="description" class="form-control" id="tf6" rows="10" placeholder="Innovation description" required=""></textarea>
+                        </div><!-- /.form-group -->
+                        {% if projects %}
+                        <div class="form-group">
+                          <label class="col-form-label" for="selDefault">Associated Project</label> 
+                          <select class="custom-select" id="selDefault" required="" name="project_id">
+                            <option value="">Select Project</option>
+                                {% for project in projects %}
+                                  <option value="{{ project.id}}">{{project.title}}</option>
+                                {% endfor %}
+                          </select>
+                        </div><!-- /.form-group -->
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="tf3">Image<abbr title="Required">*</abbr></label>
+                            <div class="custom-file">
+                              <input type="file" name="image_path" class="custom-file-input" id="tf3"> 
+                              <label class="custom-file-label" for="tf3">Choose file</label>
+                            </div>
+                        </div><!-- /.form-group -->   
+                                                                                           
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                        </form><!-- /form .needs-validation -->
+                        <!-- /form -->
+                      </div>
+              </div>
+<!-- /.card-body -->
+                             
+          
+<!-- grid row -->
+<!-- /.page-section -->
+{% endblock %}
+</div>
+</div>
+</div>

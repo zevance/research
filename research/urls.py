@@ -16,4 +16,10 @@ urlpatterns = [
     path('projects_waiting_approval/', views.waiting_approval_project_list_view, name='projects_waiting_approval'),
     path('delete_project/<uuid:pk>/', views.delete_project_view, name='delete_project'),
     path('publication_details/', views.associated_project_list),
+    path('upload_innovation/', views.add_innovation_view, name='upload_innovation'),
+    path('innovation_list/', views.innovation_list_view, name='innovation_list'),
+    path('delete_innovation/<uuid:pk>/', views.delete_project_view, name='delete_innovation'),
+    path('approved_innovations/', views.approved_innovations_list_view, name='approved_innovations'),
+    path('innovations_waiting_approval/', views.waiting_approval_innovations_list_view, name='innovations_waiting_approval'),
+    path('innovation/<uuid:pk>/', views.innovation_details_view, name='innovation'),
 ]

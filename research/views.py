@@ -7,19 +7,20 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from project.models import Project
 from publication.models import Publication
+from innovation.models import Innovation
 from .choices import license_choices, collection_choices
 from django.utils.html import strip_tags
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-class DashboardPageView(TemplateView):
+class DashboardPageView(LoginRequiredMixin, TemplateView):
     template_name ='research/dashboard.html'
 
 dashboard_view = DashboardPageView.as_view()
 
-class UploadPublicationPageView(View):
+class UploadPublicationPageView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return render(request, 'research/add-publication.html')
 
@@ -70,7 +71,7 @@ class UploadPublicationPageView(View):
 add_publication_view = UploadPublicationPageView.as_view()
 
 
-class UploadPublicationView(View):
+class UploadPublicationView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         title = request.POST['title']
         abstract = request.POST['abstract']
@@ -104,7 +105,7 @@ class UploadPublicationView(View):
 upload_publication_view = UploadPublicationView.as_view()
 
 
-class PublicationListView(ListView):
+class PublicationListView(LoginRequiredMixin, ListView):
     template_name = 'research/all-publications.html'
     model = Publication
     
@@ -122,7 +123,7 @@ class PublicationListView(ListView):
 publication_list_view = PublicationListView.as_view()
 
 
-class PublicationDetailsView(DetailView):
+class PublicationDetailsView(LoginRequiredMixin, DetailView):
     html = '<jats:p>'
     stripped = strip_tags(html)
     
@@ -133,7 +134,7 @@ class PublicationDetailsView(DetailView):
 publication_details_view = PublicationDetailsView.as_view()
 
 
-class ApprovedPublicationListView(ListView):
+class ApprovedPublicationListView(LoginRequiredMixin, ListView):
     template_name = 'research/approved-publications.html'
     model = Publication
     
@@ -155,7 +156,7 @@ def associated_project_list(request):
     projects = Project.objects.order_by('-created_at').filter(is_approved=True)
     return projects
 
-class DeletePublicationView(DeleteView):
+class DeletePublicationView(LoginRequiredMixin, DeleteView):
     model = Publication
     template_name = 'research/all-publications.html'
   
@@ -166,7 +167,7 @@ class DeletePublicationView(DeleteView):
 delete_publication_view = DeletePublicationView.as_view()
 
 
-class AddProjectView(View):
+class AddProjectView(LoginRequiredMixin, View):
     template_name = 'research/add-project.html'
 
     def get(self, request, *args, **kwargs):
@@ -188,16 +189,15 @@ class AddProjectView(View):
         project_partner = request.POST.get('concatenated_data')
         project_donor = request.POST.get('concat_data')
         supporting_document = request.FILES['supporting_document']
-
-        fs = FileSystemStorage()
-        name = fs.save(supporting_document.name, supporting_document)
+        image = request.FILES['image']
 
         if request.user.is_authenticated:
             user_id = request.user.id
             project = Project(title=title,total_value=total_value,project_status=project_status,project_type=project_type,
             project_pi=project_pi,project_co_pi=project_co_pi,country=country,date_from=date_from,expected_completion_date=expected_completion_date,
             project_member=project_member,project_donor=project_donor,project_partner=project_partner,
-            description=description,supporting_document= fs.url(name),user_id=user_id)
+            description=description,supporting_document= supporting_document,user_id=user_id,
+            image=image_path)
             project.save()
             return render(request, self.template_name)
         else:
@@ -206,7 +206,7 @@ class AddProjectView(View):
 add_project_view = AddProjectView.as_view()
 
 
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'research/all-projects.html'
     model = Project
     
@@ -224,7 +224,7 @@ class ProjectListView(ListView):
 project_list_view = ProjectListView.as_view()
 
 
-class ApprovedProjectListView(ListView):
+class ApprovedProjectListView(LoginRequiredMixin, ListView):
     template_name = 'research/approved-projects.html'
     model = Project
     
@@ -241,7 +241,7 @@ class ApprovedProjectListView(ListView):
         
 approved_project_list_view = ApprovedProjectListView.as_view()
 
-class ProjectWaitingApprovalListView(ListView):
+class ProjectWaitingApprovalListView(LoginRequiredMixin, ListView):
     template_name = 'research/projects-waiting-approval.html'
     model = Project
     
@@ -258,7 +258,7 @@ class ProjectWaitingApprovalListView(ListView):
         
 waiting_approval_project_list_view = ProjectWaitingApprovalListView.as_view()
 
-class DeleteProjectView(DeleteView):
+class DeleteProjectView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'research/all-projects.html'
   
@@ -267,3 +267,97 @@ class DeleteProjectView(DeleteView):
         return reverse('project_list')
 
 delete_project_view = DeleteProjectView.as_view()
+
+class UploadInnovationView(LoginRequiredMixin, View):
+    template_name = 'research/add-innovation.html'
+
+    def get(self, request, *args, **kwargs):
+        projects = associated_project_list(request)
+        return render(request, self.template_name, {'projects': projects})
+
+    def post(self, request, *args, **kwargs):
+        title = request.POST['title']
+        patent = request.POST['patent']
+        year_of_innovation = request.POST['year_of_innovation']
+        description = request.POST['description']
+        project_id = request.POST['project_id']
+        image_path = request.FILES['image_path']
+
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            innovation = Innovation(title=title,description=description,patent=patent,
+                        year_of_innovation=year_of_innovation,image_path=image_path,user_id=user_id,
+                        project_id=project_id)
+            innovation.save()
+            messages.success(self.request, 'Innovation has been added successfully')
+            return render(request, 'research/all-innovations.html')
+
+add_innovation_view = UploadInnovationView.as_view()
+
+class InnovationListView(LoginRequiredMixin, ListView):
+    template_name = 'research/all-innovations.html'
+    model = Innovation
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(user_id=self.request.user)
+        return queryset
+
+innovation_list_view = InnovationListView.as_view()
+
+class DeleteInnovationView(LoginRequiredMixin, DeleteView):
+    model = Innovation
+    template_name = 'research/all-innovations.html'
+  
+    def get_success_url(self):
+        messages.success(self.request, 'Innovation has been deleted successfully')
+        return reverse('innovation_list')
+
+delete_innovation_view = DeleteInnovationView.as_view()
+
+class ApprovedInnovationsListView(LoginRequiredMixin, ListView):
+    template_name = 'research/approved-innovations.html'
+    model = Innovation
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(user_id=self.request.user).filter(is_approved =True)
+        return queryset
+        
+approved_innovations_list_view = ApprovedInnovationsListView.as_view()
+
+class InnovationsWaitingApprovalListView(LoginRequiredMixin, ListView):
+    template_name = 'research/innovations-waiting-approval.html'
+    model = Innovation
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(user_id=self.request.user).filter(is_approved =False)
+        return queryset
+        
+waiting_approval_innovations_list_view = InnovationsWaitingApprovalListView.as_view()
+
+class InnovationDetailsView(LoginRequiredMixin, DetailView):    
+    template_name = 'research/innovation.html'
+    context_object_name = 'innovation'
+    queryset = Innovation.objects.all()
+
+innovation_details_view = InnovationDetailsView.as_view()
