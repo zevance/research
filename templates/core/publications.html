@@ -5,16 +5,14 @@
 {% block content %}
 
 {% if page_obj %}
-
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
-      <h2>Projects</h2>
-      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Projects</p>
+      <h2>Publications</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Publications</p>
     </div>
   </div>
 </section>
-
 	<section class="w3l-blog-single">
 	<div class="single blog py-4">
 		<div class="container py-md-2">
@@ -22,44 +20,34 @@
 			<!-- left side blog post content -->
 			<div class="single-left">
 			<div class="single-left1">
-            {% for project in page_obj %}
-
-				{% if project.image_path %}
-					<div class="blg-img">
-						<a href="#"><img src="{{project.image_path.url}}" alt=" " class="img-responsive img-fluid">
-						<div class="bl-top">
-							<h4>{{project.date_from}}</h4>
-						</div></a>
-					</div>
-				{% else %}
-				<div class="blg-img">
-					<a href="#"><img src="{% static 'assets/images/project_default.jpg' %}" alt=" " class="img-responsive img-fluid">
-					<div class="bl-top">
-						<h4>{{project.date_from}}</h4>
-					</div></a>
-				</div>
-				{% endif %}
+             {% for publication in page_obj %}
+                
+                    <div class="column-12">
+                        <img src="{% static 'assets/images/pub_default.jpg' %}" alt="" class="img-fluid">
+                    </div>
+                  
+				
 					<div class="btom-cont">
-					<h5 class="card-title">
-						<a href="{% url 'project-details' project.id %}"
-						>{{ project.title }}</a
-						>
+					<h5 class="card-title">{{publication.publication_type|upper}} -
+						<a href="{% url 'publication_details' publication.id %}"
+						>{{ publication.title }}</a>
 					</h5>
 					<ul class="admin-post">
 						<li>
-						<a href="#"></a>
-                            Project PI: <b>{{project.project_pi}}</b>
+						<a href="{% url 'publication_details' publication.id %}"
+							>
+						{{publication.year_of_publication}} . {{ publication.author.first_name }}{{publication.author.last_name}},
+						{{publication.co_authors}}</a
+						>
 						</li>
-						
 					</ul>
-					<p class="">{{ project.description | truncatewords:20 }}</p>
+					{% comment %} <p class="">{{ publication.abstract | truncatewords:30 | striptags}}.</p>
 					<a
-						href="{% url 'project-details' project.id %}"
+						href="{% url 'publication_details' publication.id %}"
 						class="btn btn-theme2 mt-3"
 						>Continue Reading</a
-					>
+					> {% endcomment %}
 					</div>
-
 					<br />
 				{% endfor %}
 			</div>
@@ -100,7 +88,7 @@
 			<!-- left side blog post content -->
 
 			<!-- right side bar -->
-			<div class="right-side-bar">
+		 <div class="right-side-bar">
 			<aside>
 				<h3 class="aside-title mb-3">Search</h3>
 				<form class="form-inline search-form" action="#" method="post">
@@ -115,9 +103,9 @@
 					<span class="fa fa-search"></span>
 				</button>
 				</form>
-				</aside>
+			</aside>
 			<aside class="posts p-4 border">
-				<h3 class="aside-title">Filter by Categories</h3>
+				<h3 class="aside-title">Categories</h3>
 				<ul class="category">
 				<li>
 					<a href="#link"
@@ -128,25 +116,19 @@
 				<li>
 					<a href="#link"
 					><span class="fa fa-angle-right"></span> Countries
-					<label>(1)</label></a
+					<label>(18)</label></a
 					>
 				</li>
 				<li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> Project Status
-					<label> (2)</label></a
+					><span class="fa fa-angle-right"></span> Authors
+					<label> (11)</label></a
 					>
 				</li>
 				<li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> Project PI
+					><span class="fa fa-angle-right"></span> Journals
 					<label>(24)</label></a
-					>
-				</li>
-                <li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Type
-					<label>(3)</label></a
 					>
 				</li>
 				</ul>

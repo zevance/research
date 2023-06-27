@@ -127,12 +127,12 @@
             {% for project in projects %}
               <div class="float-top col-lg-4 col-md-6 mt-5">	
                 {% if project.image_path %}
-                    <a href="{% url 'project-details' project.id %}"><img src="{{project.image_path.url}}" class="img-responsive" alt=""></a>
+                    <a href="{% url 'project_details' project.id %}"><img src="{{project.image_path.url}}" class="img-responsive" alt=""></a>
                 {% else %}
                     <a href="{% url 'project-details' project.id %}"><img src="{% static 'assets/images/project_default.jpg' %}" class="img-responsive" alt=""></a>
                 {% endif %}
                   <div class="float-lt feature-gd">	
-                      <h3><a href="{% url 'project-details' project.id %}">{{project.title}}</a> </h3>
+                      <h3><a href="{% url 'project_details' project.id %}">{{project.title}}</a> </h3>
                       <p>{{project.description | truncatewords:15}} </p>
                   </div>
               </div>	
@@ -219,6 +219,7 @@
               <div class="pricing-chart col-lg-6">
 
             {% if publications %}
+           
                 <h3 class="">Latest Publication Uploads</h3>
                     {% for publication in publications %}
                         <div class="tatest-top mt-md-5 mt-4">
@@ -235,9 +236,9 @@
                                     {% endif %}
                                 <div class="column1">
                                     <div class="job-info">
-                                        <h6 class="pricehead"><a href="{% url 'publication-details' publication.id %}">{{  publication.title | truncatewords:8}}</a></h6>
+                                        <h6 class="pricehead"><a href="{% url 'publication_details' publication.id %}">{{  publication.title | truncatewords:7 }}</a></h6>
                                         <h5>{{publication.year_of_publication}}</h5>
-                                        <p>{{ publication.abstract | truncatewords:20}}..</p>
+                                        <p>{{ publication.abstract | truncatewords:18 | striptags}}...</p>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +250,7 @@
                         <a class="btn btn-secondary btn-theme2" href="{% url 'publications' %}"> View All</a>
                       </div>
                     </div>
-
+                
                     {% endif %}
 
                     <div class="w3l-faq-page col-lg-6 pl-3 pl-lg-5 mt-lg-0 mt-5">

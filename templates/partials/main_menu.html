@@ -44,12 +44,12 @@ z-index: 999;">
             {% endif %}>
             <a class="nav-link" href="{% url 'publications' %}">Publications</a>
           </li>
-          <li {% if 'researcher' in request.path %}
+          <li {% if 'researchers' in request.path or 'researcher-publications' in request.path %}
               class="nav-item active"
             {% else %}
                 class="nav-item"
             {% endif %}>
-            <a class="nav-link" href="#">Researchers</a>
+            <a class="nav-link" href="{% url 'researchers' %}">Researchers</a>
           </li>
         </ul>
         <form action="https://demo.w3layouts.com/demos_new/template_demo/29-02-2020/master-liberty-demo_Free/389771183/web/search-results.html" class="form-inline position-relative my-2 my-lg-0">

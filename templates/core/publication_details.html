@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>{{ publication.title }}</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Publication Details</p>
+    </div>
+  </div>
+</section> 
+  <section class="w3l-blog-single">
+      <div class="single blog py-5">
+        <div class="container py-md-3">
+          <div class="d-grid grid-colunm-2">
+            <!-- left side blog post content -->
+            <div class="single-left">
+              <div class="single-left1"> 
+                
+                <div class="column-6">
+                    <img src="{% static 'assets/images/pub_default.jpg' %}" alt="" class="img-fluid">
+                </div>
+             
+                <div class="btom-cont1 pt-4">
+                  <h5 class="card-title">{{ publication.title }}</h5>
+                  <ul class="admin-post">
+                    <li>
+                      <a href="#">AUTHOR: &nbsp;{{publication.author.first_name}} {{publication.author.last_name}}
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="#"> CO-AUTHORS:&nbsp;
+                          {{publication.co_authors}}</a>
+                    </li>
+                    <li>
+                      <a href="#">YEAR OF PUBLICATION:&nbsp;
+                        {{publication.year_of_publication}}</a>
+                    </li><br/>
+                    <li>
+                      <a href="#">JOURNAL NAME:&nbsp;
+                        {{publication.journal_name}}</a>
+                    </li><br/>
+                    <li>
+                      <a href="#">VOLUME:&nbsp;
+                        {{publication.volume}}</a>
+                    </li><br/>
+                    <li>
+                      <a href="#">NUMBER OF PAGES:&nbsp;
+                        {{publication.number_of_pages}}</a>
+                    </li><br/>
+                    <li>
+                      <a href="#">PUBLISHER:&nbsp;
+                        {{publication.publisher}}</a>
+                    </li><br/>
+                    <li>
+                      <a href="http://dx.doi.org/{{publication.doi}}"
+                        target="_blank">URL:&nbsp;
+                        http://dx.doi.org/{{publication.doi}}</a>
+                    </li><br/>
+                  </ul>
+                  <p class="mb-3" style="text-align: justify">
+                    <ul style="list-style:none;">
+                    <li class="mt-1">ABSTRACT</li></ul>
+                    {{ publication.abstract | striptags }}
+                  </p>
+                  {% comment %} <a
+                    href="http://dx.doi.org/{{publication.doi}}"
+                    class="btn btn-sm mt-3" target="_blank"
+                    >URL <br/><hr/> http://dx.doi.org/{{publication.doi}}</a
+                  > {% endcomment %}
+              </div>
+          </div>
+            </div>
+            <!-- left side blog post content -->
+            <!-- right side bar -->
+            <div class="right-side-bar">
+              <aside class="posts border">
+                <ul class="category">
+                <li>
+                  <label> {{ publication.license }}</label>
+                </li>
+                <li>
+                  <label>{{ publication.collection }}</label>
+                </li>                
+              </aside>
+
+              <aside class="posts p-4 border">
+                <h5 class="aside-title">More From Author</h5>
+                <ul class="category">
+                <li>
+                  <a href="#link"
+                  >
+                  <label></label></a
+                  >
+                </li>
+              </aside>
+              <!-- contact -->
+                <!-- //contact -->    
+              </div>
+            </div>
+            <!-- //right side bar -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+    <!---728x90--->
+  <!-- grids block 5 -->
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% if page_name is not none%}
+
+<section class="w3l-about-breadcrum">
+	<div class="breadcrum-bg py-sm-5 py-4">
+	  <div class="container py-lg-3">
+		<h2>{{page_name}}</h2>
+		<p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; {{page_name}}</p>
+	  </div>
+	</div>
+  </section>
+
+  {% endif %}

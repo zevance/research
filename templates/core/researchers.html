@@ -1,0 +1,74 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+	<section class="w3l-about-breadcrum">
+	<div class="breadcrum-bg py-sm-5 py-4">
+		<div class="container py-lg-3">
+		<h2>Researchers</h2>
+		<p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Researchers</p>
+		</div>
+	</div>
+	</section>
+
+{% if page_obj  %}
+
+	<div class="features py-5" id="services">
+		<div class="container py-md-3">
+		<div class="fea-gd-vv text-center row">
+				{% for author in page_obj %} 
+				    <div class="float-top col-lg-2 col-md-2 mt-md-0 mt-5">		
+						<a href="{% url 'researcher_publications' author.id %}">
+							<img src="{% static 'assets/images/researcher_default.png' %}" class="img-responsive" alt="">
+						</a>
+						<div class="float-lt feature-gd">	
+							<h5><a href="{% url 'researcher_publications' author.id %}">
+								{{author.first_name}} {{author.last_name}}</a> 
+							</h5><br/>
+							<p> {{author.position}} </p>
+						</div>
+					</div>
+				{% endfor %}	
+			</div>  
+		</div>
+	</div>
+
+	<!-- pagination -->
+	{% comment %} <div class="pagination">
+		<ul>
+			<li>
+				{% if page_obj.has_previous %}
+					<a
+					href="?page={{ page_obj.previous_page_number }}"
+					class="not-allowed"
+					disabled=""
+					>
+					<span
+						class="fa fa-angle-double-left"
+						aria-hidden="true"
+					></span>
+					</a>
+				{% endif %}
+			</li>
+			<li><a class="active" href="#"> {{ page_obj.number }} </a></li>
+			<li>
+				{% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}">
+					<span
+						class="fa fa-angle-double-right"
+						aria-hidden="true"
+					></span>
+					</a>
+				{% endif %}
+			</li>
+		</ul>
+	</div> {% endcomment %}
+</section>
+
+{% else %}
+{% endif %} 
+<!-- //features -->
+
+{% endblock %}

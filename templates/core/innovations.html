@@ -28,7 +28,7 @@
 				
 					<div class="btom-cont">
 					<h5 class="card-title">
-						<a href="{% url 'innovation-details' innovation.id %}"
+						<a href="{% url 'innovation_details' innovation.id %}"
 						>{{ innovation.title }}</a
 						>
 					</h5>
@@ -56,7 +56,7 @@
 					</ul>
 					<p class="">{{ innovation.description | truncatewords:100}}</p>
 					<a
-						href="{% url 'innovation-details' innovation.id %}"
+						href="{% url 'innovation_details' innovation.id %}"
 						class="btn btn-theme2 mt-3"
 						>Continue Reading</a
 					>
