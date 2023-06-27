@@ -6,7 +6,7 @@
         <!-- .section-block -->
         <div class="alert alert-primary has-icon alert-dismissible fade show">
 
-            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Below is the list of your Approved Innovations</p>
+            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Below is the list of your Innovations waiting approval</p>
 
         </div>
     </div>
@@ -31,16 +31,16 @@
 
               <thead class="thead-">
                 <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Patent</th>
-                    <th>Year</th>
-                    <th>action</th>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Patent</th>
+                  <th>Year</th>
+                  <th>action</th>
                 </tr>
               </thead><!-- /thead -->
               <!-- tbody -->
               <tbody>
-                  {% for innovation in object_list %}
+                {% for innovation in object_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ innovation.title}} 
@@ -62,7 +62,7 @@
     {% else %}
     <div class="col-lg-12">
         <div class="alert alert-danger alert-dismissible fade show">
-        Approved Innovations not found
+          You do not have any innovations waiting for approval 
         </div>
     </div>
              <!-- /.card -->

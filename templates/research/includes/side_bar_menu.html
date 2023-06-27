@@ -40,7 +40,7 @@
           </li><!-- /.menu-item -->
           <!-- .menu-item -->  
           <!-- .menu-item -->
-          <li  {% if 'add-publication' in request.path %}
+          <li  {% if 'add_publication' in request.path %}
                     class="menu-item has-child has-active" style="border-bottom: 1px solid #E8E8E8"
                 {% else %}
                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -54,7 +54,7 @@
                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}
                    >
-                <a href="{% url 'add-publication' %}" class="menu-link">Add Articles</a>
+                <a href="{% url 'add_publication' %}" class="menu-link">Add Articles</a>
               </li>
               <li   {% if 'publication_list' in request.path %}
                         class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"

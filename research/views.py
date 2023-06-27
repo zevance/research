@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.views.generic import TemplateView, ListView, DetailView, DeleteView
 from django.views import View
 import requests
@@ -22,7 +22,7 @@ dashboard_view = DashboardPageView.as_view()
 
 class UploadPublicationPageView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'research/add-publication.html')
+        return render(request, 'research/add_publication.html')
 
     def post(self, request, *args, **kwargs):
         doi = request.POST.get('doi')
@@ -56,7 +56,7 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
                    
                 }
 
-                return render(request, 'research/publication-detail.html', {
+                return render(request, 'research/publication_detail.html', {
                             'publication': publication,  
                             'license_choices': license_choices,
                             'collection_choices': collection_choices,
@@ -66,7 +66,7 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
                 error_message = f"Error retrieving publication data for DOI {doi}."
         else:
             error_message = "DOI not provided."
-        return render(request, 'research/add-publication.html', {'error_message': error_message})
+        return render(request, 'research/add_publication.html', {'error_message': error_message})
 
 add_publication_view = UploadPublicationPageView.as_view()
 
@@ -92,21 +92,21 @@ class UploadPublicationView(LoginRequiredMixin, View):
             author_id = request.user.id
             if Publication.objects.filter(doi=doi).exists():
                 messages.error(request,'Publication with the provided DOi is already available')
-                return redirect('add-publication')
+                return redirect('add_publication')
 
             publication = Publication(title=title,abstract=abstract,doi=doi,year_of_publication=year_of_publication,
                         journal_name=journal_name,publisher=publisher,collection=collection,license=license,
                         publication_type=publication_type,author_id=author_id,co_authors=co_authors,
                         number_of_pages=number_of_pages,volume=volume,project_id=project_id)
             publication.save()
-            return render(request, 'research/all-publications.html')
-        return render(request, 'research/add-publication.html')
+            return render(request, 'research/all_publications.html')
+        return render(request, 'research/add_publication.html')
     
 upload_publication_view = UploadPublicationView.as_view()
 
 
 class PublicationListView(LoginRequiredMixin, ListView):
-    template_name = 'research/all-publications.html'
+    template_name = 'research/all_publications.html'
     model = Publication
     
     def dispatch(self, request, *args, **kwargs):
@@ -135,7 +135,7 @@ publication_details_view = PublicationDetailsView.as_view()
 
 
 class ApprovedPublicationListView(LoginRequiredMixin, ListView):
-    template_name = 'research/approved-publications.html'
+    template_name = 'research/approved_publications.html'
     model = Publication
     
     def dispatch(self, request, *args, **kwargs):
@@ -158,7 +158,7 @@ def associated_project_list(request):
 
 class DeletePublicationView(LoginRequiredMixin, DeleteView):
     model = Publication
-    template_name = 'research/all-publications.html'
+    template_name = 'research/all_publications.html'
   
     def get_success_url(self):
         messages.success(self.request, 'Publication has been deleted successfully')
@@ -168,7 +168,7 @@ delete_publication_view = DeletePublicationView.as_view()
 
 
 class AddProjectView(LoginRequiredMixin, View):
-    template_name = 'research/add-project.html'
+    template_name = 'research/add_project.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -188,26 +188,27 @@ class AddProjectView(LoginRequiredMixin, View):
         project_member = request.POST.get('c_data')
         project_partner = request.POST.get('concatenated_data')
         project_donor = request.POST.get('concat_data')
-        supporting_document = request.FILES['supporting_document']
-        image = request.FILES['image']
+        supporting_document = request.FILES['document']
+        image_path = request.FILES['image']
 
         if request.user.is_authenticated:
             user_id = request.user.id
             project = Project(title=title,total_value=total_value,project_status=project_status,project_type=project_type,
             project_pi=project_pi,project_co_pi=project_co_pi,country=country,date_from=date_from,expected_completion_date=expected_completion_date,
             project_member=project_member,project_donor=project_donor,project_partner=project_partner,
-            description=description,supporting_document= supporting_document,user_id=user_id,
-            image=image_path)
+            description=description, supporting_document = supporting_document,user_id=user_id
+            ,image_path=image_path)
             project.save()
-            return render(request, self.template_name)
+            return redirect('project_list')
         else:
-            pass
+            messages.error(request,'Project not added please resubmit')
+            return redirect('add_project')
         
 add_project_view = AddProjectView.as_view()
 
 
 class ProjectListView(LoginRequiredMixin, ListView):
-    template_name = 'research/all-projects.html'
+    template_name = 'research/all_projects.html'
     model = Project
     
     def dispatch(self, request, *args, **kwargs):
@@ -225,7 +226,7 @@ project_list_view = ProjectListView.as_view()
 
 
 class ApprovedProjectListView(LoginRequiredMixin, ListView):
-    template_name = 'research/approved-projects.html'
+    template_name = 'research/approved_projects.html'
     model = Project
     
     def dispatch(self, request, *args, **kwargs):
@@ -242,7 +243,7 @@ class ApprovedProjectListView(LoginRequiredMixin, ListView):
 approved_project_list_view = ApprovedProjectListView.as_view()
 
 class ProjectWaitingApprovalListView(LoginRequiredMixin, ListView):
-    template_name = 'research/projects-waiting-approval.html'
+    template_name = 'research/projects_waiting_approval.html'
     model = Project
     
     def dispatch(self, request, *args, **kwargs):
@@ -260,7 +261,7 @@ waiting_approval_project_list_view = ProjectWaitingApprovalListView.as_view()
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     model = Project
-    template_name = 'research/all-projects.html'
+    template_name = 'research/all_projects.html'
   
     def get_success_url(self):
         messages.success(self.request, 'Project has been deleted successfully')
@@ -269,7 +270,7 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
 delete_project_view = DeleteProjectView.as_view()
 
 class UploadInnovationView(LoginRequiredMixin, View):
-    template_name = 'research/add-innovation.html'
+    template_name = 'research/add_innovation.html'
 
     def get(self, request, *args, **kwargs):
         projects = associated_project_list(request)
@@ -290,12 +291,12 @@ class UploadInnovationView(LoginRequiredMixin, View):
                         project_id=project_id)
             innovation.save()
             messages.success(self.request, 'Innovation has been added successfully')
-            return render(request, 'research/all-innovations.html')
+            return render(request, 'research/all_innovations.html')
 
 add_innovation_view = UploadInnovationView.as_view()
 
 class InnovationListView(LoginRequiredMixin, ListView):
-    template_name = 'research/all-innovations.html'
+    template_name = 'research/all_innovations.html'
     model = Innovation
     
     def dispatch(self, request, *args, **kwargs):
@@ -313,7 +314,7 @@ innovation_list_view = InnovationListView.as_view()
 
 class DeleteInnovationView(LoginRequiredMixin, DeleteView):
     model = Innovation
-    template_name = 'research/all-innovations.html'
+    template_name = 'research/all_innovations.html'
   
     def get_success_url(self):
         messages.success(self.request, 'Innovation has been deleted successfully')
@@ -322,7 +323,7 @@ class DeleteInnovationView(LoginRequiredMixin, DeleteView):
 delete_innovation_view = DeleteInnovationView.as_view()
 
 class ApprovedInnovationsListView(LoginRequiredMixin, ListView):
-    template_name = 'research/approved-innovations.html'
+    template_name = 'research/approved_innovations.html'
     model = Innovation
     
     def dispatch(self, request, *args, **kwargs):
@@ -339,7 +340,7 @@ class ApprovedInnovationsListView(LoginRequiredMixin, ListView):
 approved_innovations_list_view = ApprovedInnovationsListView.as_view()
 
 class InnovationsWaitingApprovalListView(LoginRequiredMixin, ListView):
-    template_name = 'research/innovations-waiting-approval.html'
+    template_name = 'research/innovations_waiting_approval.html'
     model = Innovation
     
     def dispatch(self, request, *args, **kwargs):

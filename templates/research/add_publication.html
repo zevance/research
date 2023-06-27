@@ -22,7 +22,7 @@
     <h6 class="card-header"> Submitting an Doi* </h6><!-- .card-body -->
     <div class="card-body">
               <!-- form -->
-              <form action="{% url 'add-publication' %}" method="POST" class="needs-validation">
+              <form action="{% url 'add_publication' %}" method="POST" class="needs-validation">
                 {% csrf_token %}
                 
                 <div class="form-group">
