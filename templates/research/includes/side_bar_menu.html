@@ -40,13 +40,14 @@
           </li><!-- /.menu-item -->
           <!-- .menu-item -->  
           <!-- .menu-item -->
-          <li  {% if 'add_publication' in request.path %}
-                    class="menu-item has-child has-active" style="border-bottom: 1px solid #E8E8E8"
+          <li  {% if 'add_publication' in request.path or 'publication' in request.path %}
+                    class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
                 {% else %}
                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                 {% endif %}
             >
-            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-puzzle-piece"></span> <span class="menu-text">Journal Articles</span></a> <!-- child menu -->
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-puzzle-piece"></span>
+               <span class="menu-text">Journal Articles</span></a> <!-- child menu -->
             <ul class="menu">
               <li  {% if 'add-publication' in request.path %}
                        class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
@@ -75,7 +76,11 @@
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
-          <li class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8">
+          <li {% if 'add_project' in request.path or 'research_project' in request.path %}
+                class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+            {% else %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+            {% endif %}>
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-bar-chart"></span> <span class="menu-text">Research Projects</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               <li {% if 'add_project' in request.path %}
@@ -112,16 +117,18 @@
           <!-- .menu-item -->
 		  
 		  <!-- .menu-item -->
-          <li class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8">
+          <li {% if 'add_innovation' in request.path or 'innovation' in request.path or 'innovations_waiting_approval' in request.path or 'innovation_list' in request.path or 'innovation_list' in request.path or 'approved_innovations' in request.path %}
+                class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+            {% else %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+            {% endif %}>
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-list-rich"></span> <span class="menu-text">Innovations</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               <li {% if 'upload_innovation' in request.path %}
                   class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
               {% else %}
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-              {% endif %}
-                  
-              >
+              {% endif %}>
                 <a href="{% url 'upload_innovation' %}" class="menu-link">Add Innovation</a>
               </li>
               <li {% if 'innovation_list' in request.path %}

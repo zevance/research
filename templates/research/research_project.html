@@ -3,33 +3,25 @@
 
 <!-- grid row -->
 <hr>
-
-<div class="col-lg-12">
-    <div class="page-section">
-        <!-- .section-block -->
-        <div class="alert alert-primary has-icon alert-dismissible fade show">
-
-            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. </p>
-
-        </div>
-    </div>
-</div><!-- /.section-block -->
-<!-- grid row -->
-<hr>
-
-
    <header class="page-cover">
     <div class="text-center">
       <a href="#" class="user-avatar user-avatar-xl">
         <img src="{% static 'assets/images/researcher_default.png' %}" alt=""></a>
-      <h2 class="h4 mt-2 mb-0"> {{innovation.user.first_name}} {{innovation.user.last_name}} </h2>
+      <h2 class="h4 mt-2 mb-0"> {{research_project.project_pi}} </h2>
       <div class="my-1">
         <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="far fa-star text-yellow"></i>
       </div>
-      <p class="text-muted"> Innovator</p>
+      <p class="text-muted"> Project Lead</p>
       <br/>
-      <P><b>Innovators</b> : </p>
+      <P><b>Project Members</b> : {{research_project.project_member}}</p>
     </div><!-- .cover-controls -->
+    <div class="cover-controls cover-controls-bottom">
+        <a href="#"class="btn btn-light">
+        <b>Project Status</b> : {{research_project.project_status}}</a><br/>
+        <a href="#" class="btn btn-light">
+        <b>Project Type</b> : {{research_project.project_type}}
+        </a>
+    </div><!-- /.cover-controls -->
   </header><!-- /.page-cover -->
 
   <!-- .page-navs -->
@@ -38,7 +30,7 @@
     <div class="nav-scroller">
       <!-- .nav -->
       <div class="nav nav-center nav-tabs">
-         <a class="nav-link active" href="user-teams.html">{{innovation.title}}</a>
+         <a class="nav-link active" href="user-teams.html">{{research_project.title}}</a>
       </div><!-- /.nav -->
     </div><!-- /.nav-scroller -->
   </nav><!-- /.page-navs -->
@@ -56,34 +48,40 @@
             <!-- .card-body -->
             <div class="card-body">
               <!-- team avatar -->
-              {% comment %} <div class="media align-items-center mb-3">
+              <div class="media align-items-center mb-3">
                 <ul class="list-icons mb-3">
                     <li>
                       <span><b>Project Donors</b> :</span>
                       {{research_project.project_donor}} </li>
                 </ul>
-              </div><!-- /.media --><hr/> {% endcomment %}
-              <p> {{innovation.description}}</p><!-- /team avatar -->
+              </div><!-- /.media --><hr/>
+              <p> {{research_project.description}} </p><!-- /team avatar -->
               <hr/>
               <!-- team rating -->
-              {% comment %} <ul class="list-icons mb-3">
+              <ul class="list-icons mb-3">
                 <li>
                   <span><b>Project Partners</b> :</span>
                    {{research_project.project_partner}} </li>
-              </ul><!-- /team details --> {% endcomment %}
+              </ul><!-- /team details -->
                    
             </div><!-- /.card-body -->
             <!-- .card-footer -->
             <div class="card-footer">
               <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
-                <strong>{{innovation.patent}}</strong> 
-                <span class="d-block">Patent</span></a> 
+                <strong>$ {{research_project.total_value | intcomma}}</strong> 
+                <span class="d-block">Total Value</span></a> 
                 <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
-                    <strong>{{innovation.year_of_innovation}}</strong>
-                    <span class="d-block">Year</span></a> 
+                    <strong>{{research_project.country}}</strong>
+                    <span class="d-block">Country</span></a> 
                 <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
-                    <strong>{{innovation.project}}</strong>
-                     <span class="d-block">Associated Project</span></a>
+                    <strong>{{research_project.project_co_pi}}</strong>
+                     <span class="d-block">Project CO Lead</span></a>
+                <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                <strong>{{research_project.date_from }}</strong> 
+                <span class="d-block">Date From</span></a> 
+                <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                    <strong>{{research_project.expected_completion_date }}</strong> 
+                    <span class="d-block">Expected End Date</span></a> 
             </div><!-- /.card-footer -->
           </div><!-- /.card -->
         </div><!-- /.masonry-item -->

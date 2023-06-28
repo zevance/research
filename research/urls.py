@@ -12,6 +12,7 @@ urlpatterns = [
     path('delete_publication/<uuid:pk>/', views.delete_publication_view, name='delete_publication'),
     path('add_project/', views.add_project_view, name='add_project'),
     path('project_list/', views.project_list_view, name='project_list'),
+    path('research_project/<uuid:pk>/', views.project_detail_view, name='research_project'),
     path('approved_projects/', views.approved_project_list_view, name='approved_projects'),
     path('projects_waiting_approval/', views.waiting_approval_project_list_view, name='projects_waiting_approval'),
     path('delete_project/<uuid:pk>/', views.delete_project_view, name='delete_project'),

@@ -30,9 +30,6 @@
 
               <thead class="thead-">
                 <tr>
-
-                  <th>#</th>
-                  <th>Author</th>
                   <th>Title</th>
                   <th>Publication Type</th>
                   <th>Journal Name</th>
@@ -46,9 +43,6 @@
               <tbody>
                   {% for publication in object_list %}
                 <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ publication.author.first_name }} 
-                        {{ publication.author.last_name}}</td>
                     <td>{{ publication.title }}</td>
                     <td>{{ publication.publication_type }}</td>
                     <td>{{ publication.journal_name }}</td>
@@ -64,18 +58,21 @@
                           <span style='color:green;font-size:11px;font-weight:bold;'>Approved</span>
                         {% endif %}
                     </td>
-                    <td>
-                        <a href="{% url 'publication' publication.id %}" class="btn btn-sm btn-icon">
-                           <i class="fa fa-eye"></i> <span class="sr-only">View</span>
-                        </a>
-
+                    <td class="align-middle text-right">
+                      <!-- .dropdown -->
+                      <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-icon btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-ellipsis-h"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <div class="dropdown-arrow mr-n1"></div>
+                          <a href="#" class="dropdown-item">Edit</a> 
+                          <a href="{% url 'publication' publication.id %}" class="dropdown-item">View</a> 
+                          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#confirm-delete-modal">Delete</a>
+                        </div>
+                      </div><!-- /.dropdown -->
+                      
                         <form method="POST" action="{% url 'delete_publication' publication.id %}">
                           {% csrf_token %}
                           
-                          <a href="#" class="btn btn-sm btn-icon" data-toggle="modal" data-target="#confirm-delete-modal">
-                              <i class="fa fa-trash-alt" style="color:red"></i> <span class="sr-only">Delete</span>
-                           </a>
-                         
                           <!-- Modal -->
                           <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document">

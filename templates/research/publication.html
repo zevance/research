@@ -1,6 +1,6 @@
-{% extends 'research/base.html' %} {% block content %}
+{% extends 'research/base.html' %} {% load static %} {% load humanize %} {% block content %}
 
-<div class="col-lg-12">
+{% comment %} <div class="col-lg-12">
     <div class="page-section">
         <!-- .section-block -->
         <div class="alert alert-primary has-icon alert-dismissible fade show">
@@ -9,35 +9,93 @@
 
         </div>
     </div>
-</div><!-- /.section-block -->
+</div><!-- /.section-block --> {% endcomment %}
 <!-- grid row -->
 <hr>
 
-<div class="section-block">
-    <h2 class="section-title">{{publication.publication_type |upper}} -{{ publication.title }} </h2>
-    <p class="text-muted">AUTHOR: {{ publication.author.first_name }} {{ publication.author.last_name }}<br/><br/>
-       CO AUTHORS: {{ publication.co_authors }} <br/><br/>
-       DOI: <a href="http://dx.doi.org/{{ publication.doi}}" target="_blank">http://dx.doi.org/{{ publication.doi}}</a> 
-    </p><!-- grid row -->
-    <div class="row">
-      <!-- grid column -->
-      <div class="col-lg-xl">
-        <!-- #accordion -->
-        <div id="accordion" class="card-expansion">
-          <!-- .card -->
-          <div class="card card-expansion-item expanded">
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body pt-0"><h4>Abstract</h4> {{ publication.abstract | striptags }} <br/><br/></div>
-            </div>
-          </div><!-- /.card -->
-          <!-- .card -->
-        </div><!-- /#accordion -->
-      </div><!-- /grid column -->
-      <!-- grid column -->
-  </div><!-- /.section-block -->
-  <hr class="my-5">
+<header class="page-cover">
+  <div class="text-center">
+    <a href="#" class="user-avatar user-avatar-xl">
+      <img src="{% static 'assets/images/researcher_default.png' %}" alt=""></a></br></br>
+      <h2 class="h4 mt-2 mb-0"> {{ publication.author.first_name }} {{ publication.author.last_name }} </h2>
+      
+    <div class="my-1">
+      <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> 
+      <i class="fa fa-star text-yellow"></i> <i class="far fa-star text-yellow"></i>
+    </div>
+    <p class="text-muted">Author</p>
+    <br/>
+    <P><b>Co Authors</b> : {{ publication.co_authors }}</p>
+  </div><!-- .cover-controls -->
+</header><!-- /.page-cover -->
 
-</div>
-</div><!-- /card-deck-xl -->
+<!-- .page-navs -->
+<nav class="page-navs">
+  <!-- .nav-scroller -->
+  <div class="nav-scroller">
+    <!-- .nav -->
+    <div class="nav nav-center nav-tabs">
+       <a class="nav-link active" href="user-teams.html"><b>{{publication.publication_type |upper}}</b> -{{ publication.title }}</a>
+    </div><!-- /.nav -->
+  </div><!-- /.nav-scroller -->
+</nav><!-- /.page-navs -->
+<!-- .page-inner -->
+<div class="page-inner">
+  <!-- .page-title-bar -->
+  <!-- .page-section -->
+  <div class="page-section">
+    <!-- .masonry-layout -->
+    <div class="masonry-layout">
+      <!-- .masonry-item -->
+      <div class="masonry-item col-lg-12">
+        <!-- .card -->
+        <div class="card card-fluid">
+          <!-- .card-body -->
+          <div class="card-body">
+            <!-- team avatar -->
+            <div class="media align-items-center mb-3">
+              <ul class="list-icons mb-3">
+                  <li>
+                    <span><b>URL</b> :</span>
+                    <a href="http://dx.doi.org/{{ publication.doi}}" target="_blank">
+                      http://dx.doi.org/{{ publication.doi}}</a></li>
+              </ul>
+            </div><!-- /.media --><hr/>
+            <p> {{ publication.abstract | striptags }}  </p><!-- /team avatar -->
+            <hr/>
+            <!-- team rating -->
+            <ul class="list-icons mb-3">
+              <li>
+                <span><b>Journal Name</b> :</span>
+                 {{publication.journal_name}} </li>
+            </ul><!-- /team details -->
+                 
+          </div><!-- /.card-body -->
+          <!-- .card-footer -->
+          <div class="card-footer">
+            <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+              <strong>{{publication.publisher}}</strong> 
+              <span class="d-block">Publisher</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                  <strong>{{publication.year_of_publication}}</strong>
+                  <span class="d-block">Year</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                  <strong>{{publication.volume}}</strong>
+                   <span class="d-block">Volume</span></a>
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+              <strong>{{publication.number_of_pages}}</strong> 
+              <span class="d-block">Number of Pages</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                <strong>{{publication.project}}</strong> 
+                 <span class="d-block">Associated Project</span></a> 
+          </div><!-- /.card-footer -->
+        </div><!-- /.card -->
+      </div><!-- /.masonry-item -->
+          
+    <!-- spinner -->
+  </div><!-- /.page-section -->
+</div><!-- /.page-inner -->
+</div><!-- /.page -->
+</div><!-- .app-footer -->
 
 {% endblock %}

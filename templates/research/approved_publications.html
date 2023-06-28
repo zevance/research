@@ -31,12 +31,9 @@
               <thead class="thead-">
                 <tr>
                   <th>#</th>
-                  {% comment %} <th>Submitted By</th> {% endcomment %}
-                  <th>Author</th>
                   <th>Title</th>
-                  <th>Publication Type</th>
                   <th>Journal Name</th>
-                  <th>Publisher</th>
+                  <th>Year</th>
                   <th>Doi</th>
                   <th>action</th>
                 </tr>
@@ -46,24 +43,23 @@
                   {% for publication in object_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ publication.author.first_name }} 
-                        {{ publication.author.last_name}}</td>
-                    {% comment %} <td>{{ publication.author.first_name }} 
-                        {{ publication.author.last_name}}, 
-                        {{ publication.co_authors }}
-                    </td> {% endcomment %}
                     <td>{{ publication.title }}</td>
-                    <td>{{ publication.publication_type }}</td>
                     <td>{{ publication.journal_name }}</td>
-                    <td>{{ publication.publisher }}</td>
+                    <td>{{ publication.year_of_publication }}</td>
                     <td>
                         <a href="http://dx.doi.org/{{ publication.doi }}"target="_blank">
                         {{ publication.doi }}</a>
                     </td>
-                    <td>
-                        <a href="{% url 'publication' publication.id %}" class="btn btn-sm btn-icon">
-                           <i class="fa fa-eye"></i> <span class="sr-only">View</span>
-                        </a>
+                      <td class="align-middle text-right">
+                        <!-- .dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-sm btn-icon btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-fw fa-ellipsis-h"></i></button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-arrow mr-n1"></div>
+                            <a href="{% url 'publication' publication.id %}" class="dropdown-item">View</a> 
+                          </div>
+                        </div><!-- /.dropdown -->
                     </td>
                   </tr>
                   {% endfor %}

@@ -23,28 +23,28 @@ z-index: 999;">
             {% endif %} >
             <a class="nav-link" href="{% url 'index' %}">Home</a>
           </li>
-          <li {% if 'projects' in request.path or 'project-details' in request.path %}
+          <li {% if 'projects' in request.path or 'project_details' in request.path %}
               class="nav-item active"
             {% else %}
                 class="nav-item"
             {% endif %}>
             <a class="nav-link" href="{% url 'projects' %}">Projects</a>
           </li>
-          <li {% if 'innovation' in request.path %}
+          <li {% if 'innovation' in request.path or 'innovation_details' in request.path %}
             class="nav-item active"
           {% else %}
               class="nav-item"
           {% endif %}>
             <a class="nav-link" href="{% url 'innovations' %}">Innovations</a>
           </li>
-          <li {% if 'publication' in request.path or 'publication-details' in request.path %}
+          <li {% if 'publication' in request.path or 'publication_details' in request.path %}
               class="nav-item active"
             {% else %}
                 class="nav-item"
             {% endif %}>
             <a class="nav-link" href="{% url 'publications' %}">Publications</a>
           </li>
-          <li {% if 'researchers' in request.path or 'researcher-publications' in request.path %}
+          <li {% if 'researchers' in request.path or 'researcher_publications' in request.path %}
               class="nav-item active"
             {% else %}
                 class="nav-item"

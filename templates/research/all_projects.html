@@ -1,4 +1,4 @@
-{% extends 'research/base.html' %} {% block content %}
+{% extends 'research/base.html' %} {% load static %} {% load humanize %} {% block content %}
 
 <div class="col-lg-12">
     <div class="page-section">
@@ -50,7 +50,7 @@
                     <td>{{ project.title}} 
                     <td> {{ project.project_type}}</td>
                     <td>{{ project.project_status }}</td>
-                    <td>$ {{ project.total_value }}</td>
+                    <td>$ {{ project.total_value | intcomma}}</td>
                     <td>{{ project.project_pi }}</td>
                     <td>{{ project.country }}</td>
                     
@@ -68,7 +68,8 @@
                           <button type="button" class="btn btn-sm btn-icon btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-ellipsis-h"></i></button>
                           <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-arrow mr-n1"></div>
-                            <a href="#" class="dropdown-item">View</a> 
+                            <a href="#" class="dropdown-item">Edit</a> 
+                            <a href="{% url 'research_project' project.id %}" class="dropdown-item">View</a> 
                             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#confirm-delete-modal">Delete</a>
                           </div>
                         </div><!-- /.dropdown -->

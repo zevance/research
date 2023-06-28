@@ -199,6 +199,7 @@ class AddProjectView(LoginRequiredMixin, View):
             description=description, supporting_document = supporting_document,user_id=user_id
             ,image_path=image_path)
             project.save()
+            messages.error(request,'Project has added successfuly')
             return redirect('project_list')
         else:
             messages.error(request,'Project not added please resubmit')
@@ -224,6 +225,12 @@ class ProjectListView(LoginRequiredMixin, ListView):
 
 project_list_view = ProjectListView.as_view()
 
+class ProjectDetailView(LoginRequiredMixin, DetailView):    
+    template_name = 'research/research_project.html'
+    context_object_name = 'research_project'
+    queryset = Project.objects.all()
+
+project_detail_view = ProjectDetailView.as_view()
 
 class ApprovedProjectListView(LoginRequiredMixin, ListView):
     template_name = 'research/approved_projects.html'
@@ -291,7 +298,7 @@ class UploadInnovationView(LoginRequiredMixin, View):
                         project_id=project_id)
             innovation.save()
             messages.success(self.request, 'Innovation has been added successfully')
-            return render(request, 'research/all_innovations.html')
+            return redirect('innovation_list')
 
 add_innovation_view = UploadInnovationView.as_view()
 
