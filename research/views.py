@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import TemplateView, ListView, DetailView, DeleteView
+from django.views.generic import TemplateView, ListView, DetailView, DeleteView, UpdateView
 from django.views import View
 import requests
 import json
@@ -99,7 +99,7 @@ class UploadPublicationView(LoginRequiredMixin, View):
                         publication_type=publication_type,author_id=author_id,co_authors=co_authors,
                         number_of_pages=number_of_pages,volume=volume,project_id=project_id)
             publication.save()
-            return render(request, 'research/all_publications.html')
+            return redirect('publication_list')
         return render(request, 'research/add_publication.html')
     
 upload_publication_view = UploadPublicationView.as_view()
@@ -369,3 +369,24 @@ class InnovationDetailsView(LoginRequiredMixin, DetailView):
     queryset = Innovation.objects.all()
 
 innovation_details_view = InnovationDetailsView.as_view()
+
+class ApprovePublicationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+
+        Publication.objects.filter(id=id).update(response=True, is_approved=True)
+        messages.success(self.request, 'Publication has been approved successfully')
+        return redirect('publication_list')
+
+approve_publication_view = ApprovePublicationView.as_view()
+
+class DeclinePublicationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+        reason = request.POST['reason']
+
+        Publication.objects.filter(id=id).update(response=False,reason_for_denial=reason)
+        messages.success(self.request, 'Publication declined successully')
+        return redirect('publication_list')
+
+decline_publication_view = DeclinePublicationView.as_view()

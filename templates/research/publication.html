@@ -90,12 +90,82 @@
                  <span class="d-block">Associated Project</span></a> 
           </div><!-- /.card-footer -->
         </div><!-- /.card -->
+
+        {% if user.position == 'Dro' %}
+          {% if publication.response is null %}
+            <div class="card-body border-top">
+              <!-- example block -->
+              <div class="el-example">
+                  <button type="button" data-toggle="modal" data-target="#confirm-approve-modal" 
+                    class="btn btn-outline-success">Approve</button>           
+                  <button type="button" class="btn btn-outline-warning" 
+                  data-toggle="modal" data-target="#confirm-delete-modal">Deny</button> 
+              </div><!-- /example block -->
+            </div><!-- /.card-body -->
+          {% endif %}
+        {% endif %}
+        
       </div><!-- /.masonry-item -->
-          
+          <!--Approve Modal-->
+          <form method="POST" action="{% url 'approve_publication' publication.id %}">
+            {% csrf_token %}
+            <!-- Modal -->
+            <div class="modal fade" id="confirm-approve-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-approve-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="accept">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirm-approve-modal-label">Approving Publication</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to approve this Publication?
+                        <div class="modal-body">
+                          <input type="hidden" name="id" value="{{publication.id}}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Confirm</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+          </form>
     <!-- spinner -->
   </div><!-- /.page-section -->
 </div><!-- /.page-inner -->
 </div><!-- /.page -->
 </div><!-- .app-footer -->
+
+ <!--Deny Modal-->
+ <form method="POST" action="{% url 'decline_publication' publication.id %}">
+  {% csrf_token %}
+  <!-- Modal -->
+  <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="confirm-delete-modal-label">Denying Publication</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- .form-group -->
+              <input type="hidden" name="id" value="{{publication.id}}">
+              <div class="form-group">
+              <label for="tf6">Reason <abbr title="Required">*</abbr></label>
+              <textarea name="reason" class="form-control" id="tf6" rows="6" placeholder="Reason for Denial" required=""></textarea>
+          </div><!-- /.form-group -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Confirm</button>
+          </div>
+          </div>
+      </div>
+  </div>
+</form>
 
 {% endblock %}

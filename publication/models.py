@@ -24,6 +24,8 @@ class Publication(models.Model):
     is_approved = models.BooleanField(default=False)
     image_path = models.ImageField(upload_to='publication/', blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=DO_NOTHING, blank=True, null=True)
+    response = models.BooleanField(blank=True,null=True)
+    reason_for_denial = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
     
     def __str__(self):

@@ -76,8 +76,8 @@
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
-          <li {% if 'add_project' in request.path or 'research_project' in request.path %}
-                class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+          <li {% if 'add_project' in request.path or 'project_list' in request.path or 'approved_projects' in request.path or 'projects_waiting_approval' in request.path or 'research_project' in request.path %}
+                class="menu-item has-child " style="border-bottom: 1px solid #E8E8E8"
             {% else %}
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
             {% endif %}>
