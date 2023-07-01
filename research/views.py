@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import TemplateView, ListView, DetailView, DeleteView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, DeleteView
 from django.views import View
 import requests
 import json
@@ -13,6 +13,8 @@ from django.utils.html import strip_tags
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import connection
+
 
 # Create your views here.
 class DashboardPageView(LoginRequiredMixin, TemplateView):
@@ -113,7 +115,7 @@ class PublicationListView(LoginRequiredMixin, ListView):
         if not self.request.user.is_authenticated:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
+        
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.request.user.is_authenticated:
@@ -122,6 +124,146 @@ class PublicationListView(LoginRequiredMixin, ListView):
         
 publication_list_view = PublicationListView.as_view()
 
+#DRO FUNCTIONS
+#Publication DRO Functions
+#publications that needs approval by dro
+class ApprovePublicationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+
+        Publication.objects.filter(id=id).update(response=True, is_approved=True)
+        messages.success(self.request, 'Publication has been approved successfully')
+        return redirect('dro_publications')
+
+approve_publication_view = ApprovePublicationView.as_view()
+
+class DeclinePublicationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+        reason = request.POST['reason']
+
+        Publication.objects.filter(id=id).update(response=False,reason_for_denial=reason)
+        messages.success(self.request, 'Publication declined successully')
+        return redirect('dro_publications')
+
+decline_publication_view = DeclinePublicationView.as_view()
+
+def dro_publication_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        publications = Publication.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
+    else:
+        publications = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/all_publications.html', {'publications': publications})
+
+#approved publications by dro
+def approved_dro_publication_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        publications = Publication.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
+    else:
+        publications = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/approved_dro_publications.html', {'publications': publications})
+
+#Project DRO Functions
+#projects that needs dro approval
+def dro_project_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        projects = Project.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
+    else:
+        projects = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/dro_projects_list.html', {'projects': projects})
+
+#approved projects by dro
+def approved_dro_project_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        projects = Project.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
+    else:
+        projects = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/approved_dro_projects.html', {'projects': projects})
+
+#waiting dro approval projects 
+def waiting_dro_approval_project_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        projects = Project.objects.filter(response__isnull=True).filter(is_approved=False) # Retrieve data based on your conditions
+    else:
+        projects = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/waiting_dro_approval.html', {'projects': projects})
+
+class ApproveProjectView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+
+        Project.objects.filter(id=id).update(response=True, is_approved=True)
+        messages.success(self.request, 'Project has been approved successfully')
+        return redirect('dro_projects')
+
+approve_project_view = ApproveProjectView.as_view()
+
+class DeclineProjectView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+        reason = request.POST['reason']
+
+        Project.objects.filter(id=id).update(response=False,reason_for_denial=reason)
+        messages.success(self.request, 'Project declined successully')
+        return redirect('dro_projects')
+
+decline_project_view = DeclineProjectView.as_view()
+
+#Innovation DRO Functions
+#innovations that needs dro approval 
+def dro_innovation_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        innovations = Innovation.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
+    else:
+        innovations = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/dro_innovation_list.html', {'innovations': innovations})
+
+#approved innovations by dro
+def approved_dro_innovation_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        innovations = Innovation.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
+    else:
+        innovations = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/approved_dro_innovations.html', {'innovations': innovations})
+
+#innovations waiting dro approval 
+def waiting_dro_approval_project_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        innovations = Innovation.objects.filter(response__isnull=True).filter(is_approved=False) # Retrieve data based on your conditions
+    else:
+        innovations = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/innovations_waiting_dro_approval.html', {'innovations': innovations})
+
+class ApproveInnovationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+
+        Innovation.objects.filter(id=id).update(response=True, is_approved=True)
+        messages.success(self.request, 'Innovation has been approved successfully')
+        return redirect('dro_projects')
+
+approve_innovation_view = ApproveInnovationView.as_view()
+
+class DeclineInnovationView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+        reason = request.POST['reason']
+
+        Innovation.objects.filter(id=id).update(response=False,reason_for_denial=reason)
+        messages.success(self.request, 'Innovation declined successully')
+        return redirect('dro_projects')
+
+decline_innovation_view = DeclineInnovationView.as_view()
+    
+#END OF DRO FUNCTIONS
 
 class PublicationDetailsView(LoginRequiredMixin, DetailView):
     html = '<jats:p>'
@@ -370,23 +512,28 @@ class InnovationDetailsView(LoginRequiredMixin, DetailView):
 
 innovation_details_view = InnovationDetailsView.as_view()
 
-class ApprovePublicationView(View):
-    def post(self, request, *args, **kwargs):
-        id = request.POST['id']
+def staffReport(request):
 
-        Publication.objects.filter(id=id).update(response=True, is_approved=True)
-        messages.success(self.request, 'Publication has been approved successfully')
-        return redirect('publication_list')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM (SELECT account_user.id, account_user.title,  concat( first_name, ' ', last_name) AS fullname, account_user.department_code AS department_code, Count( DISTINCT project_project.id) AS projects, Count( DISTINCT publication_publication.id) AS publications, Count(DISTINCT innovation_innovation.id) AS innovations FROM account_user LEFT JOIN project_project  ON project_project.user_id =  account_user.id LEFT JOIN  publication_publication ON publication_publication.author_id = account_user.id LEFT JOIN innovation_innovation ON innovation_innovation.user_id = account_user.id  GROUP BY account_user.id) AS temp WHERE publications > 0 OR innovations > 0 OR projects > 0");
+        
+        columns = [col[0] for col in cursor.description]
+        report = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    # report = User.objects.select_related('user')
+    for i in report:
+        print(i)
 
-approve_publication_view = ApprovePublicationView.as_view()
+    return render(request, 'research/staff_report.html', {'data': report});
 
-class DeclinePublicationView(View):
-    def post(self, request, *args, **kwargs):
-        id = request.POST['id']
-        reason = request.POST['reason']
+def departmentReport(request):
+	 
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT account_user.department_code AS department, Count( DISTINCT project_project.id) AS projects, Count( DISTINCT publication_publication.id) AS publications, Count(DISTINCT innovation_innovation.id) AS innovations FROM account_user LEFT JOIN project_project  ON project_project.user_id =  account_user.id LEFT JOIN  publication_publication ON publication_publication.author_id = account_user.id LEFT JOIN innovation_innovation ON innovation_innovation.user_id = account_user.id WHERE (publication_publication.is_approved = TRUE OR publication_publication.id IS NULL ) AND account_user.department_code IS NOT NULL GROUP BY account_user.department_code ");
+        
+        columns = [col[0] for col in cursor.description]
+        report = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    # report = User.objects.select_related('user')
+    for i in report:
+        print(i)
 
-        Publication.objects.filter(id=id).update(response=False,reason_for_denial=reason)
-        messages.success(self.request, 'Publication declined successully')
-        return redirect('publication_list')
-
-decline_publication_view = DeclinePublicationView.as_view()
+    return render(request, 'research/department_report.html', {'data': report});

@@ -1,0 +1,66 @@
+{% extends 'research/base.html' %}
+
+{% block content %} 
+
+<div class="col-lg-12">
+    <div class="page-section">
+        <!-- .section-block -->
+        <div class="alert alert-primary has-icon alert-dismissible fade show">
+
+            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. </p>
+
+        </div>
+    </div>
+</div><!-- /.section-block -->
+<!-- grid row -->
+<hr><br>
+
+
+<!-- .page-section -->
+<div class="page-section">
+    <!-- .card -->
+    <section class="card card-fluid">
+
+        <!-- .card-header -->
+        <header class="card-header">
+            <p> Department Research Report </p>
+          </header>
+          <!-- /.card-header -->
+
+        
+        <div class="card-body">
+        
+        <!-- .table -->
+        <table id="myTable" class="table">
+            <!-- thead -->
+            <thead>
+            <tr>
+                
+                <th> Department Code </th>
+                <th> Projects </th>
+                <th> Publications </th>
+                <th> Innovations </th>
+            </tr>
+            </thead>
+            <!-- /thead -->
+            <tbody>
+                {% for department in data %}
+                <tr>
+                    <td>{{ department.department }}</td>
+                    <td>{{ department.projects }}</td>
+                    <td>{{ department.publications }}</td>
+                    <td>{{ department.innovations }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- /.table -->
+        </div>
+        <!-- /.card-body -->
+    </section>
+    <!-- /.card -->
+</div>
+<!-- /.page-section -->
+
+
+{% endblock %}

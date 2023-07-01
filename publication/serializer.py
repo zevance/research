@@ -5,4 +5,5 @@ from rest_framework.serializers import ModelSerializer
 class PublicationSerializer(ModelSerializer):
     class Meta:
         model = Publication()
-        fields = ['id', 'title', 'abstract']
+        fields = '__all__'
+

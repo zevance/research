@@ -35,7 +35,6 @@
                   <th>Journal Name</th>
                   <th>Publisher</th>
                   <th>Doi</th>
-                  <th>Status</th>
                   <th>action</th>
                 </tr>
               </thead><!-- /thead -->
@@ -51,25 +50,15 @@
                         <a href="http://dx.doi.org/{{ publication.doi }}"target="_blank">
                         {{ publication.doi }}</a>
                     </td>
-                    <td>
-                        {% if publication.is_approved == False %}
-                          <span style='color:red;font-size:11px;font-weight:bold;'>Not Approved</span>
-                        {% else %}
-                          <span style='color:green;font-size:11px;font-weight:bold;'>Approved</span>
-                        {% endif %}
-                    </td>
                     <td class="align-middle text-right">
                       <!-- .dropdown -->
                       <div class="dropdown">
                         <button type="button" class="btn btn-sm btn-icon btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-ellipsis-h"></i></button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <div class="dropdown-arrow mr-n1"></div>
-                          
-                          <a href="{% url 'publication' publication.id %}" class="dropdown-item">View</a> 
-                          
+                          <a href="{% url 'publication' publication.id %}" class="dropdown-item">View</a>
                         </div>
-                      </div><!-- /.dropdown -->
-                                            
+                      </div><!-- /.dropdown -->                        
                     </td>
                   </tr>
                   {% endfor %}
@@ -82,7 +71,7 @@
     {% else %}
     <div class="col-lg-12">
         <div class="alert alert-danger alert-dismissible fade show">
-        No Publications found
+        Approved publications not found
         </div>
     </div>
              <!-- /.card -->

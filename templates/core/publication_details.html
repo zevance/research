@@ -19,9 +19,9 @@
             <div class="single-left">
               <div class="single-left1"> 
                 
-                <div class="column-6">
+                {% comment %} <div class="column-6">
                     <img src="{% static 'assets/images/pub_default.jpg' %}" alt="" class="img-fluid">
-                </div>
+                </div> {% endcomment %}
              
                 <div class="btom-cont1 pt-4">
                   <h5 class="card-title">{{ publication.title }}</h5>
@@ -35,7 +35,7 @@
                           {{publication.co_authors}}</a>
                     </li>
                     <li>
-                      <a href="#">YEAR OF PUBLICATION:&nbsp;
+                      <a href="#">YEAR:&nbsp;
                         {{publication.year_of_publication}}</a>
                     </li><br/>
                     <li>
@@ -61,8 +61,7 @@
                     </li><br/>
                   </ul>
                   <p class="mb-3" style="text-align: justify">
-                    <ul style="list-style:none;">
-                    <li class="mt-1">ABSTRACT</li></ul>
+                    <span>ABSTRACT<span/><br/>
                     {{ publication.abstract | striptags }}
                   </p>
                   {% comment %} <a
@@ -85,7 +84,7 @@
                   <label>{{ publication.collection }}</label>
                 </li>                
               </aside>
-
+{% comment %} 
               <aside class="posts p-4 border">
                 <h5 class="aside-title">More From Author</h5>
                 <ul class="category">
@@ -95,7 +94,7 @@
                   <label></label></a
                   >
                 </li>
-              </aside>
+              </aside> {% endcomment %}
               <!-- contact -->
                 <!-- //contact -->    
               </div>

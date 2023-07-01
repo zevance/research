@@ -12,6 +12,7 @@ urlpatterns = [
     path('researcher_publications/<uuid:author_id>/', views.get_author_publications, name='researcher_publications'),
 
     path('api/publication/', views.publications_api_view, name='home'),
+    path('api/publication_details/<uuid:pk>/', views.publication_details_api_view, name='api_publication_details'),
     # path('api/collection/<uuid:pk>', CollectionDetails.as_view(), name='collection_details'),
     # path('api/license/', LicenseView.as_view(), name='license'),
     # path('api/license/license/<uuid:pk>', CollectionDetails.as_view(), name='collection_details'),

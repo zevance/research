@@ -13411,17 +13411,17 @@ button.owl-next {
   background-attachment: fixed; }
 
 .w3l-about-breadcrum .breadcrum-bg h2 {
-  font-size: 44px;
+  font-size: 26px;
   color: #fff;
   font-weight: 600; }
 
 .w3l-about-breadcrum .breadcrum-bg p {
-  font-size: 16px;
+  font-size: 24px;
   color: #fff;
   margin-top: 10px; }
 
 .w3l-about-breadcrum .breadcrum-bg p a {
-  font-size: 16px;
+  font-size: 24px;
   color: var(--primary-color); }
 
 .w3l-about-breadcrum .breadcrum-bg p a:hover {
@@ -13430,11 +13430,11 @@ button.owl-next {
 
 @media (max-width: 736px) {
   .w3l-about-breadcrum .breadcrum-bg h2 {
-    font-size: 40px; } }
+    font-size: 28px; } }
 
 @media (max-width: 600px) {
   .w3l-about-breadcrum .breadcrum-bg h2 {
-    font-size: 35px; } }
+    font-size: 28px; } }
 
 .w3l-blog-breadcrum .breadcrum-bg {
   background-size: cover;
