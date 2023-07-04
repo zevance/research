@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializer import PublicationSerializer
 from .models import Publication
 from project.models import Project
+from innovation.models import Innovation
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views import View
 from django.db.models import Q
@@ -110,10 +111,14 @@ researchers_list_view = ResearchersView.as_view()
 def get_author_publications(request, author_id):
     author = get_object_or_404(User, id=author_id)
     researcher_publications = Publication.objects.filter(author=author)
-    context = {'researcher_publications': researcher_publications}
+    researcher_projects = Project.objects.filter(user=author)
+    researcher_innovations = Innovation.objects.filter(user=author)
+    context = {'researcher_publications': researcher_publications, 
+                'researcher_projects': researcher_projects,
+                'researcher_innovations': researcher_innovations}
 
     return render(request,'core/researcher_publications.html', context)
-    
+
 # Api views
 class PublicationsListAPIView(APIView):
     def get(self, request, *args, **kwargs):
@@ -149,7 +154,7 @@ class PublicationDetailsAPIView(APIView):
     def put(self, request, pk):
         pass
 
-publications_details_api_view = PublicationDetailsAPIView.as_view()
+publication_details_api_view = PublicationDetailsAPIView.as_view()
 
 
 # def researchers_list_view(request):

@@ -44,7 +44,7 @@ z-index: 999;">
             {% endif %}>
             <a class="nav-link" href="{% url 'publications' %}">Publications</a>
           </li>
-          <li {% if 'researchers' in request.path or 'researcher_publications' in request.path %}
+          <li {% if 'researchers' in request.path %}
               class="nav-item active"
             {% else %}
                 class="nav-item"

@@ -38,7 +38,15 @@
             >
             <a href="{% url 'dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
           </li><!-- /.menu-item -->
-          <!-- .menu-item -->  
+          </li><!-- /.menu-item -->
+          <li  {% if 'profile' in request.path or 'user_details' in request.path%}
+                    class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                {% else %}
+                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                {% endif %}
+            >
+          <a href="{% url 'profile' %}" class="menu-link"><span class="menu-icon oi oi-person"></span> <span class="menu-text">Profile</span></a>
+          </li><!-- /.menu-item -->
           <!-- .menu-item -->
           <li  {% if 'add_publication' in request.path %}
                     class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"

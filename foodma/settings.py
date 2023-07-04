@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'project.apps.ProjectConfig',
     'publication.apps.PublicationConfig',
     'research.apps.ResearchConfig',
+    'event.apps.EventConfig',
     'innovation.apps.InnovationConfig',
 ]
 

@@ -29,11 +29,13 @@
                     <li>
                       <a href="#">AUTHOR: &nbsp;{{publication.author.first_name}} {{publication.author.last_name}}
                         </a> 
-                    </li>
+                    </li><br/>
+                    {% if publication.co_authors %}
                     <li>
                         <a href="#"> CO-AUTHORS:&nbsp;
                           {{publication.co_authors}}</a>
-                    </li>
+                    </li><br/>
+                    {% endif %}
                     <li>
                       <a href="#">YEAR:&nbsp;
                         {{publication.year_of_publication}}</a>
@@ -60,8 +62,9 @@
                         http://dx.doi.org/{{publication.doi}}</a>
                     </li><br/>
                   </ul>
+                  <span>ABSTRACT<span/><br/><br/>
                   <p class="mb-3" style="text-align: justify">
-                    <span>ABSTRACT<span/><br/>
+                    
                     {{ publication.abstract | striptags }}
                   </p>
                   {% comment %} <a

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from project.models import Project
 from publication.models import Publication
 from innovation.models import Innovation
+from account.models import Profile
 from .choices import license_choices, collection_choices
 from django.utils.html import strip_tags
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -511,6 +512,67 @@ class InnovationDetailsView(LoginRequiredMixin, DetailView):
     queryset = Innovation.objects.all()
 
 innovation_details_view = InnovationDetailsView.as_view()
+
+#User Profile View
+class UserProfileView(View):
+    template_name = 'research/profile.html'
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.POST['user_id']
+        specialization = request.POST['specialization']
+        research_interests = request.POST['research_interests']
+        bio = request.POST['bio']
+        image = request.FILES['image']
+
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            # profile = Profile(specialization=specialization,research_interests=research_interests,
+            # bio=bio,image=image, user_id=user_id)
+            profile, created = Profile.objects.get_or_create(specialization=specialization,
+                    research_interests=research_interests,bio=bio,image=image, user_id=user_id)
+            if not created:
+                profile.specialization = specialization
+                profile.research_interests = research_interests
+                profile.bio = bio
+                profile.image = image
+                profile.use_id = user_id
+                profile.save()
+                messages.success(self.request, 'User Profile has been added successfully')
+                return redirect('profile')
+            messages.success(self.request, 'User Profile has been updated successfully')
+            return redirect('profile')
+        else:
+            messages.error(self.request, 'Error while adding User Profile')
+            return redirect('profile')
+
+user_profile_view = UserProfileView.as_view()
+
+class GetUserProfile(ListView):
+    model =Profile
+    template_name = 'research/user_details.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(user_id=self.request.user)
+        return queryset
+
+user_details_view = GetUserProfile.as_view()
+
+class UpdateUserProfileView(View):
+    def post(self, request, *args, **kwargs):
+        id = request.POST['id']
+
+        Profile.objects.filter(id=id).update()
+        messages.success(self.request, 'User Profile updated successfully')
+        return redirect('user_details')
+        
+update_user_profile_view = UpdateUserProfileView.as_view()
+
+#End of User Profile View
 
 def staffReport(request):
 

@@ -49,6 +49,11 @@ urlpatterns = [
     path('innovation/<uuid:pk>/', views.innovation_details_view, name='innovation'),
     #END OFINNOVATIONS FUNCTIONS
 
+    #USER PROFILE FUNCTIONS
+    path('profile/', views.user_profile_view, name='profile'),
+    path('user_details/<uuid:pk>/', views.user_details_view, name='user_details'),
+    #END OF USER PROFILE FUNCTIONS
+
     #REPORT FUNCTIONS
     path('staff_report/', views.staffReport),
     path('department_report/', views.departmentReport),

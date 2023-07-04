@@ -32,19 +32,18 @@
                 <a href="{% url 'publication_details' researcher_publication.id %}"
                 >{{ researcher_publication.title }}</a>
               </h5>
-             
               <ul class="admin-post">
                 <li>
-                  <a href="#">AUTHOR: &nbsp;{{researcher_publication.author.first_name}}
+                  <a href="#">Author: &nbsp;{{researcher_publication.author.first_name}}
                      {{researcher_publication.author.last_name}}
                     </a> 
                 </li>
                 <li>
-                  <a href="#">YEAR OF PUBLICATION:&nbsp;
+                  <a href="#">Year Of Publication:&nbsp;
                     {{researcher_publication.year_of_publication}}</a>
                 </li><br/>
                 <li>
-              <ul><br/><hr/>
+              <ul><hr/>
               <p class="">
                 {{ researcher_publication.abstract | truncatewords:30| striptags}}.
               </p>
@@ -56,6 +55,79 @@
             </div>
             <br />
             {% endfor %}
+
+            {% for  researcher_project in researcher_projects %}
+            <div class="column-6">
+              <img
+                src="{% static 'assets/images/pub_default.jpg' %}"
+                alt=""
+                class="img-fluid"
+              />
+            </div>
+            <div class="btom-cont">
+              <h5 class="card-title">{{researcher_project.project_title|upper}}
+                <a href="{% url 'project_details' researcher_project.id %}"
+                >{{ researcher_project.title }}</a>
+              </h5>
+              <ul class="admin-post">
+                <li>
+                  <a href="#">Project Lead: &nbsp;{{researcher_project.project_pi}} </a> 
+                </li>
+                <li>
+                  <a href="#">Project Status:&nbsp;
+                    {{researcher_project.project_status}}</a>
+                </li><br/>
+                <li>
+              <ul><hr/>
+              <p class="">
+                {{ researcher_project.description | truncatewords:30}}.
+              </p>
+              <a
+                href="{% url 'project_details' researcher_project.id %}"
+                class="btn btn-theme2 mt-3"
+                >Continue Reading</a
+              >
+            </div>
+            <br />
+            {% endfor %}
+
+            {% for researcher_innovation in researcher_innovations %}
+            
+            <div class="column-6">
+              <img
+                src="{% static 'assets/images/pub_default.jpg' %}"
+                alt=""
+                class="img-fluid"
+              />
+            </div>
+            <div class="btom-cont">
+              <h5 class="card-title">{{researcher_innovation.title|upper}}
+                <a href="{% url 'innovation_details' researcher_innovation.id %}"
+                >{{ researcher_innovation.title }}</a>
+              </h5>
+              <ul class="admin-post">
+                <li>
+                  <a href="#">Innovatior: &nbsp;{{researcher_innovation.user.title}}
+                    {{researcher_innovation.user.first_name}} {{researcher_innovation.user.last_name}}</a> 
+                </li>
+                <li>
+                  <a href="#">Patent:&nbsp;
+                    {{researcher_innovation.patent}}</a>
+                </li><br/>
+                <li>
+              <ul><hr/>
+              <p class="">
+                {{ researcher_innovation.description | truncatewords:30}}.
+              </p>
+              <a
+                href="{% url 'innovation_details' researcher_innovation.id %}"
+                class="btn btn-theme2 mt-3"
+                >Continue Reading</a
+              >
+            </div>
+            <br />
+            {% endfor %}
+
           </div>
 
           <!-- pagination -->
