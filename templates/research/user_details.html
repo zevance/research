@@ -25,12 +25,15 @@
             <div class="card card-fluid">
               <h6 class="card-header">Profile </h6><!-- .card-body -->
               <div class="card-body">
-                        <!-- form -->
-                        
-                        <form action="" method="POST" class="needs-validation" enctype="multipart/form-data" id="myForm">
-                        <!-- .row -->
-                        {% for user_details in object_list %}
 
+                    {% for user_details in object_list %}
+                        <!-- form -->
+                        <form action="{% url 'update_user_profile' user_details.id %}" method="POST" class="needs-validation" enctype="multipart/form-data" id="myForm">
+                        <!-- .row -->
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
+                        {% endif %}
                         <div class="form-group">
                             <label for="tf1">Specialization <abbr Project Title="Required">*</abbr></label> 
                             <input type="text" name="specialization" Value="{{user_details.specialization}}" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Researcher specialization"> 
@@ -48,11 +51,10 @@
                             <label for="tf3">Profile image<abbr title="Required">*</abbr></label>
                             <div class="custom-file">
                               <input type="file" name="image" class="custom-file-input" id="tf3"> 
-                              <label class="custom-file-label" for="tf3">Choose file</label>
+                              <label class="custom-file-label" for="tf3">{{user_details.image.name}}</label>
                             </div>
                         </div><!-- /.form-group -->   
-                              
-
+                      
                         <hr class="mb-4">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
                         </form><!-- /form .needs-validation -->

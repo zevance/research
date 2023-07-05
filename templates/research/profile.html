@@ -15,81 +15,139 @@
 <hr />
 
 <br />
+
 <div class="page-section">
-    <!-- .card-deck-xl -->
-    <div class="card-deck-xl">
-      <!-- .card -->
-      <div class="col-lg-7">
-            <div class="card card-fluid">
-              <h6 class="card-header"> Adding User Profile </h6><!-- .card-body -->
-              <div class="card-body">
-                        <!-- form -->
-                        <form action="{% url 'profile' %}" method="POST" class="needs-validation" enctype="multipart/form-data" id="myForm">
+  <!-- .card-deck-xl -->
+  {% if has_profile %}
 
-                        {% csrf_token %}
-                        
-                        {% if user.is_authenticated %}
-                        <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
-                        {% endif %}
-                        <!-- .row -->
-                        <div class="form-group">
-                            <label for="tf1">Specialization <abbr Project Title="Required">*</abbr></label> 
-                            <input type="text" name="specialization" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Researcher specialization"> 
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="tf1">Research Interests<abbr Total Value="Required">*</abbr></label> 
-                            <textarea name="research_interests" class="form-control" id="tf6" rows="6" placeholder="Researcher research interests" required=""></textarea>
-                        </div><!-- /.form-group -->
-                        <!-- .form-group -->
-                        <div class="form-group">
-                            <label for="tf6">Bio<abbr title="Required">*</abbr></label>
-                            <textarea name="bio" class="form-control" id="tf6" rows="6" placeholder="Researcher biography" required=""></textarea>
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="tf3">Profile image<abbr title="Required">*</abbr></label>
-                            <div class="custom-file">
-                              <input type="file" name="image" class="custom-file-input" id="tf3"> 
-                              <label class="custom-file-label" for="tf3">Choose file</label>
-                            </div>
-                        </div><!-- /.form-group -->                                                            
-                        <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
-                        </form><!-- /form .needs-validation -->
-                        <!-- /form -->
-                      </div>
-              </div>
-<!-- /.card-body --> 
-   </div>
-
-   <div class="col-lg-5">
+  {% else %}
+  <div class="card-deck-xl">
     <!-- .card -->
-    <div class="card card-fluid">
-      <h6 class="card-header" style="color: darkblue"> Information !! </h6><!-- .card-body -->
-      <div class="card-body">
-        <!-- .media -->
-        <div class="media mb-3">
-          <!-- avatar -->
-  
-          <div class="media-body pl-3">
-  
-            <p class="card-text">
-              Clicking the button below to view your profile.
-            </p><!-- The avatar upload progress bar -->
-            <!-- /avatar upload progress bar -->
-          </div><!-- /.media-body -->
-        </div><!-- /.media -->
-       <div class="card-body border-top">
-          <a href="{% url 'user_details' user.id %}">
-             <button type="button" class="btn btn-warning btn-lg btn-block">View Profile</button>
-          </a>
+    <div class="col-lg-7">
+      <div class="card card-fluid">
+        <h6 class="card-header">Adding User Profile</h6>
+        <!-- .card-body -->
+        <div class="card-body">
+          <!-- form -->
+          <form
+            action="{% url 'profile' %}"
+            method="POST"
+            class="needs-validation"
+            enctype="multipart/form-data"
+            id="myForm"
+          >
+            {% csrf_token %} {% if user.is_authenticated %}
+            <input
+              type="hidden"
+              name="user_id"
+              value="{{ user.id }}"
+              class="form-control"
+            />
+            {% endif %}
+            <!-- .row -->
+            <div class="form-group">
+              <label for="tf1"
+                >Specialization <abbr Project Title="Required">*</abbr></label
+              >
+              <input
+                type="text"
+                name="specialization"
+                class="form-control"
+                id="tf1"
+                aria-describedby="tf1Help"
+                placeholder="Researcher specialization"
+              />
+            </div>
+            <!-- /.form-group -->
+            <div class="form-group">
+              <label for="tf1"
+                >Research Interests<abbr Total Value="Required">*</abbr></label
+              >
+              <textarea
+                name="research_interests"
+                class="form-control"
+                id="tf6"
+                rows="6"
+                placeholder="Researcher research interests"
+                required=""
+              ></textarea>
+            </div>
+            <!-- /.form-group -->
+            <!-- .form-group -->
+            <div class="form-group">
+              <label for="tf6">Bio<abbr title="Required">*</abbr></label>
+              <textarea
+                name="bio"
+                class="form-control"
+                id="tf6"
+                rows="6"
+                placeholder="Researcher biography"
+                required=""
+              ></textarea>
+            </div>
+            <!-- /.form-group -->
+            <div class="form-group">
+              <label for="tf3"
+                >Profile image<abbr title="Required">*</abbr></label
+              >
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="image"
+                  class="custom-file-input"
+                  id="tf3"
+                />
+                <label class="custom-file-label" for="tf3">Choose file</label>
+              </div>
+            </div>
+            <!-- /.form-group -->
+            <hr class="mb-4" />
+            
+            <button class="btn btn-primary btn-lg btn-block" type="submit">
+              Save
+            </button>
+          </form>
+          <!-- /form .needs-validation -->
+          <!-- /form -->
         </div>
-      </div><!-- /.card-body -->
+      </div>
+      {% endif %}
+      <!-- /.card-body -->
+    </div>
+
+    <div class="col-lg-5">
+      <!-- .card -->
+      <div class="card card-fluid">
+        <h6 class="card-header" style="color: darkblue">Information !!</h6>
+        <!-- .card-body -->
+        <div class="card-body">
+          <!-- .media -->
+          <div class="media mb-3">
+            <!-- avatar -->
+
+            <div class="media-body pl-3">
+              <p class="card-text">
+                Clicking the button below to view your profile.
+              </p>
+              <!-- The avatar upload progress bar -->
+              <!-- /avatar upload progress bar -->
+            </div>
+            <!-- /.media-body -->
+          </div>
+          <!-- /.media -->
+          <div class="card-body border-top">
+            <a href="{% url 'user_profile' user.id %}">
+              <button type="button" class="btn btn-warning btn-lg btn-block">
+                View Profile
+              </button>
+            </a>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
     </div>
   </div>
-
 </div>
-</div>       
 <!-- grid row -->
 <!-- /.page-section -->
 {% endblock %}
-

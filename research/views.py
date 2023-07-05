@@ -518,7 +518,10 @@ class UserProfileView(View):
     template_name = 'research/profile.html'
     
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            has_profile = Profile.objects.filter(user=user_id).exists()
+            return render(request, self.template_name, {'has_profile': has_profile})
 
     def post(self, request, *args, **kwargs):
         user_id = request.POST['user_id']
@@ -564,12 +567,28 @@ user_details_view = GetUserProfile.as_view()
 
 class UpdateUserProfileView(View):
     def post(self, request, *args, **kwargs):
-        id = request.POST['id']
+        try:
+            user_id = request.POST['user_id']
+            specialization = request.POST['specialization']
+            research_interests = request.POST['research_interests']
+            bio = request.POST['bio']
+            image = request.FILES['image']
 
-        Profile.objects.filter(id=id).update()
-        messages.success(self.request, 'User Profile updated successfully')
-        return redirect('user_details')
+            # Ensure the user exists before updating the profile
+            user_profile = Profile.objects.get(user_id=user_id)
+
+            user_profile.specialization = specialization
+            user_profile.research_interests = research_interests
+            user_profile.bio = bio
+            user_profile.image = image
+            user_profile.save()
+
+            messages.success(request, 'User Profile updated successfully')
+        except Profile.DoesNotExist:
+            messages.error(request, 'User Profile not found')
         
+        return redirect('profile')
+
 update_user_profile_view = UpdateUserProfileView.as_view()
 
 #End of User Profile View

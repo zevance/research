@@ -51,7 +51,8 @@ urlpatterns = [
 
     #USER PROFILE FUNCTIONS
     path('profile/', views.user_profile_view, name='profile'),
-    path('user_details/<uuid:pk>/', views.user_details_view, name='user_details'),
+    path('user_profile/<uuid:pk>/', views.user_details_view, name='user_profile'),
+    path('update_user_profile/<uuid:pk>/', views.update_user_profile_view, name='update_user_profile'),
     #END OF USER PROFILE FUNCTIONS
 
     #REPORT FUNCTIONS
