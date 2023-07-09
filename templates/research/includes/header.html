@@ -35,16 +35,17 @@
   <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
   <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
   <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+  <link href="{% static 'https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600' %}" rel="stylesheet"><!-- End GOOGLE FONT -->
   <!-- BEGIN PLUGINS STYLES -->
   <link rel="stylesheet" href="{% static 'assets/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css' %}">
-  <link rel="stylesheet" href="{% static 'assets/vendor/flatpickr/flatpickr.min.css' %}"><!-- END PLUGINS STYLES -->
+  <link rel="stylesheet" href="{% static 'assets/vendor/flatpickr/flatpickr.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}"><!-- END PLUGINS STYLES -->
   <!-- BEGIN THEME STYLES -->
   <link rel="stylesheet" href="{% static 'assets/stylesheets/theme.min.css' %}" data-skin="default">
   <link rel="stylesheet" href="{% static 'assets/stylesheets/theme-dark.min.css' %}" data-skin="dark">
   <link rel="stylesheet" href="{% static 'assets/stylesheets/custom.css' %}">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'https://code.jquery.com/jquery-3.6.0.min.js' %}"></script>
   <script>
     var skin = localStorage.getItem('skin') || 'default';
     var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');

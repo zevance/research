@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% if page_obj %}
+
 
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
@@ -15,12 +15,28 @@
   </div>
 </section>
 
-	<section class="w3l-blog-single">
+{% if page_obj %}
+<section class="w3l-blog-single">
 	<div class="single blog py-4">
 		<div class="container py-md-2">
 		<div class="d-grid grid-colunm-2">
 			<!-- left side blog post content -->
 		<div class="single-left">
+				<form class="form-inline search-form mb-3" action="{% url 'projects_search' %}" method="get">
+					
+					<input
+						class="form-control"
+						type="search"
+						name="query"
+						placeholder="Search here"
+						aria-label="search"
+						required=""
+					/>
+					<button class="btn search" type="submit">
+						<span class="fa fa-search"></span>
+					</button>
+				</form>
+		
 			{% for project in page_obj %}
 			<div class="single-left1">
 				{% if project.image_path %}
@@ -48,7 +64,7 @@
 						<ul class="admin-post">
 							<li>
 							<a href="#"></a>
-								Project Lead: <b>{{project.project_pi}}</b>
+								Project Lead: <b>{{project.project_lead}}</b>
 							</li>
 						</ul>
 						<p class="">{{ project.description | truncatewords:20 }}</p>
@@ -99,23 +115,9 @@
 
 			<!-- right side bar -->
 		<div class="right-side-bar">
-			<aside>
-				<h3 class="aside-title mb-3">Search</h3>
-				<form class="form-inline search-form" action="#" method="post">
-				<input
-					class="form-control"
-					type="search"
-					placeholder="Search here"
-					aria-label="email"
-					required=""
-				/>
-				<button class="btn search" type="submit">
-					<span class="fa fa-search"></span>
-				</button>
-				</form>
-				</aside>
+			
 			<aside class="posts p-4 border">
-				<h3 class="aside-title">Filter by Categories</h3>
+				<h3 class="aside-title">Categories</h3>
 				<ul class="category">
 				<li>
 					<a href="#link"
@@ -137,13 +139,13 @@
 				</li>
 				<li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> Project PI
+					><span class="fa fa-angle-right"></span> Project Lead
 					<label>(24)</label></a
 					>
 				</li>
                 <li>
 					<a href="#link"
-					><span class="fa fa-angle-right"></span> Type
+					><span class="fa fa-angle-right"></span>Project Type
 					<label>(3)</label></a
 					>
 				</li>
@@ -154,9 +156,10 @@
 		</div>
 		</div>
 	</div>
-	</section>
+</section>
 	<!-- grids block 5 -->
-
 {% else %}
 {% endif %} 
+<!-- //features -->
+
 {% endblock %}

@@ -2,9 +2,27 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import EventsSerializer
-from .models import Event
+from .models import Event,News
+from django.views.generic import ListView,DetailView
 
 # Create your views here.
+class NewsListView(ListView):
+    template_name = 'core/news.html'
+    model = News
+    paginate_by = 8
+
+news_list_view = NewsListView.as_view()
+
+def news_details_view(request, pk):
+    news = get_object_or_404(News, id=pk)
+    latestNews = News.objects.exclude(id=pk).order_by('-created_at')[:5]
+    context = {
+        'news' : news,
+        'latestNews': latestNews,
+    }
+    return render(request, 'core/news_details.html', context)
+
+#API VIEWS
 class EventsListView(APIView):
     def get(self, request, *args, **kwargs):
         instance = Event.objects.all()

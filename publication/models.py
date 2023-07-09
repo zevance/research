@@ -3,7 +3,7 @@ from django.db.models import DO_NOTHING
 from datetime import datetime
 import uuid
 from account.models import User
-from project.models import Project
+from project.models import UmbrellaProject
 
 # Create your models here.    
 class Publication(models.Model):
@@ -23,7 +23,7 @@ class Publication(models.Model):
     doi = models.CharField(max_length=255, unique=True)
     is_approved = models.BooleanField(default=False)
     image_path = models.ImageField(upload_to='publication/', blank=True, null=True)
-    project = models.ForeignKey(Project, on_delete=DO_NOTHING, blank=True, null=True)
+    project = models.ForeignKey(UmbrellaProject, on_delete=DO_NOTHING, blank=True, null=True)
     response = models.BooleanField(blank=True,null=True)
     reason_for_denial = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)

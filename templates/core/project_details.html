@@ -8,8 +8,7 @@
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
-      <h2>{{project.title}}</h2>
-      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; project details</p>
+      <h2>{{umbrellaProject.title}}</h2>
     </div>
   </div>
 </section>
@@ -22,34 +21,45 @@
             <div class="single-left">
               <div class="single-left1">
 
-                {% if project.image_path %}
+                {% if umbrellaProject.image_path %}
                   <div class="blg-img">
-                    <a href="#"><img src="{{project.image_path.url}}" alt=" " class="img-responsive img-fluid">
+                    <a href="#"><img src="{{umbrellaProject.image_path.url}}" alt=" " class="img-responsive img-fluid">
                     <div class="bl-top">
-                      <h4>{{project.date_from}}</h4>	
+                      <h4>{{umbrellaProject.date_from}}</h4>	
                     </div></a>
                   </div>
                 {% else %}
                   <div class="blg-img">
                     <a href="#"><img src="{% static 'assets/images/project_default.jpg' %}" alt=" " class="img-responsive img-fluid">
                     <div class="bl-top">
-                      <h4>{{project.date_from}}</h4>	
+                      <h4>{{umbrellaProject.date_from}}</h4>	
                     </div></a>
                   </div>
                 {% endif %} 
 
                 <div class="btom-cont1 pt-4">
-                  <h5 class="card-title">{{ project.title }}</h5><hr>
+                  <h5 class="card-title">{{ umbrellaProject.title }}</h5><hr>
                   
-                  <p class="mb-3" style="text-align: justify">{{ project.description }}</p>
+                  <p class="mb-3" style="text-align: justify">{{ umbrellaProject.description }}</p>
               </div>
               <br/>
               <hr/> 
 
-              {% if project.publication_set.exists %}
+              {% if umbrellaProject.project_set.exists %}
                 <div>
-                  <h5><b>Related project publications</b></h5><hr/>
-                      {% for publication in project.publication_set.all %}
+                  <h5><b>Related sub projects</b></h5><hr/>
+                      {% for project in umbrellaProject.project_set.all %}
+                          <a class="nav-link" href="{% url 'project' project.id %}">
+                            {{project.title | truncatewords:10}}
+                          </a>
+                      {% endfor %}
+                </div> 
+                <hr/><br/>
+              {% endif %} 
+              {% if umbrellaProject.publication_set.exists %}
+                <div>
+                  <h5><b>Related publications</b></h5><hr/>
+                      {% for publication in umbrellaProject.publication_set.all %}
                           <a class="nav-link" href="{% url 'publication_details' publication.id %}">
                             {{publication.title | truncatewords:10}}
                           </a>
@@ -58,26 +68,25 @@
                 <hr/><br/>
                 {% endif %} 
                 
-                {% if project.innovation_set.exists %}
+                {% if umbrellaProject.innovation_set.exists %}
                   <div>
-                    <h5><b>Related project innovations</b></h5><hr/>
-                        {% for innovation in project.innovation_set.all %}
+                    <h5><b>Related innovations</b></h5><hr/>
+                        {% for innovation in umbrellaProject.innovation_set.all %}
                               <a class="nav-link" href="{% url 'innovation_details' innovation.id %}">
                                 {{innovation.title | truncatewords:10}}
                               </a>
                         {% endfor %}
                   </div> 
                 {% endif %}
-
               </div>
             </div>
             <!-- left side blog post content -->
             <!-- right side bar -->
             <div class="right-side-bar">
-                {% if project.supporting_document %}
+                {% if umbrellaProject.supporting_document %}
                 <div class="three-grids-columns">
                   <span> </span>
-                  <a href="{{project.supporting_document.url}}" class="btn btn-secondary mt-4 ml-4">
+                  <a href="{{umbrellaProject.supporting_document.url}}" class="btn btn-secondary mt-4 ml-4">
                     <span class="fa fa-book">&nbsp;&nbsp;&nbsp;Download Project Information PDF</span>
                     </a>
                 </div>
@@ -94,7 +103,7 @@
                                       <div class="cont-add-rgt">
                                         <h4>Project Lead</h4><hr/>
                                         <p class="contact-text-sub">
-                                          <a href="#">{{project.project_pi }}</a></p>
+                                          <a href="#">{{umbrellaProject.project_lead }}</a></p>
                                       </div> 
                                     </div>
 
@@ -102,7 +111,7 @@
                                       <div class="cont-add-rgt">
                                       <h4>Project Cost</h4><hr/>
                                         <p class="contact-text-sub">
-                                          <a href="#">$ {{ project.total_value | intcomma  }}</a></p>
+                                          <a href="#">$ {{ umbrellaProject.total_value | intcomma  }}</a></p>
                                       </div>
                                     </div>
 
@@ -110,7 +119,7 @@
                                       <div class="cont-add-rgt">
                                       <h4>Project Status</h4><hr/>
                                         <p class="contact-text-sub">
-                                          <a href="#">{{ project.project_status }}</a></p>
+                                          <a href="#">{{ umbrellaProject.project_status }}</a></p>
                                       </div>
                                     </div>
 
@@ -118,7 +127,7 @@
                                           <div class="cont-add-rgt">
                                           <h4>Project donors</h4><hr/>
                                             <p class="contact-text-sub">
-                                              <a href="#">{{ project.project_donor }}</a></p>
+                                              <a href="#">{{ umbrellaProject.project_donor }}</a></p>
                                           </div>
                                     </div>
 
@@ -126,7 +135,7 @@
                                           <div class="cont-add-rgt">
                                             <h4>Project partners</h4><hr/>
                                             <p class="contact-text-sub">
-                                              <a href="#">{{project.project_partner }}</a></p>
+                                              <a href="#">{{umbrellaProject.project_partner }}</a></p>
                                           </div> 
                                     </div>
 

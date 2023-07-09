@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import PublicationSerializer
+from .serializer import PublicationSerializer, ResearcherSerializer
 from .models import Publication
-from project.models import Project
+from project.models import Project,UmbrellaProject
+from event.models import News, Event
 from innovation.models import Innovation
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views import View
@@ -56,11 +57,15 @@ def search_researcher(request):
 def index(request):
     html = '<jats:p>'
     stripped = strip_tags(html)
-    publications = Publication.objects.order_by('-created_at').filter(is_approved=True)[:2]
-    projects = Project.objects.order_by('-created_at').filter(is_approved=True)[:3]
+    publications = Publication.objects.order_by('-year_of_publication').filter(is_approved=True)[:3]
+    projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)[:3]
+    news = News.objects.order_by('-created_at')[:3]
+    events = Event.objects.order_by('-created_at')[:3]
     context = {
         'publications': publications,
-        'projects': projects
+        'projects': projects,
+        'news': news,
+        'events': events,
     }
 
     return render(request,'core/index.html',context)
@@ -156,6 +161,15 @@ class PublicationDetailsAPIView(APIView):
 
 publication_details_api_view = PublicationDetailsAPIView.as_view()
 
+class ResearchersListAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        instance = User.objects.all().filter(publication__isnull=False).filter(publication__is_approved=True).distinct() 
+        data = {}
+        if instance:
+            data = ResearcherSerializer(instance, many = True).data
+        return Response(data)
+
+researcher_api_list_view  = ResearchersListAPIView.as_view()
 
 # def researchers_list_view(request):
 #     author_list = User.objects.filter(publication__isnull=False).distinct()

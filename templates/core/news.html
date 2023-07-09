@@ -1,0 +1,125 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+
+
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>News</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; News</p>
+    </div>
+  </div>
+</section>
+
+{% if page_obj %}
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+		<div class="d-grid grid-colunm-2">
+			<!-- left side blog post content -->
+		<div class="single-left">
+			
+			{% for news in page_obj %}
+			<div class="single-left1">
+				{% if news.attachment %}
+					<div class="blg-img">
+						<a href="#"><img src="{{news.attachment.url}}" alt=" " class="img-responsive img-fluid">
+						<div class="bl-top">
+							<h4>{{news.created_at}}</h4>	
+						</div></a>
+					</div>
+			
+				{% endif %}
+				
+					<div class="btom-cont">
+						<h6 class="card-title">
+							<a href="{% url 'news_details' news.id %}"
+							><b>{{ news.title }}</b></a
+							>
+						</h6>
+						<ul class="admin-post">
+							<li>
+							<a href="#"></a>
+								Category: <b>{{news.category}}</b>
+							</li>
+						</ul>
+						<p class="">{{ news.description | truncatewords:20 }}</p>
+						<a
+							href="{% url 'news_details' news.id %}"
+							class="btn btn-theme2 mt-3"
+							>Continue Reading</a
+						>
+					</div>
+					<br />
+		</div>
+		{% endfor %}
+
+			<!-- pagination -->
+			<div class="pagination">
+				<ul>
+				<li>
+					{% if page_obj.has_previous %}
+						<a
+						href="?page={{ page_obj.previous_page_number }}"
+						class="not-allowed"
+						disabled=""
+						>
+						<span
+							class="fa fa-angle-double-left"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				<li>
+					<a class="active" href="#"> {{ page_obj.number }} </a>
+				</li>
+				<li>
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}">
+						<span
+							class="fa fa-angle-double-right"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				</ul>
+			</div>
+			</div>
+			<!-- left side blog post content -->
+
+			<!-- right side bar -->
+		<div class="right-side-bar">
+			
+			<aside class="posts p-4 border">
+			  <h3 class="aside-title">Popular Tags</h3>
+			  <ul class="tags-list">
+				<li><a href="#tag">Agriculture</a></li>
+				<li><a href="#tag"> Economics</a></li>
+				<li><a href="#tag">Business</a></li>
+				<li><a href="#tag"> ICT</a></li>
+				<li><a href="#tag">Animal Health</a></li>
+				<li><a href="#tag">Population</a></li>
+				<li><a href="#tag">Fishiries</a></li>
+				<li><a href="#tag">Crop Science</a></li>
+				<li><a href="#tag">Biology</a></li>
+				<li><a href="#tag">Papers</a></li>
+			  </ul>
+			</aside>
+			</div>
+			<!-- //right side bar -->
+		</div>
+		</div>
+	</div>
+</section>
+	<!-- grids block 5 -->
+{% else %}
+{% endif %} 
+<!-- //features -->
+
+{% endblock %}

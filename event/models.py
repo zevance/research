@@ -18,3 +18,17 @@ class Event(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+class News(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.CharField(max_length=255)
+    tag_name = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    attachment = models.FileField(upload_to='news/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.title}"

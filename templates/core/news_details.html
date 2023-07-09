@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>{{news.title}}</h2>
+      {% comment %} <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; News details</p> {% endcomment %}
+    </div>
+  </div>
+</section>
+  
+  <section class="w3l-blog-single">
+      <div class="single blog py-5">
+        <div class="container py-md-3">
+          <div class="d-grid grid-colunm-2">
+            <!-- left side blog post content -->
+            <div class="single-left">
+              <div class="single-left1">
+
+                {% if news.attachment %}
+                  <div class="blg-img">
+                    <a href="#"><img src="{{news.attachment.url}}" alt=" " class="img-responsive img-fluid">
+                    <div class="bl-top">
+                      <h4>{{news.created_at}}</h4>	
+                    </div></a>
+                  </div>
+                {% endif %} 
+                <div class="btom-cont1 pt-4">
+                  <h5 class="card-title">{{ news.title }}</h5><hr>
+                  
+                  <p class="mb-3" style="text-align: justify">{{ news.description }}</p>
+              </div>
+              <br/>
+              <hr/> 
+
+              {% if project.publication_set.exists %}
+                <div>
+                  <h5><b>Related project publications</b></h5><hr/>
+                      {% for publication in project.publication_set.all %}
+                          <a class="nav-link" href="{% url 'publication_details' publication.id %}">
+                            {{publication.title | truncatewords:10}}
+                          </a>
+                      {% endfor %}
+                </div> 
+                <hr/><br/>
+                {% endif %} 
+                
+                {% if project.innovation_set.exists %}
+                  <div>
+                    <h5><b>Related project innovations</b></h5><hr/>
+                        {% for innovation in project.innovation_set.all %}
+                              <a class="nav-link" href="{% url 'innovation_details' innovation.id %}">
+                                {{innovation.title | truncatewords:10}}
+                              </a>
+                        {% endfor %}
+                  </div> 
+                {% endif %}
+
+              </div>
+            </div>
+            <!-- left side blog post content -->
+            <!-- right side bar --><!-- right side bar -->
+		  <div class="right-side-bar">
+			<aside class="posts p-4 border">
+			  <h3 class="aside-title">Recent Posts</h3>
+             {% if latestNews %}
+			  <div class="posts-grids">
+                {% for letnuz in latestNews  %}
+				<div class="posts-grid-inner">
+				  <div class="posts-grid-left pr-0">
+					<a href="blog-single.html">
+					  <img src="{{ letnuz.attachment.url}}" alt=" " class="img-responsive ">
+					</a>
+				  </div>
+				  <div class="posts-grid-right">
+					<h4>
+					  <a href="blog-single.html" class="text-bl">{{ letnuz.title}}</a>
+					</h4>
+					<span class="price"> {{ letnuz.created_at | timesince}}</span>
+				  </div>
+				</div>
+                  
+                {% endfor %}
+				
+			  </div>
+              {% endif %}
+			</aside>
+			
+		  </div>
+            
+                            </div>
+                            <!-- //right side bar -->
+                          </div>
+                        </div> 
+                    </section>
+                  
+    <!---728x90--->
+  <!-- grids block 5 -->
+
+{% endblock %}

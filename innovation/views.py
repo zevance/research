@@ -20,18 +20,26 @@ class InnovationDetailsView(DetailView):
 innovation_details_view = InnovationDetailsView.as_view()
 
 # Api Views
-class InnovationsListAPIView(APIView):
+class InnovationListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         instance = Innovation.objects.all().filter(is_approved=True)
         data = {}
         if instance:
             data = InnovationSerializer(instance, many = True).data
         return Response(data)
+
+innovations_api_view = InnovationListAPIView.as_view()
+
+class InnovationDetailsAPIView(APIView):
+    def get_object(self, pk):
+        try:
+            return Innovation.objects.get(id =pk)
+        except Innovation.DoesNotExist:
+            return Response('Innovation does not exist...!!!!')
+        
+    def get(self, request, pk):
+        innovation = self.get_object(pk)
+        serializer = InnovationSerializer(innovation, many=False)
+        return Response(serializer.data)
     
-    # def post(self, request, *args, **kwargs):
-    #     publicaction = Publication.objects.create(
-    #         title = request.data['title'],
-    #     )
-    #     serializer = PublicationSerializer(publicaction, many =False)
-    #     return Response(serializer.data)
-innovation_list_api_view = InnovationsListAPIView.as_view()
+innovation_details_api_view = InnovationDetailsAPIView.as_view()

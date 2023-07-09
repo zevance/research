@@ -3,7 +3,7 @@ from django.db.models import DO_NOTHING
 from datetime import datetime
 import uuid
 from account.models import User
-from project.models import Project
+from project.models import UmbrellaProject
 
 # Create your models here.
 class Innovation(models.Model):
@@ -15,7 +15,7 @@ class Innovation(models.Model):
     year_of_innovation = models.IntegerField()
     image_path = models.ImageField(upload_to='innovations/', blank=True, null=True)
     is_approved = models.BooleanField(default=False)
-    project = models.ForeignKey(Project, on_delete=DO_NOTHING ,blank=True, null=True)
+    project = models.ForeignKey(UmbrellaProject, on_delete=DO_NOTHING ,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
