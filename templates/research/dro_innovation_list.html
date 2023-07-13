@@ -30,6 +30,7 @@
 
               <thead class="thead-">
                 <tr>
+                  <th class="center hidden-480">#</th>
                   <th>Title</th>
                   <th>Patent</th>
                   <th>Year</th>
@@ -42,6 +43,7 @@
               <tbody>
                   {% for innovation in innovations %}
                 <tr>
+                    <td class="center"> {{forloop.counter}}</td>
                     <td>{{ innovation.title }}</td>
                     <td> {{ innovation.patent}}</td>
                     <td>{{ innovation.year_of_innovation }}</td>

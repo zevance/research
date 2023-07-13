@@ -102,7 +102,7 @@ class UploadPublicationView(LoginRequiredMixin, View):
                         publication_type=publication_type,author_id=author_id,co_authors=co_authors,
                         number_of_pages=number_of_pages,volume=volume,project_id=project_id)
             publication.save()
-            return redirect('publication_list')
+            return render(request, 'research/add_publication.html')
         return render(request, 'research/add_publication.html')
     
 upload_publication_view = UploadPublicationView.as_view()
@@ -333,6 +333,7 @@ class AddProjectView(LoginRequiredMixin, View):
         project_donor = request.POST.get('concat_data')
         supporting_document = request.FILES['document']
         image_path = request.FILES['image']
+        umbrella_project_id = request.POST['project_id']
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -340,13 +341,13 @@ class AddProjectView(LoginRequiredMixin, View):
             project_pi=project_pi,project_co_pi=project_co_pi,country=country,date_from=date_from,expected_completion_date=expected_completion_date,
             project_member=project_member,project_donor=project_donor,project_partner=project_partner,
             description=description, supporting_document = supporting_document,user_id=user_id
-            ,image_path=image_path)
+            ,image_path=image_path,umbrella_project_id=umbrella_project_id)
             project.save()
-            messages.error(request,'Project has added successfuly')
+            messages.error(request,'Project added successfuly')
             return redirect('project_list')
         else:
-            messages.error(request,'Project not added please resubmit')
-            return redirect('add_project')
+            messages.error(request,'Error while submitting project')
+            return render(request, self.template_name)
         
 add_project_view = AddProjectView.as_view()
 
@@ -433,6 +434,7 @@ class UploadInnovationView(LoginRequiredMixin, View):
         description = request.POST['description']
         project_id = request.POST['project_id']
         image_path = request.FILES['image_path']
+        project_id = request.POST['project_id']
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -440,8 +442,11 @@ class UploadInnovationView(LoginRequiredMixin, View):
                         year_of_innovation=year_of_innovation,image_path=image_path,user_id=user_id,
                         project_id=project_id)
             innovation.save()
-            messages.success(self.request, 'Innovation has been added successfully')
-            return redirect('innovation_list')
+            messages.success(self.request, 'Innovation added successfully')
+            return render(request, self.template_name)
+        else:
+            messages.error(request,'Error while submitting innovation')
+            return render(request, self.template_name)
 
 add_innovation_view = UploadInnovationView.as_view()
 
