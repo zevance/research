@@ -1,0 +1,171 @@
+{% extends 'dro/base.html' %} {% load static %} {% load humanize %} {% block content %}
+
+<div class="col-lg-12">
+    <div class="page-section">
+        <!-- .section-block -->
+        <div class="alert alert-primary has-icon alert-dismissible fade show">
+
+            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. </p>
+
+        </div>
+    </div>
+</div><!-- /.section-block -->
+<!-- grid row -->
+<hr>
+
+<header class="page-cover">
+  <div class="text-center">
+    <a href="#" class="user-avatar user-avatar-xl">
+      <img src="{% static 'assets/images/researcher_default.png' %}" alt=""></a></br></br>
+      <h2 class="h4 mt-2 mb-0"> {{ publication.author.first_name }} {{ publication.author.last_name }} </h2>
+      
+    <div class="my-1">
+      <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> 
+      <i class="fa fa-star text-yellow"></i> <i class="far fa-star text-yellow"></i>
+    </div>
+    <p class="text-muted">Author</p>
+    <br/>
+    <P><b>Co Authors</b> : {{ publication.co_authors }}</p>
+  </div><!-- .cover-controls -->
+</header><!-- /.page-cover -->
+
+<!-- .page-navs -->
+<nav class="page-navs">
+  <!-- .nav-scroller -->
+  <div class="nav-scroller">
+    <!-- .nav -->
+    <div class="nav nav-center nav-tabs">
+       <a class="nav-link active" href="user-teams.html"><b>{{publication.publication_type |upper}}</b> -{{ publication.title }}</a>
+    </div><!-- /.nav -->
+  </div><!-- /.nav-scroller -->
+</nav><!-- /.page-navs -->
+<!-- .page-inner -->
+<div class="page-inner">
+  <!-- .page-title-bar -->
+  <!-- .page-section -->
+  <div class="page-section">
+    <!-- .masonry-layout -->
+    <div class="masonry-layout">
+      <!-- .masonry-item -->
+      <div class="masonry-item col-lg-12">
+        <!-- .card -->
+        <div class="card card-fluid">
+          <!-- .card-body -->
+          <div class="card-body">
+            <!-- team avatar -->
+            <div class="media align-items-center mb-3">
+              <ul class="list-icons mb-3">
+                  <li>
+                    <span><b>URL</b> :</span>
+                    <a href="http://dx.doi.org/{{ publication.doi}}" target="_blank">
+                      http://dx.doi.org/{{ publication.doi}}</a></li>
+              </ul>
+            </div><!-- /.media --><hr/>
+            <p> {{ publication.abstract | striptags }}  </p><!-- /team avatar -->
+            <hr/>
+            <!-- team rating -->
+            <ul class="list-icons mb-3">
+              <li>
+                <span><b>Journal Name</b> :</span>
+                 {{publication.journal_name}} </li>
+            </ul><!-- /team details -->
+                 
+          </div><!-- /.card-body -->
+          <!-- .card-footer -->
+          <div class="card-footer">
+            <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+              <strong>{{publication.publisher}}</strong> 
+              <span class="d-block">Publisher</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                  <strong>{{publication.year_of_publication}}</strong>
+                  <span class="d-block">Year</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                  <strong>{{publication.volume}}</strong>
+                   <span class="d-block">Volume</span></a>
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+              <strong>{{publication.number_of_pages}}</strong> 
+              <span class="d-block">Number of Pages</span></a> 
+              <a href="#" class="card-footer-item card-footer-item-bordered text-muted">
+                <strong>{{publication.project}}</strong> 
+                 <span class="d-block">Associated Project</span></a> 
+          </div><!-- /.card-footer -->
+        </div><!-- /.card -->
+
+        {% if user.position == 'Dro' %}
+          {% if publication.response is null %}
+            <div class="card-body border-top">
+              <!-- example block -->
+              <div class="el-example">
+                  <button type="button" data-toggle="modal" data-target="#confirm-approve-modal" 
+                    class="btn btn-outline-secondary">Approve</button>           
+                  <button type="button" class="btn btn-outline-secondary" 
+                  data-toggle="modal" data-target="#confirm-delete-modal">Decline</button> 
+              </div><!-- /example block -->
+            </div><!-- /.card-body -->
+          {% endif %}
+        {% endif %}
+        
+      </div><!-- /.masonry-item -->
+          <!--Approve Modal-->
+          <form method="POST" action="{% url 'approve_publication' publication.id %}">
+            {% csrf_token %}
+            <!-- Modal -->
+            <div class="modal fade" id="confirm-approve-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-approve-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="accept">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirm-approve-modal-label">Approving Publication</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to approve this Publication?
+                        <div class="modal-body">
+                          <input type="hidden" name="id" value="{{publication.id}}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Confirm</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+    <!-- spinner -->
+  </div><!-- /.page-section -->
+</div><!-- /.page-inner -->
+</div><!-- /.page -->
+</div><!-- .app-footer -->
+
+ <!--Deny Modal-->
+ <form method="POST" action="{% url 'decline_publication' publication.id %}">
+  {% csrf_token %}
+  <!-- Modal -->
+  <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="confirm-delete-modal-label">Denying Publication</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- .form-group -->
+              <input type="hidden" name="id" value="{{publication.id}}">
+              <div class="form-group">
+              <label for="tf6">Reason <abbr title="Required">*</abbr></label>
+              <textarea name="reason" class="form-control" id="tf6" rows="6" placeholder="Reason for Denial" required=""></textarea>
+          </div><!-- /.form-group -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-secondary">Confirm</button>
+          </div>
+          </div>
+      </div>
+  </div>
+</form>
+
+{% endblock %}

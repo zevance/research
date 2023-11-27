@@ -37,7 +37,7 @@ class Project(models.Model):
     project_status = models.CharField(max_length=255)
     project_type   = models.CharField(max_length=255)
     project_pi= models.CharField(max_length=255)
-    project_co_pi = models.CharField(max_length=255)
+    project_co_pi = models.CharField(max_length=255, blank=True, null=True)
     country = models.CharField(max_length=255)
     date_from = models.DateField()
     expected_completion_date = models.DateField()

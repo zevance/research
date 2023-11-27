@@ -158,13 +158,13 @@
                <div class="row main-cont-wthree-fea">
                     <div class="col-lg-3 col-sm-6">
                         <div class="grids-speci1">
-                            <h3 class="title-spe">60</h3>
+                            <h3 class="title-spe">{{current_researchers}}</h3>
                             <p>ACTIVE <br>RESEARCHERS</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 mt-sm-0 mt-4">
                         <div class="grids-speci1">
-                            <h3 class="title-spe">18</h3>
+                            <h3 class="title-spe">{{current_year_publications}}</h3>
                             <p> NEW PUBLICATIONS <br>EVERY YEAR</p>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 mt-lg-0 mt-4">
                         <div class="grids-speci1">
-                            <h3 class="title-spe">220</h3>
+                            <h3 class="title-spe">{{total_articles}}</h3>
                             <p>ARTICLES <br>PUBLISHED</p>
                         </div>
                     </div>
@@ -231,8 +231,7 @@
                       <h6 class="pricehead" style="text-align: justify"><b><a href="{% url 'publication_details' publication.id %}">{{  publication.title | truncatewords:8}}</a></b></h6><br>
                       <h8><span class="fa fa-user"></span> {{publication.author.title}} {{publication.author.first_name}} {{publication.author.last_name}} | {{publication.year_of_publication}}</h8>
                       <hr>
-                      <p>{{publication.publication_type}}</p>
-                                        
+                      <p>{{publication.publication_type}}</p>                 
                   </div>
               </div>
             {% endfor %}	

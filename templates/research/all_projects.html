@@ -75,7 +75,7 @@
                         </div><!-- /.dropdown -->
                         <form method="POST" action="{% url 'delete_project' project.id %}">
                             {% csrf_token %}
-                                                       
+                            <input type="text" Value="{{loan.loan_type}}">      
                             <!-- Modal -->
                             <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">

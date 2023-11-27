@@ -36,7 +36,7 @@
                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               {% endif %}
             >
-            <a href="{% url 'dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+            <a href="{% url 'dashboard' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
           </li><!-- /.menu-item -->
           </li><!-- /.menu-item -->
           <li  {% if 'profile' in request.path or 'user_details' in request.path%}
@@ -54,7 +54,7 @@
                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                 {% endif %}
             >
-            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-puzzle-piece"></span>
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon fas fa-book-reader"></span>
                <span class="menu-text">Journal Articles</span></a> <!-- child menu -->
             <ul class="menu">
               <li  {% if 'add_publication' in request.path %}
@@ -65,44 +65,23 @@
                    >
                 <a href="{% url 'add_publication' %}" class="menu-link">Add Articles</a>
               </li>
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                <li   {% if 'dro_publications' in request.path %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+              <li {% if 'publication_list' in request.path %}
+                          class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
                       {% else %}
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}
                   >
-                  <a href="{% url 'dro_publications' %}" class="menu-link">All Articles</a>
-                </li>
-              {% else %}
-                <li {% if 'publication_list' in request.path %}
-                            class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
-                        {% else %}
-                            class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                        {% endif %}
-                    >
-                    <a href="{% url 'publication_list' %}" class="menu-link">All Articles</a>
-                  </li>
-              {% endif %}
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                  <li {% if 'approved_dro_publications' in request.path %}
-                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% else %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% endif %}
-                  >
-                  <a href="{% url 'approved_dro_publications' %}" class="menu-link">Approved Articles</a>
-                  </li>
-              {% else %}
-                <li {% if 'approved_publications' in request.path %}
-                        class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}
-                >
-                <a href="{% url 'approved_publications' %}" class="menu-link">Approved Articles</a>
-                </li>
-              {% endif %}
+                  <a href="{% url 'publication_list' %}" class="menu-link">All Articles</a>
+              </li>
+              <li {% if 'approved_publications' in request.path %}
+                      class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                  {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% endif %}
+              >
+              <a href="{% url 'approved_publications' %}" class="menu-link">Approved Articles</a>
+              </li>
+        
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
@@ -111,7 +90,7 @@
             {% else %}
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
             {% endif %}>
-            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-bar-chart"></span> <span class="menu-text">Research Projects</span></a> <!-- child menu -->
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon fas fa-project-diagram"></span> <span class="menu-text">Research Projects</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               <li {% if 'add_project' in request.path %}
                       class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
@@ -121,58 +100,28 @@
               >
                 <a href="{% url 'add_project' %}" class="menu-link">Add Project</a>
               </li>
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                    <li {% if 'dro_projects' in request.path %}
+              <li {% if 'project_list' in request.path %}
+                    class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                {% else %}
                     class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}>
-                    <a href="{% url 'dro_projects' %}" class="menu-link">All Projects</a>
-                  </li>
-              {% else %}
-                  <li {% if 'project_list' in request.path %}
-                        class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}>
-                    <a href="{% url 'project_list' %}" class="menu-link">All Projects</a>
-                  </li>
-              {% endif %}
-
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                <li {% if 'approved_dro_projects' in request.path %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}>
-                    <a href="{% url 'approved_dro_projects' %}" class="menu-link">Approved Projects</a>
-                  </li>
-              {% else %}
-                <li {% if 'approved_projects' in request.path %}
-                      class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                {% endif %}>
+                <a href="{% url 'project_list' %}" class="menu-link">All Projects</a>
+              </li>
+              <li {% if 'approved_projects' in request.path %}
+                    class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+                {% else %}
+                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                {% endif %}>
+                <a href="{% url 'approved_projects' %}" class="menu-link">Approved Projects</a>
+              </li>
+              <li {% if 'projects_waiting_approval' in request.path %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                   {% else %}
                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                   {% endif %}>
-                  <a href="{% url 'approved_projects' %}" class="menu-link">Approved Projects</a>
-                </li>
-              {% endif %}
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                <li {% if 'waiting_dro_approval' in request.path %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% else %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% endif %}>
-                    <a href="{% url 'waiting_dro_approval' %}" class="menu-link">Waiting Approval</a>
-                  </li>
-              {% else %}
-                <li {% if 'projects_waiting_approval' in request.path %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}>
-                  <a href="{% url 'projects_waiting_approval' %}" class="menu-link">Waiting Approval</a>
-                </li>
-              {% endif %}
+                <a href="{% url 'projects_waiting_approval' %}" class="menu-link">Waiting Approval</a>
+              </li>
+             
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
@@ -183,7 +132,7 @@
             {% else %}
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
             {% endif %}>
-            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon oi oi-list-rich"></span> <span class="menu-text">Innovations</span></a> <!-- child menu -->
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8"><span class="menu-icon fas fa-history"></span> <span class="menu-text">Innovations</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               <li {% if 'upload_innovation' in request.path %}
                   class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
@@ -192,32 +141,15 @@
               {% endif %}>
                 <a href="{% url 'upload_innovation' %}" class="menu-link">Add Innovation</a>
               </li>
-              {% if user.is_authenticated and user.position == 'Dro' %}
-                <li {% if 'dro_innovations' in request.path %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% else %}
-                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                      {% endif %}>
-                    <a href="{% url 'dro_innovations' %}" class="menu-link">All Innovations</a>
-                  </li>
-              {% else %}
-                <li {% if 'innovation_list' in request.path %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% else %}
-                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                    {% endif %}>
-                  <a href="{% url 'innovation_list' %}" class="menu-link">All Innovations</a>
-                </li>
-              {% endif %}
-              {% if user.is_authenticated and user.position == 'Dro' %}
-              <li {% if 'approved_dro_innovations' in request.path %}
-                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                {% else %}
-                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                {% endif %}>
-                <a href="{% url 'approved_dro_innovations' %}" class="menu-link">Approved Innovations</a>
+            
+              <li {% if 'innovation_list' in request.path %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% endif %}>
+                <a href="{% url 'innovation_list' %}" class="menu-link">All Innovations</a>
               </li>
-              {% else %}
+           
               <li {% if 'approved_innovations' in request.path %}
                     class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                 {% else %}
@@ -225,16 +157,7 @@
                 {% endif %}>
                 <a href="{% url 'approved_innovations' %}" class="menu-link">Approved Innovations</a>
               </li>
-              {% endif %}
-              {% if user.is_authenticated and user.position == 'Dro' %}
-              <li {% if 'innovations_waiting_dro_approval' in request.path %}
-                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                  {% else %}
-                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
-                  {% endif %}>
-                <a href="{% url 'innovations_waiting_dro_approval' %}" class="menu-link">Waiting Approval</a>
-              </li>
-              {% else %}
+             
               <li {% if 'innovations_waiting_approval' in request.path %}
                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                   {% else %}
@@ -242,7 +165,7 @@
                   {% endif %}>
                 <a href="{% url 'innovations_waiting_approval' %}" class="menu-link">Waiting Approval</a>
               </li>
-              {% endif %}
+       
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->

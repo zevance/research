@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import EventsSerializer
+from .serializer import EventsSerializer, NewsSerializer
 from .models import Event,News
 from django.views.generic import ListView,DetailView
+from rest_framework import generics
 
 # Create your views here.
 class NewsListView(ListView):
@@ -46,3 +47,11 @@ class EventDetailsAPIView(APIView):
         return Response(serializer.data)
 
 event_details_api_view = EventDetailsAPIView.as_view()
+
+class NewsListAPIView(generics.ListCreateAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer

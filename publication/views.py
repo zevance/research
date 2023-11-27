@@ -14,6 +14,7 @@ from django.utils.html import strip_tags
 from django.core.paginator import Paginator
 from account.models import User
 from rest_framework import generics
+from django.utils import timezone
 
 # Create your views here.
 # web
@@ -55,18 +56,20 @@ def search_researcher(request):
     return render(request,'core/researchers_results.html', context) 
 
 def index(request):
+    current_year = timezone.now().year
     html = '<jats:p>'
     stripped = strip_tags(html)
-    publications = Publication.objects.order_by('-year_of_publication').filter(is_approved=True)[:3]
+    publication_count = Publication.objects.filter(year_of_publication=current_year, is_approved=True)
+    count_total_articles = Publication.objects.filter(is_approved=True)
+    publications = Publication.objects.order_by('-year_of_publication').filter(author_id__is_alumni=False).filter(is_approved=True)[:3]
     projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)[:3]
     news = News.objects.order_by('-created_at')[:3]
     events = Event.objects.order_by('-created_at')[:3]
-    context = {
-        'publications': publications,
-        'projects': projects,
-        'news': news,
-        'events': events,
-    }
+    total_researchers = User.objects.filter(publication__isnull=False, publication__is_approved=True).distinct()
+    context = {'publications': publications,'projects': projects,'news': news,'events': events,
+            'current_year_publications': publication_count.count(),
+            'total_articles': count_total_articles.count(),
+            'current_researchers' : total_researchers.count(),}
 
     return render(request,'core/index.html',context)
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
 from django.urls import reverse
-from django.views import View
+from django.views import View, generic
 from django.contrib import messages, auth
 from django.contrib.auth import login, logout
 
@@ -21,12 +21,17 @@ class SignInPageView(View):
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'Your are now logged in')
-            return redirect('dashboard')
+            return redirect('landing')
         else:
             messages.error(request, 'Wrong Username or Password')
             return render(request, self.template_name, context={'messages': messages})
 
 sign_in_view = SignInPageView.as_view()
+
+class LandindPageView(generic.TemplateView):
+    template_name = 'landing.html'
+
+landing_page_view = LandindPageView.as_view()
 
 class LogoutView(RedirectView):
     permanent = False

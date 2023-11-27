@@ -1,0 +1,180 @@
+{% load static %}
+
+<html lang="en">
+  
+<!-- Mirrored from uselooper.com/layout-horizontal-menu.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Sep 2020 09:46:50 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title> Research &  Outreach</title>
+    <meta property="og:title" content="Dashboard">
+    <meta name="author" content="Beni Arisandi">
+    <meta property="og:locale" content="en_US">
+    <meta name="description" content="Responsive admin theme build on top of Bootstrap 4">
+    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
+    <link rel="canonical" href="{% url 'home' %}">
+    <meta property="og:url" content="{% url 'home' %}">
+    <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
+    <script type="application/ld+json">
+      {
+        "name": "Looper - Bootstrap 4 Admin Theme",
+        "description": "Responsive admin theme build on top of Bootstrap 4",
+        "author":
+        {
+          "@type": "Person",
+          "name": "Beni Arisandi"
+        },
+        "@type": "WebSite",
+        "url": "",
+        "headline": "Dashboard",
+        "@context": "http://schema.org"
+      }
+    </script><!-- End SEO tag -->
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'assets/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
+    <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
+    <!-- GOOGLE FONT -->
+    <link href="{% static 'https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600' %}" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN PLUGINS STYLES -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/flatpickr/flatpickr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}"><!-- END PLUGINS STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{% static 'assets/stylesheets/theme.min.css' %}" data-skin="default">
+    <link rel="stylesheet" href="{% static 'assets/stylesheets/theme-dark.min.css' %}" data-skin="dark">
+    <link rel="stylesheet" href="{% static 'assets/stylesheets/custom.css' %}">
+    <script src="{% static 'https://code.jquery.com/jquery-3.6.0.min.js' %}"></script>
+    <script>
+      var skin = localStorage.getItem('skin') || 'default';
+      var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+      // Disable unused skin immediately
+      disabledSkinStylesheet.setAttribute('rel', '');
+      disabledSkinStylesheet.setAttribute('disabled', true);
+      // add loading class to html immediately
+      document.querySelector('html').classList.add('loading');
+    </script><!-- END THEME STYLES -->
+  </head>
+
+  <body>
+    <!-- .app -->
+    <div class="app has-fullwidth">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->
+      <!-- .app-header -->
+      <!-- .app-header -->
+      <header class="app-header app-header-dark">
+        <!-- .navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-lg-0">
+          <!-- .container -->
+          <div class="container">
+            <!-- .navbar-brand -->
+           
+            <button class="hamburger hamburger-squeeze d-flex d-lg-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- .navbar-collapse -->
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+              <!-- .navbar-nav -->
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <!-- Dashboard -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url "landing" %}">RESEARCH & OUTREACH <span class="sr-only">(current)</span></a>
+                </li><!-- /Dashboard -->
+              </ul><!-- /.navbar-nav -->
+             
+              <!-- .btn-account -->
+              {% comment %} {% if user.is_authenticated %}
+              <div class="navbar-nav dropdown d-flex mr-lg-n3">
+                <button class="btn-account w-100" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="user-avatar user-avatar-md mr-lg-0"><img src="{% static 'assets/images/avatars/user1.jpg' %}" alt=""></span>
+                    <span class="account-summary d-lg-none"><span class="account-name">{{ user.first_name}} {{ user.last_name }}</span> 
+                    <span class="account-description">{{ user.position }}</span></span></button> <!-- .dropdown-menu -->
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-arrow mr-3"></div>
+                  <h6 class="dropdown-header d-none d-lg-block d-lg-none"> {{ user.first_name}} {{ user.last_name }} </h6>
+                   <a class="dropdown-item" href="{% url 'sign-out' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                </div><!-- /.dropdown-menu -->
+              </div><!-- /.btn-account -->
+              {% endif %} {% endcomment %}
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container -->
+        </nav><!-- /.navbar -->
+      </header><!-- /.app-header -->
+      <!-- /.app-header -->
+      <!-- .app-main -->
+      <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <!-- .page -->
+          <div class="page">
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .container -->
+              <div class="container">
+                <!-- .page-title-bar -->
+                <header class="page-title-bar">
+                  <div class="d-flex flex-column flex-md-row">
+                    <p class="lead">
+                      <span class="font-weight-bold">Hi, {{ user.first_name}} {{ user.last_name }}.</span> <span class="d-block text-muted">Here’s what’s happening with your business today.</span>
+                    </p>
+                  </div>
+                </header><!-- /.page-title-bar -->
+                <hr>
+                {% if user.is_authenticated %}
+                <!-- .page-section -->
+                <div class="page-section">
+                  <!-- .section-block -->
+                  <div class="section-block">
+                    <!-- metric row -->
+                    <div class="metric-row">
+                          <!-- metric column -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- .metric -->
+                            <div class="card-metric">
+                            <div class="metric">
+                                <p class="metric-value h3">
+                                    <a href="{% url "dashboard" %}">
+                                      <span class="value">Research</span>
+                                    </a>
+                                </p>
+                            </div>
+                            </div><!-- /.metric -->
+                        </div><!-- /metric column -->
+
+                      {% if user.is_authenticated  and user.position == 'Dro' %} 
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- .metric -->
+                            <div class="card-metric">
+                            <div class="metric">
+                                <p class="metric-value h3">
+                                    <a href="{% url "home" %}">
+                                      <span class="value">Dro</span>
+                                    </a>
+                                </p>
+                            </div>
+                            </div><!-- /.metric -->
+                        </div><!-- /metric column -->
+
+                      {% endif %}
+                    </div><!-- /metric row -->
+                  </div><!-- /.section-block -->
+                  <!-- grid row -->
+                  <!-- card-deck-xl -->
+                </div><!-- /.page-section -->
+                {% endif %}
+              </div><!-- /.container -->
+            </div><!-- /.page-inner -->
+          </div><!-- /.page -->
+        </div><!-- /.wrapper -->
+
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+    <!-- BEGIN BASE JS -->
+    {% include 'accounts/includes/js_links.html' %}
+
+  </body>
+
+<!-- Mirrored from uselooper.com/layout-horizontal-menu.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Sep 2020 09:46:50 GMT -->
+</html>

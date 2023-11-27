@@ -14,9 +14,8 @@
 	</section>
 
 {% if page_obj  %}
-
-	<div class="features py-5" id="services">
-		<div class="container py-md-3">
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
 		<div class="fea-gd-vv text-center row">
 				{% for author in page_obj %} 
 				    <div class="float-top col-lg-2 col-md-2 mt-md-0 mt-5">		
@@ -36,7 +35,7 @@
 	</div>
 
 	<!-- pagination -->
-	{% comment %} <div class="pagination">
+	<div class="pagination" style="padding-left:60px;padding-bottom:50px;padding-top:0px;">
 		<ul>
 			<li>
 				{% if page_obj.has_previous %}
@@ -52,7 +51,14 @@
 					</a>
 				{% endif %}
 			</li>
-			<li><a class="active" href="#"> {{ page_obj.number }} </a></li>
+			{% for page_number in page_obj.paginator.page_range %}
+            <li>
+                <a {% if page_obj.number == page_number %} class="active" {% endif %}
+                   href="?page={{ page_number }}">
+                   {{ page_number }}
+                </a>
+            </li>
+            {% endfor %}
 			<li>
 				{% if page_obj.has_next %}
 					<a href="?page={{ page_obj.next_page_number }}">
@@ -64,7 +70,7 @@
 				{% endif %}
 			</li>
 		</ul>
-	</div> {% endcomment %}
+	</div> 
 </section>
 
 {% else %}

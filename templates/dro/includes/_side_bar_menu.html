@@ -1,0 +1,186 @@
+{% load static %}
+
+<!-- .app-aside -->
+<aside class="app-aside app-aside-expand-md app-aside-light">
+  <!-- .aside-content -->
+  <div class="aside-content">
+    {% if user.is_authenticated %}
+    <!-- .aside-header -->
+    <header class="aside-header d-block d-md-none">
+      <!-- .btn-account -->
+      <button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside"><span class="user-avatar user-avatar-lg"><img src="{% static 'assets/images/avatars/user1.jpg' %}" alt=""></span> 
+        <span class="account-icon"><span class="fa fa-caret-down fa-lg"></span></span> 
+        <span class="account-summary"><span class="account-name">{{ user.first_name }}{{ user.last_name }}</span>
+         <span class="account-description">{{ user.position }}</span></span></button> <!-- /.btn-account -->
+      <!-- .dropdown-aside -->
+      <div id="dropdown-aside" class="dropdown-aside collapse">
+        <!-- dropdown-items -->
+        <div class="pb-3">
+          <a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a>
+           <a class="dropdown-item" href="{% url 'sign-out' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a> <a class="dropdown-item" href="#">Keyboard Shortcuts</a>
+        </div><!-- /dropdown-items -->
+      </div><!-- /.dropdown-aside -->
+    </header><!-- /.aside-header -->
+    {% endif %}
+    <!-- .aside-menu -->
+    <div class="aside-menu overflow-hidden">
+      <!-- .stacked-menu -->
+      <nav id="stacked-menu" class="stacked-menu">
+        <!-- .menu -->
+        <ul class="menu">
+          <!-- .menu-item -->
+          <li {% if '' == request.path %}
+                 class="menu-item has-active" style="border-bottom: 1px solid #E8E8E8"
+              {% else %}
+                 class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+              {% endif %}
+            >
+            <a href="{% url 'home' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
+          </li><!-- /.menu-item -->
+          </li><!-- /.menu-item -->
+          <!-- .menu-item -->
+          <li  {% if 'publications' in request.path or 'publication-details' in request.path %}
+                    class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+                {% else %}
+                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                {% endif %}
+            >
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+              <span class="menu-icon fas fa-book-reader"></span>
+               <span class="menu-text">Journal Article</span></a> <!-- child menu -->
+            <ul class="menu">
+             
+              {% if user.is_authenticated and user.position == 'Dro' %}
+                  <li   {% if 'publication-list' in request.path %}
+                            class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                        {% else %}
+                            class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                        {% endif %}
+                    >
+                    <a href="{% url 'publication-list' %}" class="menu-link">All Articles</a>
+                  </li>
+              
+                  <li {% if 'approved-publications' in request.path %}
+                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}
+                  >
+                  <a href="{% url 'approved-publications' %}" class="menu-link">Approved articles</a>
+                  </li>
+
+                  <li {% if 'publications-waiting-approval' in request.path %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}
+                  >
+                  <a href="{% url 'publications-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                  </li>
+                  <li {% if 'approved-publications' in request.path %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}
+                  >
+                  <a href="{% url 'approved-publications' %}" class="menu-link">Declined articles</a>
+                  </li>
+              {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
+          <!-- .menu-item -->
+          <li {% if 'projects' in request.path %}
+                class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+            {% else %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+            {% endif %}>
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+              <span class="menu-icon fas fa-project-diagram"></span> <span class="menu-text">Research Project</span></a> <!-- child menu -->
+            <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
+              {% if user.is_authenticated and user.position == 'Dro' %}
+                    <li {% if 'projects' in request.path %}
+                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                    <a href="{% url 'project-list' %}" class="menu-link">All Projects</a>
+                  </li>
+            
+                <li {% if 'approved-projects' in request.path %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                    <a href="{% url 'approved-projects' %}" class="menu-link">Approved projects</a>
+                  </li>
+             
+                <li {% if 'projects-waiting-approval' in request.path %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}>
+                    <a href="{% url 'projects-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                  </li>
+
+                  <li {% if '' in request.path %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}>
+                    <a href="" class="menu-link">Declined projects</a>
+                  </li>
+             
+              {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
+          <!-- .menu-item -->
+		  
+          {% if user.is_authenticated and user.position == 'Dro' %}
+            <!-- .menu-item -->
+            <li {% if 'innovations' in request.path %}
+                  class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+              {% else %}
+                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+              {% endif %}>
+              <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+                <span class="menu-icon fas fa-history"></span> <span class="menu-text">Innovation</span></a> <!-- child menu -->
+              <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
+                <li {% if 'innovation-list' in request.path %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% else %}
+                          class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                      {% endif %}>
+                    <a href="{% url 'innovation-list' %}" class="menu-link">All Innovations</a>
+                </li>
+                <li {% if 'approved-innovations' in request.path %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                  {% endif %}>
+                  <a href="{% url 'approved-innovations' %}" class="menu-link">Approved innovations</a>
+                </li>
+                <li {% if 'innovations-waiting-approval' in request.path %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                </li>
+                <li {% if 'innovations-waiting-approval' in request.path %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Declined innovations</a>
+                </li>
+              {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
+          <!-- .menu-item -->
+		  
+        </ul><!-- /.menu -->
+      </nav><!-- /.stacked-menu -->
+    </div><!-- /.aside-menu -->
+  </div><!-- /.aside-content -->
+</aside><!-- /.app-aside -->

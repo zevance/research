@@ -53,7 +53,7 @@
                         {% if projects %}
                         <div class="form-group">
                           <label class="col-form-label" for="selDefault">Associated Project</label> 
-                          <select class="custom-select" id="selDefault" required="" name="project_id">
+                          <select class="custom-select" id="selDefault" name="project_id">
                             <option value="">Select Project</option>
                                 {% for project in projects %}
                                   <option value="{{ project.id}}">{{project.title}}</option>

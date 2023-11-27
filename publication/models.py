@@ -20,15 +20,32 @@ class Publication(models.Model):
     volume = models.IntegerField(blank=True, null=True)
     license = models.CharField(max_length=255)
     collection = models.CharField(max_length=255)
-    doi = models.CharField(max_length=255, unique=True)
+    doi = models.CharField(max_length=255, unique=True, blank=True, null=True)
     is_approved = models.BooleanField(default=False)
     image_path = models.ImageField(upload_to='publication/', blank=True, null=True)
     project = models.ForeignKey(UmbrellaProject, on_delete=DO_NOTHING, blank=True, null=True)
     response = models.BooleanField(blank=True,null=True)
     reason_for_denial = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
-    
+        
     def __str__(self):
         return f"{self.title}"
+      
+    def get_absolute_url(self):
+        return reverse('author_view', args=[str(self.pk)])
+        
+class Publication_Author(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    publication = models.ForeignKey(Publication, on_delete=DO_NOTHING)
+    author = models.ForeignKey(User, on_delete=DO_NOTHING)
+    created_at = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f"{self.publication} {self.author}"
+    
+
+        
+
+        
 
     

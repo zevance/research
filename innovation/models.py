@@ -16,6 +16,8 @@ class Innovation(models.Model):
     image_path = models.ImageField(upload_to='innovations/', blank=True, null=True)
     is_approved = models.BooleanField(default=False)
     project = models.ForeignKey(UmbrellaProject, on_delete=DO_NOTHING ,blank=True, null=True)
+    response = models.BooleanField(blank=True,null=True)
+    reason_for_denial = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

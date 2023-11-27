@@ -1,21 +1,23 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView, DeleteView
 from django.views import View
 import requests
 import json
 from django.http import JsonResponse
 from rest_framework.response import Response
-from project.models import Project
+from project.models import Project, UmbrellaProject
 from publication.models import Publication
 from innovation.models import Innovation
-from account.models import Profile
 from .choices import license_choices, collection_choices
 from django.utils.html import strip_tags
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
-
+from account.models import Profile
+from datetime import datetime
+from django.http import HttpResponse
+from datetime import datetime
+from account.models import User
 
 # Create your views here.
 class DashboardPageView(LoginRequiredMixin, TemplateView):
@@ -51,8 +53,8 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
                     #'country': data['message']['country'],
                 }
 
-                projects = associated_project_list(request)
-
+                projects = associated_umbrella_project(request)
+                
                 choices = {
                     'license-choices': license_choices,
                     'collection_choices': collection_choices,
@@ -63,7 +65,7 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
                             'publication': publication,  
                             'license_choices': license_choices,
                             'collection_choices': collection_choices,
-                             'projects': projects
+                            'projects': projects,
                             })
             else:
                 error_message = f"Error retrieving publication data for DOI {doi}."
@@ -73,6 +75,26 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
 
 add_publication_view = UploadPublicationPageView.as_view()
 
+class AuthorListView(View):
+    def get(self,id, *args, **kwargs):
+        obj = get_object_or_404(Publication, pk=id)
+        co_author = User.objects.order_by('last_name')
+        return render(self.request, 'research/co_author.html', {'co_author': co_author,'publication': obj})
+        
+def author_view(request, id):
+    obj = get_object_or_404(Publication, pk=id)
+    co_author = User.objects.order_by('last_name')
+    return render(request, 'research/co_author.html', {'co_author': co_author,'publication': obj})
+
+# class AddCoAuthorsView(View):
+#     def post(self, request, *args, **kwargs):
+#         if request.method == 'POST':
+#             author = request.POST.get('co_authors')
+#             author = Publication_Author(author=author)
+#             author.save()
+#             return redirect('publication_list')
+
+# add_co_author_list_view = AddCoAuthorsView.as_view()
 
 class UploadPublicationView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
@@ -89,7 +111,8 @@ class UploadPublicationView(LoginRequiredMixin, View):
         co_authors = request.POST['co_authors']
         number_of_pages = request.POST['pages']
         volume = request.POST['volume']
-        project_id = request.POST['project_id']
+        #project_id = request.POST['project_id']
+        project_id = request.POST.get('project_id', None)
 
         if request.user.is_authenticated:
             author_id = request.user.id
@@ -102,7 +125,7 @@ class UploadPublicationView(LoginRequiredMixin, View):
                         publication_type=publication_type,author_id=author_id,co_authors=co_authors,
                         number_of_pages=number_of_pages,volume=volume,project_id=project_id)
             publication.save()
-            return render(request, 'research/add_publication.html')
+            return render(request, 'research/co_author.html', pk=publication.id)
         return render(request, 'research/add_publication.html')
     
 upload_publication_view = UploadPublicationView.as_view()
@@ -149,50 +172,6 @@ class DeclinePublicationView(View):
 
 decline_publication_view = DeclinePublicationView.as_view()
 
-def dro_publication_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        publications = Publication.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
-    else:
-        publications = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/all_publications.html', {'publications': publications})
-
-#approved publications by dro
-def approved_dro_publication_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        publications = Publication.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
-    else:
-        publications = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/approved_dro_publications.html', {'publications': publications})
-
-#Project DRO Functions
-#projects that needs dro approval
-def dro_project_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        projects = Project.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
-    else:
-        projects = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/dro_projects_list.html', {'projects': projects})
-
-#approved projects by dro
-def approved_dro_project_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        projects = Project.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
-    else:
-        projects = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/approved_dro_projects.html', {'projects': projects})
-
-#waiting dro approval projects 
-def waiting_dro_approval_project_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        projects = Project.objects.filter(response__isnull=True).filter(is_approved=False) # Retrieve data based on your conditions
-    else:
-        projects = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/waiting_dro_approval.html', {'projects': projects})
 
 class ApproveProjectView(View):
     def post(self, request, *args, **kwargs):
@@ -216,32 +195,6 @@ class DeclineProjectView(View):
 decline_project_view = DeclineProjectView.as_view()
 
 #Innovation DRO Functions
-#innovations that needs dro approval 
-def dro_innovation_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        innovations = Innovation.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
-    else:
-        innovations = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/dro_innovation_list.html', {'innovations': innovations})
-
-#approved innovations by dro
-def approved_dro_innovation_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        innovations = Innovation.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
-    else:
-        innovations = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/approved_dro_innovations.html', {'innovations': innovations})
-
-#innovations waiting dro approval 
-def waiting_dro_approval_project_list_view(request):
-    if request.user.is_authenticated and request.user.position == 'Dro':
-        innovations = Innovation.objects.filter(response__isnull=True).filter(is_approved=False) # Retrieve data based on your conditions
-    else:
-        innovations = None  # Set data to None or handle accordingly
-
-    return render(request, 'research/innovations_waiting_dro_approval.html', {'innovations': innovations})
 
 class ApproveInnovationView(View):
     def post(self, request, *args, **kwargs):
@@ -265,7 +218,6 @@ class DeclineInnovationView(View):
 decline_innovation_view = DeclineInnovationView.as_view()
     
 #END OF DRO FUNCTIONS
-
 class PublicationDetailsView(LoginRequiredMixin, DetailView):
     html = '<jats:p>'
     stripped = strip_tags(html)
@@ -275,7 +227,6 @@ class PublicationDetailsView(LoginRequiredMixin, DetailView):
     queryset = Publication.objects.all()
 
 publication_details_view = PublicationDetailsView.as_view()
-
 
 class ApprovedPublicationListView(LoginRequiredMixin, ListView):
     template_name = 'research/approved_publications.html'
@@ -295,8 +246,8 @@ class ApprovedPublicationListView(LoginRequiredMixin, ListView):
 approved_publication_list_view = ApprovedPublicationListView.as_view()
 
 
-def associated_project_list(request):
-    projects = Project.objects.order_by('-created_at').filter(is_approved=True)
+def associated_umbrella_project(request):
+    projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)
     return projects
 
 class DeletePublicationView(LoginRequiredMixin, DeleteView):
@@ -314,7 +265,8 @@ class AddProjectView(LoginRequiredMixin, View):
     template_name = 'research/add_project.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        projects = associated_umbrella_project(request)
+        return render(request, self.template_name, {'projects': projects})
 
     def post(self, request, *args, **kwargs):
         user_id = request.POST['user_id']
@@ -333,7 +285,8 @@ class AddProjectView(LoginRequiredMixin, View):
         project_donor = request.POST.get('concat_data')
         supporting_document = request.FILES['document']
         image_path = request.FILES['image']
-        umbrella_project_id = request.POST['project_id']
+        # umbrella_project_id = request.POST['project_id']
+        umbrella_project_id = request.POST.get('project_id', None)
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -341,7 +294,7 @@ class AddProjectView(LoginRequiredMixin, View):
             project_pi=project_pi,project_co_pi=project_co_pi,country=country,date_from=date_from,expected_completion_date=expected_completion_date,
             project_member=project_member,project_donor=project_donor,project_partner=project_partner,
             description=description, supporting_document = supporting_document,user_id=user_id
-            ,image_path=image_path,umbrella_project_id=umbrella_project_id)
+            ,image_path=image_path, umbrella_project_id=umbrella_project_id)
             project.save()
             messages.error(request,'Project added successfuly')
             return redirect('project_list')
@@ -424,7 +377,7 @@ class UploadInnovationView(LoginRequiredMixin, View):
     template_name = 'research/add_innovation.html'
 
     def get(self, request, *args, **kwargs):
-        projects = associated_project_list(request)
+        projects = associated_umbrella_project(request)
         return render(request, self.template_name, {'projects': projects})
 
     def post(self, request, *args, **kwargs):
@@ -434,7 +387,8 @@ class UploadInnovationView(LoginRequiredMixin, View):
         description = request.POST['description']
         project_id = request.POST['project_id']
         image_path = request.FILES['image_path']
-        project_id = request.POST['project_id']
+        #project_id = request.POST['project_id']
+        project_id = request.POST.get('project_id', None)
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -598,10 +552,11 @@ update_user_profile_view = UpdateUserProfileView.as_view()
 
 #End of User Profile View
 
+
 def staffReport(request):
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM (SELECT account_user.id, account_user.title,  concat( first_name, ' ', last_name) AS fullname, account_user.department_code AS department_code, Count( DISTINCT project_project.id) AS projects, Count( DISTINCT publication_publication.id) AS publications, Count(DISTINCT innovation_innovation.id) AS innovations FROM account_user LEFT JOIN project_project  ON project_project.user_id =  account_user.id LEFT JOIN  publication_publication ON publication_publication.author_id = account_user.id LEFT JOIN innovation_innovation ON innovation_innovation.user_id = account_user.id  GROUP BY account_user.id) AS temp WHERE publications > 0 OR innovations > 0 OR projects > 0");
+        cursor.execute("SELECT * FROM (SELECT account_user.id, account_user.title,  concat( first_name, ' ', last_name) AS fullname, account_user.department_code AS department_code, Count( DISTINCT project_project.id) AS projects, Count( DISTINCT publication_publication.id) AS publications, Count(DISTINCT innovation_innovation.id) AS innovations FROM account_user LEFT JOIN project_project  ON project_project.user_id =  account_user.id LEFT JOIN  publication_publication ON publication_publication.author_id = account_user.id LEFT JOIN innovation_innovation ON innovation_innovation.user_id = account_user.id WHERE (publication_publication.is_approved = TRUE OR publication_publication.id IS NULL )  GROUP BY account_user.id) AS temp WHERE publications > 0 OR innovations > 0 OR projects > 0");
         
         columns = [col[0] for col in cursor.description]
         report = [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -612,7 +567,7 @@ def staffReport(request):
     return render(request, 'research/staff_report.html', {'data': report});
 
 def departmentReport(request):
-	 
+     
     with connection.cursor() as cursor:
         cursor.execute("SELECT account_user.department_code AS department, Count( DISTINCT project_project.id) AS projects, Count( DISTINCT publication_publication.id) AS publications, Count(DISTINCT innovation_innovation.id) AS innovations FROM account_user LEFT JOIN project_project  ON project_project.user_id =  account_user.id LEFT JOIN  publication_publication ON publication_publication.author_id = account_user.id LEFT JOIN innovation_innovation ON innovation_innovation.user_id = account_user.id WHERE (publication_publication.is_approved = TRUE OR publication_publication.id IS NULL ) AND account_user.department_code IS NOT NULL GROUP BY account_user.department_code ");
         
@@ -623,3 +578,186 @@ def departmentReport(request):
         print(i)
 
     return render(request, 'research/department_report.html', {'data': report});
+
+def departmentReportCustom(request):
+    year = request.GET.get('year')
+    quarter = request.GET.get('quarter')
+    if year is None and quarter is None:
+        startDate = request.GET.get('startDate')
+        endDate = request.GET.get('endDate')
+        date_obj = datetime.strptime(startDate, '%Y-%m-%d')
+        startDateString = date_obj.strftime("%d %b %Y")
+        date_obj = datetime.strptime(endDate, '%Y-%m-%d')
+        endDateString = date_obj.strftime("%d %b %Y")
+        description = f"(From {startDateString} to {endDateString})"
+    else:
+        dates = functions.convertDates(year, quarter)
+        startDate = dates['startDate']
+        endDate = dates['endDate']
+        if quarter == "1":
+            ordinal = "First"
+        elif quarter == "2":
+            ordinal = "Second"
+        elif quarter == "3":
+            ordinal = "Third"
+        else:
+            ordinal = "Fourth"
+        description = f"({ordinal} Quarter of {year})"
+        
+
+    
+    report = functions.departmentReport(startDate, endDate)
+    
+
+    
+    return render(request, 'research/department_report.html', {'data': report, 'description' : description});
+
+
+
+def staffReportCustom(request):
+    year = request.GET.get('year')
+    quarter = request.GET.get('quarter')
+    if year is None and quarter is None:
+        startDate = request.GET.get('startDate')
+        endDate = request.GET.get('endDate')
+        date_obj = datetime.strptime(startDate, '%Y-%m-%d')
+        startDateString = date_obj.strftime("%d %b %Y")
+        date_obj = datetime.strptime(endDate, '%Y-%m-%d')
+        endDateString = date_obj.strftime("%d %b %Y")
+        description = f" (From {startDateString} to {endDateString})"
+    else:
+        dates = functions.convertDates(year, quarter)
+        startDate = dates['startDate']
+        endDate = dates['endDate']
+        if quarter == "1":
+            ordinal = "First"
+        elif quarter == "2":
+            ordinal = "Second"
+        elif quarter == "3":
+            ordinal = "Third"
+        else:
+            ordinal = "Fourth"
+        description = f"({ordinal} Quarter of {year})"
+        
+
+    
+    report = functions.staffReport(startDate, endDate)
+    
+
+    
+    return render(request, 'research/staff_report.html', {'data': report, 'description' : description});
+
+
+def Charts(request):
+    year = request.GET.get('year')
+    if(year is None or year == ""):
+        description = "All Time"
+        year = None
+    else:
+        description = year
+    departmentReport = functions.departmentReport(year);
+    print("department report")
+    for i in departmentReport:
+        print(i)
+
+    facultyReport = functions.facultyReport(year)
+    print("faculty report")
+    for i in facultyReport:
+        print(i)
+    
+
+
+    return render(request, 'research/report_charts.html', {'departmentReport': departmentReport, 'facultyReport': facultyReport, 'description': description, 'year' : year});
+    
+def downloadExcel(request, year = None):
+    
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Research Report.xls"'
+    style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
+    num_format_str='#,##0.00')
+    style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
+
+    wb = xlwt.Workbook()
+    wp = wb.add_sheet("Publications")
+    wp.write(0, 0, 'Faculty', style0)
+    wp.write(0, 1, 'Department', style0)
+    wp.write(0, 2, 'Author', style0)
+    wp.write(0, 3, 'Title', style0)
+    wp.write(0, 4, 'Type', style0)
+    wp.write(0, 5, 'Publication Year', style0)
+    wp.write(0, 6, 'Abstract', style0)
+
+    publications = functions.facultyPublicationReport(year)
+    i =1
+    for j in publications:
+        wp.write(i, 0, j["faculty"])
+        wp.write(i, 1, j["department"])
+        wp.write(i, 2, j["fullname"])
+        wp.write(i, 3, j["publication_title"])
+        wp.write(i, 4, j["publication_type"])
+        wp.write(i, 5, j["year_of_publication"])
+        wp.write(i, 6, j["abstract"])
+        i= i + 1
+    
+
+    
+
+    wi = wb.add_sheet("Innovations")
+    wi.write(0, 0, 'Faculty', style0)
+    wi.write(0, 1, 'Departmant', style0)
+    wi.write(0, 2, 'Innovator', style0)
+    wi.write(0, 3, 'Title', style0)
+    wi.write(0, 4, 'Description', style0)
+    wi.write(0, 5, 'Year', style0)
+
+    innovations = functions.facultyInnovationReport(year)
+    i = 1
+    for j in innovations:
+        wi.write(i, 0, j["faculty"])
+        wi.write(i, 1, j["department"])
+        wi.write(i, 2, j["fullname"])
+        wi.write(i, 3, j["innovation_title"])
+        wi.write(i, 4, j["description"])
+        wi.write(i, 5, j["year_of_innovation"])
+        i = i + 1
+
+
+
+    wpj = wb.add_sheet("Projects")
+    wpj.write(0, 0, 'Faculty', style0)
+    wpj.write(0, 1, 'Departmant', style0)
+    wpj.write(0, 2, 'Principle Investigator', style0)
+    wpj.write(0, 3, 'Title', style0)
+    wpj.write(0, 4, 'Description', style0)
+    wpj.write(0, 5, 'Start Date', style0)
+    wpj.write(0, 6, 'End Date', style0)
+
+    i = 1
+    projects = functions.facultyProjectReport(year)
+
+    for j in projects:
+        wpj.write(i, 0, j["faculty"])
+        wpj.write(i, 1, j["department"])
+        wpj.write(i, 2, j["fullname"])
+        wpj.write(i, 3, j["project_title"])
+        wpj.write(i, 4, j["description"])
+        wpj.write(i, 5, j["date_from"])
+        wpj.write(i, 6, j["expected_completion_date"])
+        i = i + 1
+    
+
+    
+
+    wb.save(response)
+    return response
+
+
+def test(request):
+
+    data = functions.facultyInnovationReport()
+    for i in data:
+        print(i)
+    return Charts(request)
+
+
+

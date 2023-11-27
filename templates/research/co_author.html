@@ -1,0 +1,97 @@
+{% extends 'research/base.html' %} {% block content %}
+
+<div class="col-lg-12">
+  <div class="page-section">
+    <!-- .section-block -->
+    <div class="alert alert-primary has-icon alert-dismissible fade show">
+      <p class="mb-0">
+        Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Please fill the form below to add Publications
+      </p>
+    </div>
+  </div>
+</div>
+<!-- /.section-block -->
+<!-- grid row -->
+<hr />
+
+<br />
+<div class="page-section">
+    <!-- .card-deck-xl -->
+    <div class="card-deck-xl">
+      <!-- .card -->
+      <div class="card card-fluid">
+           <div class="card-body">
+            <div class="card card-fluid">
+
+              <h6 class="card-header"> Please tag co authors* </h6><!-- .card-body -->
+              <div class="card-body">
+                        <!-- form -->
+                        <form action="" method="POST" class="needs-validation">
+
+                          {% csrf_token %}
+                          
+                        <input type="hidden" name="publication" value="{{ publication.id }}" class="form-control">
+                            <!-- .row -->     
+                        <div class="row mb-3">
+                          <label for="maskUsphone" class="col-lg-2 text-lg-right"> Co~Authors</label>
+                          <div class="col-lg-8 col-xl-7" id="select-container">
+                            <select class="custom-select" id="selDefault" required="" name="co_authors" style="margin-bottom:10px";>
+                                <option value="">Select Author</option><br/>
+                                    {% for user in co_author %}
+                                      <option value="{{ user.id}}">
+                                        {{user.title}} {{user.first_name}} {{user.last_name}} - {{user.campus_code}}
+                                      </option>
+                                    {% endfor %}
+                            </select> 
+                            <br/>
+                          </div>
+                        </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right"></label>
+                            <div class="col-sm-9" style="text-align:center;">
+                                <a style="font-size:15px;cursor:pointer;" onclick="duplicateSelectField()"><u>
+                                  <i class="fa fa-plus"></i>Add Author </u></a>
+                            </div>
+                          </div>  
+                      
+                          <hr class="mb-4">
+                          <div class="row mb-3">
+                            <label class="col-lg-2"></label>
+                            <div class="col-lg-8 col-xl-7">
+                              <button class="btn btn-primary btn-lg btn-block " name="submit" type="submit" style="width:100%;">
+                                Submit
+                              </button>
+                            </div>
+                          </div>
+                        </form><!-- /form .needs-validation -->
+                        <!-- /form -->
+                      </div>
+                    </div> 
+              </div>
+             
+              <script>
+                // JavaScript function to duplicate the select field
+                function duplicateSelectField() {
+                    const container = document.getElementById('select-container');
+                    const originalSelect = container.querySelector('select');
+                    const newSelect = originalSelect.cloneNode(true);
+                    newSelect.style="margin-bottom:10px";
+                    container.appendChild(newSelect);
+                }
+
+                function removeSelect(button) {
+                  const selectContainer = document.getElementById('select-container');
+                  const selectToRemove = button.previousElementSibling;
+                  if (selectContainer.childElementCount > 1) {
+                      selectContainer.removeChild(selectToRemove);
+                  }
+              }
+            </script>
+<!-- /.card-body -->
+<!-- grid row -->
+<!-- /.page-section -->
+{% endblock %}
+</div>
+</div>
+</div>
