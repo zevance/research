@@ -323,17 +323,18 @@
                         <div class="events-top mt-md-5 mt-4">
                             <div class="events-top-left">
                                     <div class="icon-top">
-                                        <h3>{{events.start_date.day}}</h3>
-                                        <p>{{events.start_date |date:'F'}}</p>
-                                        <span>{{events.start_date.year}}</span>
+                                       <h3>{{events.date.day}}</h3>
+                                        <p>{{events.date |date:'F'}}</p>
+                                        <span>{{events.date.time}}</span> 
                                     </div>
                             </div>
                             <div class="events-top-right">
-                                <h6 class="pricehead"><a href="#">	
+                                <h6 class="pricehead"><a href="{% url "event_details" events.id %}">	
                                     {{ events.name}}</a></h6>
                                     <p class="mb-2 mt-3" style="text-align: justify; font-size: 12px">{{ events.description }}</p>
                                     <hr>
-                                    <li>{{events.start_time}}</li>
+                                    <li><b>{{events.event_type}}</b></li>
+                                    {% comment %} <li class="melb">{{events.date.time}}</li> {% endcomment %}
                                     <li class="melb">{{events.venue}}</li>
                             </div>
                         </div>

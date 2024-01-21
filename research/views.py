@@ -245,7 +245,6 @@ class ApprovedPublicationListView(LoginRequiredMixin, ListView):
         
 approved_publication_list_view = ApprovedPublicationListView.as_view()
 
-
 def associated_umbrella_project(request):
     projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)
     return projects
@@ -259,7 +258,6 @@ class DeletePublicationView(LoginRequiredMixin, DeleteView):
         return reverse('publication_list')
 
 delete_publication_view = DeletePublicationView.as_view()
-
 
 class AddProjectView(LoginRequiredMixin, View):
     template_name = 'research/add_project.html'
@@ -303,7 +301,6 @@ class AddProjectView(LoginRequiredMixin, View):
             return render(request, self.template_name)
         
 add_project_view = AddProjectView.as_view()
-
 
 class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'research/all_projects.html'
@@ -551,8 +548,6 @@ class UpdateUserProfileView(View):
 update_user_profile_view = UpdateUserProfileView.as_view()
 
 #End of User Profile View
-
-
 def staffReport(request):
 
     with connection.cursor() as cursor:
@@ -604,15 +599,9 @@ def departmentReportCustom(request):
             ordinal = "Fourth"
         description = f"({ordinal} Quarter of {year})"
         
-
-    
     report = functions.departmentReport(startDate, endDate)
     
-
-    
     return render(request, 'research/department_report.html', {'data': report, 'description' : description});
-
-
 
 def staffReportCustom(request):
     year = request.GET.get('year')
@@ -639,14 +628,9 @@ def staffReportCustom(request):
             ordinal = "Fourth"
         description = f"({ordinal} Quarter of {year})"
         
-
-    
     report = functions.staffReport(startDate, endDate)
     
-
-    
     return render(request, 'research/staff_report.html', {'data': report, 'description' : description});
-
 
 def Charts(request):
     year = request.GET.get('year')
@@ -665,12 +649,9 @@ def Charts(request):
     for i in facultyReport:
         print(i)
     
-
-
     return render(request, 'research/report_charts.html', {'departmentReport': departmentReport, 'facultyReport': facultyReport, 'description': description, 'year' : year});
     
 def downloadExcel(request, year = None):
-    
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Research Report.xls"'
     style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
@@ -699,9 +680,6 @@ def downloadExcel(request, year = None):
         wp.write(i, 6, j["abstract"])
         i= i + 1
     
-
-    
-
     wi = wb.add_sheet("Innovations")
     wi.write(0, 0, 'Faculty', style0)
     wi.write(0, 1, 'Departmant', style0)
@@ -720,8 +698,6 @@ def downloadExcel(request, year = None):
         wi.write(i, 4, j["description"])
         wi.write(i, 5, j["year_of_innovation"])
         i = i + 1
-
-
 
     wpj = wb.add_sheet("Projects")
     wpj.write(0, 0, 'Faculty', style0)
@@ -745,15 +721,10 @@ def downloadExcel(request, year = None):
         wpj.write(i, 6, j["expected_completion_date"])
         i = i + 1
     
-
-    
-
     wb.save(response)
     return response
 
-
 def test(request):
-
     data = functions.facultyInnovationReport()
     for i in data:
         print(i)

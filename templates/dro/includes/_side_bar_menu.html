@@ -36,7 +36,7 @@
                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               {% endif %}
             >
-            <a href="{% url 'home' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
+            <a href="{% url 'landing' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
           </li><!-- /.menu-item -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
@@ -67,7 +67,7 @@
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}
                   >
-                  <a href="{% url 'approved-publications' %}" class="menu-link">Approved articles</a>
+                  <a href="{% url 'approved-publications' %}" class="menu-link">Approved Articles</a>
                   </li>
 
                   <li {% if 'publications-waiting-approval' in request.path %}
@@ -76,7 +76,7 @@
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}
                   >
-                  <a href="{% url 'publications-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                  <a href="{% url 'publications-waiting-approval' %}" class="menu-link">Waiting Approval</a>
                   </li>
                   <li {% if 'approved-publications' in request.path %}
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -84,7 +84,7 @@
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}
                   >
-                  <a href="{% url 'approved-publications' %}" class="menu-link">Declined articles</a>
+                  <a href="{% url 'approved-publications' %}" class="menu-link">Declined Articles</a>
                   </li>
               {% endif %}
             </ul><!-- /child menu -->
@@ -112,7 +112,7 @@
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
-                    <a href="{% url 'approved-projects' %}" class="menu-link">Approved projects</a>
+                    <a href="{% url 'approved-projects' %}" class="menu-link">Approved Projects</a>
                   </li>
              
                 <li {% if 'projects-waiting-approval' in request.path %}
@@ -120,7 +120,7 @@
                       {% else %}
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}>
-                    <a href="{% url 'projects-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                    <a href="{% url 'projects-waiting-approval' %}" class="menu-link">Waiting Approval</a>
                   </li>
 
                   <li {% if '' in request.path %}
@@ -128,7 +128,7 @@
                       {% else %}
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}>
-                    <a href="" class="menu-link">Declined projects</a>
+                    <a href="" class="menu-link">Declined Projects</a>
                   </li>
              
               {% endif %}
@@ -158,27 +158,83 @@
                   {% else %}
                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                   {% endif %}>
-                  <a href="{% url 'approved-innovations' %}" class="menu-link">Approved innovations</a>
+                  <a href="{% url 'approved-innovations' %}" class="menu-link">Approved Innovations</a>
                 </li>
                 <li {% if 'innovations-waiting-approval' in request.path %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
-                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Waiting approval</a>
+                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Waiting Approval</a>
                 </li>
                 <li {% if 'innovations-waiting-approval' in request.path %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
-                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Declined innovations</a>
+                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Declined Innovations</a>
                 </li>
               {% endif %}
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
+              {% if user.is_authenticated and user.position == 'Dro' %}
+              <!-- .menu-item -->
+              <li {% if 'application-calls' in request.path %}
+                    class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+                {% else %}
+                      class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                {% endif %}>
+                <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+                  <span class="menu-icon fas fa-sync"></span> <span class="menu-text">Call For Applications</span></a> <!-- child menu -->
+                <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
+                  <li {% if 'application-calls' in request.path %}
+                            class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                        {% else %}
+                            class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                        {% endif %}>
+                      <a href="{% url 'application-calls' %}" class="menu-link">Submit Call</a>
+                  </li>
+                  <li {% if 'approved-innovations' in request.path %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                    <a href="#" class="menu-link">All Calls</a>
+                  </li>
+                {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
           <!-- .menu-item -->
-		  
+
+          <!-- .menu-item -->
+          <li {% if 'event' in request.path %}
+                class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
+            {% else %}
+                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+            {% endif %}>
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+              <span class="menu-icon fas fa-calendar"></span> <span class="menu-text">Events</span></a> <!-- child menu -->
+            <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
+              {% if user.is_authenticated and user.position == 'Dro' %}
+                    <li {% if 'event' in request.path %}
+                    class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                    <a href="{% url 'add-event' %}" class="menu-link">Add Event</a>
+                  </li>
+            
+                  <li {% if 'events' in request.path %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% else %}
+                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
+                    {% endif %}>
+                    <a href="{% url 'events' %}" class="menu-link">Events</a>
+                  </li>
+              {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
+
         </ul><!-- /.menu -->
       </nav><!-- /.stacked-menu -->
     </div><!-- /.aside-menu -->

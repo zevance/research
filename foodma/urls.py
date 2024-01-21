@@ -27,4 +27,6 @@ urlpatterns = [
     path('', include('event.urls')),
     path('research/', include('research.urls')),
     path('dro/', include('dro.urls')),
+    path('documents/', include('documents.urls')),
+    path('application/', include('application.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

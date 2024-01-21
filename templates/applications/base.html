@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    {% include 'applications/includes/_header.html' %}
+
+<body>
+    <!-- .app -->
+    <div class="app">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->  <!-- .app-main -->
+
+      {% include 'applications/includes/_top_menu.html' %}
+
+      {% include 'applications/includes/_side_bar_menu.html' %}
+
+        <main class="app-main">
+            <!-- .wrapper -->
+            <div class="wrapper">
+                <!-- .page -->
+                <div class="page">
+                    <!-- .page-inner -->
+                    <div class="page-inner">
+                    <!-- .page-title-bar -->
+
+        {% block content %}      {% endblock %}
+
+                    </div><!-- /.page-inner -->
+                </div><!-- /.page -->
+            </div><!-- .app-footer -->
+            <!-- /.wrapper -->
+        </main><!-- /.app-main -->
+    </div><!-- /.app -->
+    
+    {% include 'accounts/includes/js_links.html' %}
+
+</body>
+
+<!-- Mirrored from uselooper.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Sep 2020 09:46:02 GMT -->
+</html>

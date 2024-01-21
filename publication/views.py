@@ -64,7 +64,7 @@ def index(request):
     publications = Publication.objects.order_by('-year_of_publication').filter(author_id__is_alumni=False).filter(is_approved=True)[:3]
     projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)[:3]
     news = News.objects.order_by('-created_at')[:3]
-    events = Event.objects.order_by('-created_at')[:3]
+    events = Event.objects.order_by('-created')[:3]
     total_researchers = User.objects.filter(publication__isnull=False, publication__is_approved=True).distinct()
     context = {'publications': publications,'projects': projects,'news': news,'events': events,
             'current_year_publications': publication_count.count(),

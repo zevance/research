@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'research.apps.ResearchConfig',
     'dro.apps.DroConfig',
     'event.apps.EventConfig',
+    'documents.apps.DocumentsConfig',
+    'application.apps.ApplicationConfig',
     'innovation.apps.InnovationConfig',
 ]
 

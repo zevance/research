@@ -134,23 +134,51 @@
                             <!-- .metric -->
                             <div class="card-metric">
                             <div class="metric">
-                                <p class="metric-value h3">
+                                <p class="metric-value h5">
                                     <a href="{% url "dashboard" %}">
-                                      <span class="value">Research</span>
+                                      <span class="value">Research Portal</span>
                                     </a>
                                 </p>
                             </div>
                             </div><!-- /.metric -->
                         </div><!-- /metric column -->
 
+                          <!-- metric column -->
+                          <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- .metric -->
+                            <div class="card-metric">
+                            <div class="metric">
+                                <p class="metric-value h5">
+                                    <a href="{% url "application-landing" %}">
+                                      <span class="value">Applications</span>
+                                    </a>
+                                </p>
+                            </div>
+                            </div><!-- /.metric -->
+                          </div><!-- /metric column -->
+
+                            <!-- metric column -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                              <!-- .metric -->
+                              <div class="card-metric">
+                              <div class="metric">
+                                  <p class="metric-value h5">
+                                      <a href="{% url "landing-page" %}">
+                                        <span class="value">Research documents</span>
+                                      </a>
+                                  </p>
+                              </div>
+                              </div><!-- /.metric -->
+                            </div><!-- /metric column -->
+
                       {% if user.is_authenticated  and user.position == 'Dro' %} 
                         <div class="col-12 col-sm-6 col-lg-3">
                             <!-- .metric -->
                             <div class="card-metric">
                             <div class="metric">
-                                <p class="metric-value h3">
+                                <p class="metric-value h5">
                                     <a href="{% url "home" %}">
-                                      <span class="value">Dro</span>
+                                      <span class="value">DRO</span>
                                     </a>
                                 </p>
                             </div>

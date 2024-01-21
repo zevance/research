@@ -35,6 +35,10 @@
                         <div class="row mb-3">
                           <label for="maskUsphone" class="col-lg-2 text-lg-right"> Co~Authors</label>
                           <div class="col-lg-8 col-xl-7" id="select-container">
+                            {% for user in co_author %}
+                                <input type="checkbox" value="" >
+                                {{user.title}} {{user.first_name}} {{user.last_name}} - {{user.campus_code}} <br/>
+                            {% endfor %}
                             <select class="custom-select" id="selDefault" required="" name="co_authors" style="margin-bottom:10px";>
                                 <option value="">Select Author</option><br/>
                                     {% for user in co_author %}

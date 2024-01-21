@@ -23,6 +23,15 @@ def news_details_view(request, pk):
     }
     return render(request, 'core/news_details.html', context)
 
+def event_details(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    events = Event.objects.exclude(id=pk).order_by('-created')[:5]
+    context = {
+        'event' : event,
+        'events': events,
+    }
+    return render(request, 'core/event_details.html', context)
+
 #API VIEWS
 class EventsListView(APIView):
     def get(self, request, *args, **kwargs):
