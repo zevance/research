@@ -33,19 +33,27 @@
               </div>
               
               <hr/> 
-              <div class="btom-cont1 pt-4">
-                <ul style="list-style:none;">
-                    <li>
-                        <a href="{{event.link}}" target="_blank"><b>Meeting link:</b> {{event.link}}</a> 
-                    </li>
-                    <li>
-                        <a><b>Meeting ID:</b> {{event.meeting_id}} </a> 
-                    </li>
-                    <li>
-                        <a><b>Passcode:</b> {{event.passcode}} </a> 
-                    </li>
-                </ul>
-              </div>
+              {% if event.link %}
+                <div class="btom-cont1 pt-4">
+                  <ul style="list-style:none;">
+                      <li>
+                          <a href="{{ event.link }}" target="_blank">
+                              <strong>Meeting link:</strong> {{ event.link }}
+                          </a> 
+                      </li>
+                      <li>
+                          <a>
+                              <strong>Meeting ID:</strong> {{ event.meeting_id }}
+                          </a> 
+                      </li>
+                      <li>
+                          <a>
+                              <strong>Passcode:</strong> {{ event.passcode }}
+                          </a> 
+                      </li>
+                  </ul>
+                </div>
+              {% endif %}
               {% if project.publication_set.exists %}
                 <div>
                   <h5><b>Related project publications</b></h5><hr/>

@@ -45,10 +45,23 @@
 					<div class="btom-cont">
 					<h5 class="card-title">
 						<a href="{% url 'publication_details' publication.id %}"
-						>{{ publication.title |lower }}</a
+						>{{ publication.title|truncatewords:8 |lower }}</a
 						>
 					</h5>
-					<ul class="admin-post">
+
+					<ul style="list-style:none;">
+						<li>
+							<a>
+								{{publication.author.first_name}} {{publication.author.last_name}},
+								{{ publication.co_authors }}
+							</a> 
+						</li><br/>
+						<li>
+							<a>{{ publication.publication_type|upper}}</a>
+						</li>
+					</ul>
+
+					{% comment %} <ul class="admin-post">
 						<li>
 						<a href="{% url 'publication_details' publication.id %}"
 							>{{ publication.publication_type |upper}}</a
@@ -64,14 +77,14 @@
 							>{{ publication.co_authors }}</a
 						>
 						</li>
-					</ul>
+					</ul> {% endcomment %}
 					{% comment %} <p class="">{{ publication.abstract | striptags | truncatewords:30}}.</p> {% endcomment %}
-					<div class="float-lt feature-gd col-lg-4 col-md-6">
+					{% comment %} <div class="float-lt feature-gd col-lg-4 col-md-6">
 						<div class="icon-info">
 						<a href="{% url 'publication_details' publication.id %}" class="red mt-3">
 							Read More <span class="fa fa-angle-right pl-1"></span></a>
 						</div>
-					</div>
+					</div> {% endcomment %}
 					{% comment %} <a
 						href="{% url 'publication_details' publication.id %}"
 						class="btn btn-theme2 mt-3"

@@ -203,4 +203,3 @@ class EventUpdateView(View):
 
         messages.success(request, 'Event updated successfully')
         return redirect('events')
- 

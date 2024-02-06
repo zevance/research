@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'documents.apps.DocumentsConfig',
     'application.apps.ApplicationConfig',
     'innovation.apps.InnovationConfig',
+    'grants.apps.GrantsConfig',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,4 @@ MESSAGE_TAGS = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.User'
+LOGIN_URL = "sign-in"

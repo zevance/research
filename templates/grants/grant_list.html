@@ -1,0 +1,83 @@
+{% extends 'grants/base.html' %} 
+{% block content %}
+
+<div class="col-lg-12">
+    <div class="page-section">
+        <!-- .section-block -->
+        <div class="alert alert-primary has-icon alert-dismissible fade show">
+
+            <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. Below is the list of all applied grants</p>
+
+        </div>
+    </div>
+</div><!-- /.section-block -->
+<!-- grid row -->
+<hr>
+
+<br>
+
+<div class="card-deck-xl">
+    <div class="col-lg-12">
+
+    {% if object_list %}
+      <!-- grid column -->
+      <div class="page-section">
+        <br>
+        <!-- .table-responsive -->
+        <div class="card card-fluid">
+        <div class="card-body">
+            <!-- .table -->
+            <table id="dt-responsive" class="table dt-responsive nowrap w-100">
+              <!-- thead -->
+              <thead>
+                <tr>
+                  <th class="center">#</th>
+                  <th>Grant Title</th>
+                  <th>Amount of Funding</th>
+                  <th>Budget</th>
+                  <th>Curriculum Vitae</th>
+                  <th>Actions</th>
+                </tr>
+              </thead><!-- /thead -->
+              <!-- tbody -->
+              <tbody>
+                  {% for grant in object_list %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ grant.title }} </td>
+                    <td>$ {{ grant.amount_of_funding }}</td>
+                    <td><a href="{{ grant.budget }}" target="_blank">
+                        <i class="fa fa-download"></i> get Budget</a>
+                    </td>
+                    <td><a href="{{ grant.resume }}" target="_blank">
+                        <i class="fa fa-download"></i> get Cv</a>
+                    </td>
+                    <td class="align-center">
+                        <a href="#" class="btn btn-sm btn-icon btn-secondary">
+                            <i class="fa fa-eye"></i> <span class="sr-only">View</span></a>
+                        <a href="{% url "grant-update" grant.id %}" class="btn btn-sm btn-icon btn-secondary">
+                            <i class="fa fa-pencil-alt"></i> <span class="sr-only">Edit</span></a> 
+                        <a href="#" class="btn btn-sm btn-icon btn-secondary"><i class="far fa-trash-alt"></i>
+                           <span class="sr-only">Remove</span></a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+              </tbody><!-- /tbody -->
+            </table><!-- /.table -->
+          </div><!-- /.table-responsive -->
+        </div>
+        </div>
+      </div><!-- /.card -->
+    </div><!-- /grid column -->
+    {% else %}
+    <div class="col-lg-12">
+        <div class="alert alert-danger alert-dismissible fade show">
+        Records not found
+        </div>
+    </div>
+             <!-- /.card -->
+    {% endif %}
+    </div>
+</div><!-- /card-deck-xl -->
+
+{% endblock %}

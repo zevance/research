@@ -25,44 +25,55 @@
              
                 <div class="btom-cont1 pt-4">
                   <h5 class="card-title">{{ publication.title }}</h5>
-                  <ul class="admin-post">
-                    <li>
-                      <a href="#">AUTHOR: &nbsp;{{publication.author.first_name}} {{publication.author.last_name}}
-                        </a> 
-                    </li><br/>
-                    {% if publication.co_authors %}
-                    <li>
-                        <a href="#"> CO-AUTHORS:&nbsp;
-                          {{publication.co_authors}}</a>
-                    </li><br/>
-                    {% endif %}
-                    <li>
-                      <a href="#">YEAR:&nbsp;
-                        {{publication.year_of_publication}}</a>
-                    </li><br/>
-                    <li>
-                      <a href="#">JOURNAL NAME:&nbsp;
-                        {{publication.journal_name}}</a>
-                    </li><br/>
-                    <li>
-                      <a href="#">VOLUME:&nbsp;
-                        {{publication.volume}}</a>
-                    </li><br/>
-                    <li>
-                      <a href="#">NUMBER OF PAGES:&nbsp;
-                        {{publication.number_of_pages}}</a>
-                    </li><br/>
-                    <li>
-                      <a href="#">PUBLISHER:&nbsp;
-                        {{publication.publisher}}</a>
-                    </li><br/>
-                    <li>
-                      <a href="http://dx.doi.org/{{publication.doi}}"
-                        target="_blank">URL:&nbsp;
-                        http://dx.doi.org/{{publication.doi}}</a>
-                    </li><br/>
-                  </ul>
-                  <span>ABSTRACT<span/><br/><br/>
+                    <div class="btom-cont1 pt-3">
+                      <ul style="list-style:none;">
+                          <li>
+                              <a>
+                                  <strong>Author:</strong> {{publication.author.first_name}} {{publication.author.last_name}}
+                              </a> 
+                          </li>
+                          {% if publication.co_authors %}
+                          <li>
+                              <a>
+                                  <strong>Co-Authors:</strong> {{publication.co_authors}}
+                              </a> 
+                          </li>
+                          {% endif %}
+                          <li>
+                              <a>
+                                  <strong>Year:</strong>  {{publication.year_of_publication}}
+                              </a> 
+                          </li>
+                          <li>
+                            <a>
+                                <strong>Journal Name:</strong> {{publication.journal_name}}
+                            </a> 
+                          </li>
+                          <li>
+                            <a>
+                                <strong>Volume:</strong> {{publication.volume}}
+                            </a> 
+                          </li>
+                          <li>
+                            <a>
+                                <strong>Number of Pages:</strong> {{publication.number_of_pages}}
+                            </a> 
+                          </li>
+                          <li>
+                            <a>
+                                <strong>Publisher:</strong> {{publication.publisher}}
+                            </a> 
+                          </li>
+                          <li>
+                            <a href="http://dx.doi.org/{{publication.doi}}" target="_blank">
+                                <strong>Url:</strong> http://dx.doi.org/{{publication.doi}}
+                            </a> 
+                          </li>
+                      </ul>
+                    </div>
+                    <br/>
+                 
+                  <strong>ABSTRACT</strong><br/>
                   <p class="mb-3" style="text-align: justify">
                     
                     {{ publication.abstract | striptags }}
