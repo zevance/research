@@ -63,7 +63,7 @@ def project_list_view(request):
 @login_required
 def approved_project_list_view(request):
     if request.user.is_authenticated and request.user.position == 'Dro':
-        projects = Project.objects.filter(response=True).filter(is_approved=True) # Retrieve data based on your conditions
+        projects = Project.objects.filter(response=True, is_approved=True) 
     else:
         projects = None  # Set data to None or handle accordingly
 
@@ -72,7 +72,7 @@ def approved_project_list_view(request):
 @login_required
 def waiting_approval_project_list_view(request):
     if request.user.is_authenticated and request.user.position == 'Dro':
-        projects = Project.objects.filter(response__isnull=True).filter(is_approved=False) # Retrieve data based on your conditions
+        projects = Project.objects.filter(response__isnull=True).filter(is_approved=False) 
     else:
         projects = None  # Set data to None or handle accordingly
 

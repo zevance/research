@@ -27,6 +27,18 @@ class GrantListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Grant.objects.filter(user=self.request.user)
 
+class ApprovedGrantListView(LoginRequiredMixin, generic.ListView):
+    template_name = "grants/approved_grants.html"
+
+    def get_queryset(self):
+        return Grant.objects.filter(user=self.request.user, is_approved=True)
+
+class DeclinedGrantListView(LoginRequiredMixin, generic.ListView):
+    template_name = "grants/declined_grants.html"
+
+    def get_queryset(self):
+        return Grant.objects.filter(user=self.request.user, is_approved=False, reason_for_denial__isnull=False)
+
 class GrantUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Grant
     form_class = GrantUpdateForm
@@ -36,3 +48,7 @@ class GrantUpdateView(LoginRequiredMixin, generic.UpdateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class DeleteGrantView(generic.DeleteView):
+    model = Grant
+    success_url = reverse_lazy('grant-list')

@@ -19,6 +19,8 @@ class Grant(models.Model):
     resume = models.FileField(upload_to ="grants/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
+    reason_for_denial = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title}"

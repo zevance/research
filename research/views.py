@@ -132,7 +132,7 @@ upload_publication_view = UploadPublicationView.as_view()
 
 
 class PublicationListView(LoginRequiredMixin, ListView):
-    template_name = 'research/all_publications.html'
+    template_name = 'research/publications.html'
     model = Publication
     
     def dispatch(self, request, *args, **kwargs):

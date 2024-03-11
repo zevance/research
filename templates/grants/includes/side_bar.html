@@ -36,11 +36,11 @@
                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               {% endif %}
             >
-            <a href="{% url 'landing-page' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
+            <a href="{% url 'landing' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
           </li><!-- /.menu-item -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
-          <li  {% if 'application' in request.path %}
+          <li  {% if 'create' in request.path %}
                     class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
                 {% else %}
                        class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -50,7 +50,7 @@
               <span class="menu-icon fas fa-book-reader"></span>
                <span class="menu-text">Grants</span></a> <!-- child menu -->
             <ul class="menu">
-                <li   {% if 'grant-application' in request.path %}
+                <li {% if 'create' in request.path %}
                 class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -58,7 +58,7 @@
                 >
                 <a href="{% url 'grant-application' %}" class="menu-link">Grant Application</a>
                 </li>
-                <li   {% if 'grant-list' in request.path %}
+                <li {% if 'list' in request.path %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -67,22 +67,22 @@
                 <a href="{% url "grant-list" %}" class="menu-link">Applied Grants</a>
                 </li>
             
-                <li {% if 'approved-publications' in request.path %}
+                <li {% if 'approved' in request.path %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}
                 >
-                <a href="" class="menu-link">Approved Grants</a>
+                <a href="{% url "approved-grants" %}" class="menu-link">Approved Grants</a>
                 </li>
 
-                <li {% if 'open-calls' in request.path %}
+                <li {% if 'declined' in request.path %}
                     class="menu-item has-active " style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}
                 >
-                <a href="" class="menu-link">Declined Grants</a>
+                <a href="{% url "declined-grants" %}" class="menu-link">Declined Grants</a>
                 </li>
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
