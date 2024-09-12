@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+<section class="w3l-about-breadcrum">
+	<div class="breadcrum-bg py-sm-5 py-4">
+		<div class="container py-lg-3">
+			<h2>Researchers</h2>
+			<p>Search Results</p>
+		</div>
+	</div>
+</section>
+
+<section class="w3l-features-8">
+	
+	<div class="features py-5" id="services">
+		
+		<div class="container py-md-3">
+		
+			<div class="fea-gd-vv text-center row">
+			
+			   {% for author in researchers %}
+				<div class="float-top col-lg-3 col-md-6">	
+					<a href="#"><img src={% static 'assets/images/researcher_default.jpg' %} class="img-responsive" alt="" size="80"></a>
+					<div class="float-lt feature-gd">	
+						<h7><a href="#"><b>{{author.first_name}} {{author.last_name}}</b></a> </h7>
+						<p>{{author.position}} </p>
+					</div>
+					<p><br></p>
+				</div>
+			   {% endfor %}					 
+			</div>  
+		</div>
+	</div>
+      
+</section> 
+
+
+{% endblock %}

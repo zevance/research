@@ -1,0 +1,59 @@
+{% extends 'dro/base.html' %}
+{% block content %} 
+    <div class="col-lg-12">
+        <div class="page-section">
+            <!-- .section-block -->
+            <div class="alert alert-primary has-icon alert-dismissible fade show">
+                <p class="mb-0"> Welcome <b>{{ user.first_name }} {{ user.last_name}}</b>. </p>
+            </div>
+        </div>
+    </div><!-- /.section-block -->
+    <!-- grid row -->
+    <hr><br>
+    <h4>Department Publications & Umbrella Projects Report</h4>
+    <hr>
+    <!-- Safely embed JSON data for departments -->
+    <canvas id="publicationsChart" width="400" height="200" style="padding-left: 20px; ;"></canvas>
+    <script>
+        // Use the Django context variable 'departments_data' directly from the template
+        const departments = {{ departments_data|safe }};
+        
+        // Extract department names and publication counts for the graph
+        const departmentNames = departments.map(department => department.department_name);
+        const publicationCounts = departments.map(department => department.num_publications);
+        const projectCounts = departments.map(department => department.num_projects);
+
+        // Get the canvas element context for Chart.js
+        const ctx = document.getElementById('publicationsChart').getContext('2d');
+        
+        // Create a bar chart using Chart.js
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: departmentNames,
+                datasets: [{
+                    label: 'Number of Publications',
+                    data: publicationCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                        label: 'Number of Projects',
+                        data: projectCounts,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

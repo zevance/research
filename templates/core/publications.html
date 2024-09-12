@@ -35,65 +35,17 @@
 						<span class="fa fa-search"></span>
 					</button>
 				</form>
+				<br/>
 			<div class="single-left1">
-             {% for publication in page_obj %}
-                
-                     {% comment %} <div class="column-6">
-                        <img src="{% static 'assets/images/pub_default.jpg' %}" alt="" class="img-fluid">
-                    </div> {% endcomment %}
-                  <hr/>
-					<div class="btom-cont">
-					<h5 class="card-title">
-						<a href="{% url 'publication_details' publication.id %}"
-						>{{ publication.title|truncatewords:8 |lower }}</a
-						>
-					</h5>
+            {% for publication in page_obj %}
 
-					<ul style="list-style:none;">
-						<li>
-							<a>
-								{{publication.author.first_name}} {{publication.author.last_name}},
-								{{ publication.co_authors }}
-							</a> 
-						</li><br/>
-						<li>
-							<a>{{ publication.publication_type|upper}}</a>
-						</li>
-					</ul>
-
-					{% comment %} <ul class="admin-post">
-						<li>
-						<a href="{% url 'publication_details' publication.id %}"
-							>{{ publication.publication_type |upper}}</a
-						>
-						</li>
-						<li>
-						<a href="{% url 'publication_details' publication.id %}"
-							class="text-bl">{{ publication.author.first_name }} {{ publication.author.last_name }}</a
-						>
-						</li><br/>
-						<li>
-						<a href="{% url 'publication_details' publication.id %}"
-							>{{ publication.co_authors }}</a
-						>
-						</li>
-					</ul> {% endcomment %}
-					{% comment %} <p class="">{{ publication.abstract | striptags | truncatewords:30}}.</p> {% endcomment %}
-					{% comment %} <div class="float-lt feature-gd col-lg-4 col-md-6">
-						<div class="icon-info">
-						<a href="{% url 'publication_details' publication.id %}" class="red mt-3">
-							Read More <span class="fa fa-angle-right pl-1"></span></a>
-						</div>
-					</div> {% endcomment %}
-					{% comment %} <a
-						href="{% url 'publication_details' publication.id %}"
-						class="btn btn-theme2 mt-3"
-						>Continue Reading</a
-					> {% endcomment %}
-					</div>
-
-					<br />
-				{% endfor %}
+			   <div class="single-left1">	
+				<div class="btom-cont">
+					<h5 class="card-title"><a href="{% url 'publication_details' publication.id %}">{{ publication.title |lower }}</a></h5>
+					<p style="font-size: 14px">{{publication.author.first_name}} {{publication.author.last_name}},{{publication.co_authors}} | {{publication.year_of_publication}} | <b>In: </b>{{publication.journal_name}}</p>
+				</div>
+				</div>
+			{% endfor %}
 			</div>
 
 			<!-- pagination -->
@@ -138,37 +90,83 @@
 
 			<!-- right side bar -->
 		<div class="right-side-bar">
-		
-			<aside class="posts p-4 border">
-				<h3 class="aside-title">Categories</h3>
+			<section class="w3l-form-12">
+			<div class="posts p-4 border">
+				<div>
+					<div>
+					
+					<div class="column1">
+						<h4 class="tagline">SEARCH FILTERS</h4>
+							<form action="{% url "search_publications" %}" method="GET">
+								<div class="">
+									<select id="sel1" name="faculty">
+										<option value="">By Faculty</option>
+										<option value="Faculty of Agriculture">Faculty of Agriculture</option>
+										<option value="Faculty of Development Studies">Faculty of Development Studies</option>
+										<option value="Faculty of Life Sciences and Natural Resources">Faculty of Life Sciences and Natural Resources</option>
+										<option value="Faculty of Food and Human Sciences">Faculty of Food and Human Sciences</option>
+										<option value="Faculty of Natural Resources">Faculty of Natural Resources</option>
+										<option value="Faculty of Veterinary Medicin">Faculty of Veterinary Medicine</option>
+									  </select>
+								</div>
+								<div class="">
+									<select id="sel1" name="department">
+										<option value="">By Department</option>
+										<option value="Agricultural Engineering">Agricultural Engineering</option>
+										<option value="Agriculture and Food Systems">Agriculture and Food Systems</option>
+										<option value="Agricultural and Applied Economics">Agricultural and Applied Economics</option>
+										<option value="Animal Science">Animal Science</option>
+										<option value="Agriculture Education and Development Communication">Agriculture Education and Development Communication</option>
+										<option value="Agribusiness Managemen">Agribusiness Management</option>
+										<option value="Basic Sciences">Basic Sciences</option>
+										<option value="Crop and Soil Sciences">Crop and Soil Sciences</option>
+										<option value="Extension">Extension</option>
+										<option value="Food Science and Technology">Food Science and Technology</option>
+										<option value="Aquaculture and Fisheries Science">Aquaculture and Fisheries Science</option>
+										<option value="Forestry">Forestry</option>
+										<option value="Horticulture">Horticulture</option>
+										<option value="Human Nutrition and Health">Human Nutrition and Health</option>
+										<option value="Human Ecology">Human Ecology</option>
+										<option value="Land and Water Resources">Land and Water Resources</option>
+										<option value="Veterinary Pathobiology">Veterinary Pathobiology</option>
+										<option value="Veterinary Biomedical Sciences">Veterinary Biomedical Sciences</option>
+										<option value="Veterinary Epidemiology and Public Health">Veterinary Epidemiology and Public Health</option>
+										<option value="Veterinary Clinic Studies">Veterinary Clinic Studies</option>
+									  </select>
+								</div>
+								
+								<button type="submit" class="btn btn-secondary btn-theme2">Submit Filters</button>
+							</form>
+						</div>
+						</div>
+					</div>
+				</div>
+                <br>
+                <aside class="posts p-4 border">
+				<h3 class="aside-title">LUANAR Publications stats</h3>
 				<ul class="category">
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Year
-					<label>(18)</label></a
-					>
+					<a href="#link">Total Publications:
+                        <label>({{total_publications}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Countries
-					<label>(18)</label></a
-					>
+					<a href="#link">Total Publications per Year:
+                        <label>({{average_publications}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Authors
-					<label> (11)</label></a
-					>
+					<a href="#link">Researchers
+                        <label> ({{total_researchers}})</label></a>
+					
 				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Journals
-					<label>(24)</label></a
-					>
-				</li>
+				
+                
 				</ul>
 			</aside>
-		</div>
+			</section>
+			<br/>	
+		  </div>
 			<!-- //right side bar -->
 		</div>
 		</div>

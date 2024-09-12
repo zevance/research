@@ -4,15 +4,29 @@
 
 {% block content %}
 
+
 {% if page_obj %}
-
-
-	<section class="w3l-blog-single">
+<section class="w3l-blog-single">
 	<div class="single blog py-4">
 		<div class="container py-md-2">
 		<div class="d-grid grid-colunm-2">
 			<!-- left side blog post content -->
-			<div class="single-left">
+			<div class="single-left"> 
+			
+				<form class="form-inline search-form mb-3" action="{% url 'innovations_search' %}" method="get">
+					
+					<input
+						class="form-control"
+						type="search"
+						name="query"
+						placeholder="Search by innovation title or author name"
+						aria-label="search"
+						required=""
+					/>
+					<button class="btn search" type="submit">
+						<span class="fa fa-search"></span>
+					</button>
+				</form>
 			<div class="single-left1">
                 {% for innovation in page_obj %}
                 {% if innovation.image_path %}
@@ -34,23 +48,17 @@
 					</h5>
 					<ul class="admin-post">
 						<li>
-						<a href="#"
-							><b>Patent No: </b>{{ innovation.patent }}</a
-						>
+							<a>
+								{{innovation.user.title}} {{innovation.user.first_name}} {{innovation.user.last_name}}
+							</a>
 						</li>
+						{% if innovation.patent %}
+							<li>
+							<a href="#"><b>Patent No: </b>{{ innovation.patent }}</a>							</li>
+						{% endif %}
 						<li>
 						<a href="#"
-							class="text-bl">{{ innovation.year_of_innovation }}</a
-						>
-						</li>
-						<li>
-						<a href="#"
-							>{% for innovator in innovation.innovators%}
-
-							{{innovator.name}},
-
-							{% endfor %}
-						  </p></a
+							class="text-bl"><b>Year of Release: </b>{{ innovation.year_of_innovation }}</a
 						>
 						</li>
 					</ul>
@@ -107,54 +115,33 @@
 			<!-- left side blog post content -->
 
 			<!-- right side bar -->
-			<div class="right-side-bar">
-			<aside>
-				<h3 class="aside-title mb-3">Search</h3>
-				<form class="form-inline search-form" action="#" method="post">
-				<input
-					class="form-control"
-					type="search"
-					placeholder="Search here"
-					aria-label="email"
-					required=""
-				/>
-				<button class="btn search" type="submit">
-					<span class="fa fa-search"></span>
-				</button>
-				</form>
-			</aside>
-			<aside class="posts p-4 border">
-				<h3 class="aside-title">Categories</h3>
+		<div class="right-side-bar">
+			<section class="w3l-form-12">
+			
+                <aside class="posts p-4 border">
+				<h3 class="aside-title">LUANAR Innovations stats</h3>
 				<ul class="category">
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Year
-					<label>(18)</label></a
-					>
+					<a href="#link">On Going:
+                        <label>({{ongoing_innovations}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Countries
-					<label>(18)</label></a
-					>
+					<a href="#link">Completed
+                        <label>({{completed_innovations}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Collections
-					<label> (11)</label></a
-					>
+					<a href="#link">Total Innovations
+                        <label> ({{total_innovation}})</label></a>
 				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> License
-					<label>(24)</label></a
-					>
-				</li>
+				
+                
 				</ul>
 			</aside>
-			</div>
-			<!-- //right side bar -->
-		</div>
+			</section>
+			<br/>	
+		  </div>
 		</div>
 	</div>
 	</section>

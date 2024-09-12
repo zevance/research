@@ -1,0 +1,177 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>Publications</h2>
+      <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Publications</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+		<div class="d-grid grid-colunm-2">
+			<!-- left side blog post content -->
+			<div class="single-left">
+				<form class="form-inline search-form" action="{% url 'publications_search' %}" method="get">
+					
+					<input
+						class="form-control"
+						type="search"
+						name="query"
+						placeholder="Search by publication title or author name"
+						aria-label="search"
+						required=""
+					/>
+					<button class="btn search" type="submit">
+						<span class="fa fa-search"></span>
+					</button>
+				</form>
+				<br/>
+			<div class="single-left1">
+            {% for publication in publications %}
+
+			   <div class="single-left1">	
+				<div class="btom-cont">
+					<h5 class="card-title"><a href="{% url 'publication_details' publication.id %}">{{ publication.title |lower }}</a></h5>
+					<p style="font-size: 14px">{{publication.author.first_name}} {{publication.author.last_name}},{{publication.co_authors}} | {{publication.year_of_publication}} | <b>In: </b>{{publication.journal_name}}</p>
+				</div>
+				</div>
+			{% endfor %}
+			</div>
+
+			<!-- pagination -->
+			<div class="pagination">
+				<ul>
+				<li>
+					{% if page_obj.has_previous %}
+						<a
+						href="?page={{ page_obj.previous_page_number }}"
+						class="not-allowed"
+						disabled=""
+						>
+						<span
+							class="fa fa-angle-double-left"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				{% for page_number in page_obj.paginator.page_range %}
+				<li>
+					<a {% if page_obj.number == page_number %} class="active" {% endif %}
+					href="?page={{ page_number }}">
+					{{ page_number }}
+					</a>
+				</li>
+				{% endfor %}
+				<li>
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}">
+						<span
+							class="fa fa-angle-double-right"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				</ul>
+			</div>
+			</div>
+			<!-- left side blog post content -->
+
+			<!-- right side bar -->
+		<div class="right-side-bar">
+			<section class="w3l-form-12">
+			<div class="posts p-4 border">
+				<div>
+					<div>
+					
+					<div class="column1">
+						<h4 class="tagline">SEARCH FILTERS</h4>
+							<form action="{% url "search_publications" %}" method="GET">
+								<div class="">
+									<select id="sel1" name="faculty">
+										<option value="">By Faculty</option>
+										<option value="Faculty of Agriculture">Faculty of Agriculture</option>
+										<option value="Faculty of Development Studies">Faculty of Development Studies</option>
+										<option value="Faculty of Life Sciences and Natural Resources">Faculty of Life Sciences and Natural Resources</option>
+										<option value="Faculty of Food and Human Sciences">Faculty of Food and Human Sciences</option>
+										<option value="Faculty of Natural Resources">Faculty of Natural Resources</option>
+										<option value="Faculty of Veterinary Medicin">Faculty of Veterinary Medicine</option>
+									  </select>
+								</div>
+								<div class="">
+									<select id="sel1" name="department">
+										<option value="">By Department</option>
+										<option value="Agricultural Engineering">Agricultural Engineering</option>
+										<option value="Agriculture and Food Systems">Agriculture and Food Systems</option>
+										<option value="Agricultural and Applied Economics">Agricultural and Applied Economics</option>
+										<option value="Agriculture Education and Development Communication">Agriculture Education and Development Communication</option>
+										<option value="Agribusiness Managemen">Agribusiness Management</option>
+										<option value="Animal Science">Animal Science</option>
+										<option value="Aquaculture and Fisheries Science">Aquaculture and Fisheries Science</option>
+										<option value="Basic Sciences">Basic Sciences</option>
+										<option value="Crop and Soil Sciences">Crop and Soil Sciences</option>
+										<option value="Extension">Extension</option>
+										<option value="Food Science and Technology">Food Science and Technology</option>
+										<option value="Forestry">Forestry</option>
+										<option value="Horticulture">Horticulture</option>
+										<option value="Human Nutrition and Health">Human Nutrition and Health</option>
+										<option value="Human Ecology">Human Ecology</option>
+										<option value="Land and Water Resources">Land and Water Resources</option>
+										<option value="Veterinary Pathobiology">Veterinary Pathobiology</option>
+										<option value="Veterinary Biomedical Sciences">Veterinary Biomedical Sciences</option>
+										<option value="Veterinary Epidemiology and Public Health">Veterinary Epidemiology and Public Health</option>
+										<option value="Veterinary Clinic Studies">Veterinary Clinic Studies</option>
+									  </select>
+								</div>
+								
+								<button type="submit" class="btn btn-secondary btn-theme2">Submit Filters</button>
+							</form>
+						</div>
+						</div>
+					</div>
+				</div>
+                <br>
+                <aside class="posts p-4 border">
+				<h3 class="aside-title">LUANAR Publications stats</h3>
+				<ul class="category">
+				<li>
+					<a href="#link">Total Publications:
+                        <label>({{total_publications}})</label></a>
+					
+				</li>
+				<li>
+					<a href="#link">Total Publications per Year:
+                        <label>({{average_publications}})</label></a>
+					
+				</li>
+				<li>
+					<a href="#link">Researchers
+                        <label> ({{total_researchers}})</label></a>
+					
+				</li>
+				
+                
+				</ul>
+			</aside>
+			</section>
+			<br/>	
+		  </div>
+			<!-- //right side bar -->
+		</div>
+		</div>
+	</div>
+	</section>
+	<!-- grids block 5 -->
+
+{% endblock %}

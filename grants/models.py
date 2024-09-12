@@ -1,11 +1,13 @@
 from django.db import models
 import uuid
 from account.models import User
+from dro.models import Call
 
 # Create your models here.
 class Grant(models.Model):
     id = models.UUIDField(primary_key=True, editable=False,default=uuid.uuid4)
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    call = models.ForeignKey(Call,on_delete=models.DO_NOTHING, blank=True, null=True)
     amount_of_funding = models.FloatField()
     title = models.CharField(max_length=255)
     abstract = models.TextField()

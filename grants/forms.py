@@ -23,12 +23,17 @@ class GrantCreateForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.call = kwargs.pop('call', None)
         super(GrantCreateForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
         instance = super(GrantCreateForm, self).save(commit=False)
         if self.user:
             instance.user = self.user
+            
+        if self.call:
+            instance.call = self.call
+            
         if commit:
             instance.save()
         return instance

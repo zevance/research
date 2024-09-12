@@ -6,7 +6,119 @@
 
 {% block content %}
 
-{% include 'partials/sliders.html' %}
+<br/>
+ <!-- specifications -->
+     <section class="w3l-customers-4" id="testimonials">
+         <div id="customers4-block" class="py-5">
+            <div class="container py-md-3">
+               <div class="row main-cont-wthree-fea">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="grids-speci1">
+                            <h3 class="title-spe" style="text-align: center">{{current_researchers}}</h3>
+                            <p class="my-3 head text-white" style="text-align: center">ACTIVE <br>RESEARCHERS</p>
+                        </div>
+                    </div>
+                    
+                      <div class="col-lg-3 col-sm-6 mt-sm-0 mt-4">
+                          <div class="grids-speci1">
+                              <h3 class="title-spe" style="text-align: center">{{ average_publications }}</h3>
+                              <p class="my-3 head text-white" style="text-align: center"> PUBLICATIONS <br>EVERY YEAR</p>
+                          </div>
+                      </div>
+                    
+                    <div class="col-lg-3 col-sm-6  mt-lg-0 mt-4">
+                        <div class="grids-speci1">
+                            <h3 class="title-spe" style="text-align: center">34</h3>
+                            <p class="my-3 head text-white" style="text-align: center">WEBNARS <br>EVERY MONTHS</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mt-lg-0 mt-4">
+                        <div class="grids-speci1">
+                            <h3 class="title-spe" style="text-align: center">{{total_articles}}</h3>
+                            <p class="my-3 head text-white" style="text-align: center">ARTICLES <br>PUBLISHED</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> 
+        <!-- //specifications -->
+</section> 
+<section class="w3l-features-4">
+	<!-- /features -->
+	<div class="features py-5" id="services">
+            <div class="container py-md-3">
+			<div class="heading text-center mx-auto">
+				<h3 class="head">LUANAR Research Portal</h3>
+				<p class="my-3 head"> 
+          The LUANAR Research Portal serves as a comprehensive hub for accessing, managing, and disseminating research outputs produced by the university’s faculty, researchers, and students. </p>
+                <hr>
+			  </div>
+			<div class="fea-gd-vv row mt-5 pt-3">	
+			   <div class="float-lt feature-gd col-lg-4 col-md-6">	
+					 <div class="icon"> <span class="fa fa-file-text-o" aria-hidden="true"></span></div>
+					 <div class="icon-info">
+						<h5><a href="#">
+							Publications</a></h5>
+						<p> Browse faculty-authored books, cases, scholarly articles, working papers, and more.   </p>
+						<a href="#" class="red mt-3">See More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+					 
+				</div>	
+				<div class="float-mid feature-gd col-lg-4 col-md-6 mt-md-0 mt-5">	
+					 <div class="icon"> <span class="fa fa-university" aria-hidden="true"></span></div> 
+					 <div class="icon-info">
+						<h5><a href="#">Centres of Excellence
+						</a></h5>
+						<p> Find out more about our centres of excellence and their research initiatives . <a href="#" class="">APA</a>, <a href="#" class="">TACE</a> and <a href="#" class="">AquaFish</a>  </p>
+						<a href="#" class="red mt-3">Read More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+			 </div> 
+				<div class="float-rt feature-gd col-lg-4 col-md-6 mt-lg-0 mt-5">	
+					 <div class="icon"> <span class="fa fa-clone" aria-hidden="true"></span></div>
+					 <div class="icon-info">
+						<h5><a href="#">Projects & Innitiatives</a></h5>
+						<p> We support a number of Initiatives and Projects covering a variety of topics that drive cross-disciplinary research   </p>
+						<a href="#" class="red mt-3">Read More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+			 </div>	 
+			 <div class="float-lt feature-gd col-lg-4 col-md-6 mt-5">	
+					 <div class="icon"> <span class="fa fa-money" aria-hidden="true"></span></div>
+					 <div class="icon-info">
+						<h5><a href="#">Staff Grants </a>
+						</h5>
+						<p> Our Staff Grants Program is designed to support groundbreaking projects, research, and initiatives that contribute to the advancement of knowledge. </p>
+						<a href="#" class="red mt-3">Read More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+					 
+				</div>	
+				<div class="float-mid feature-gd col-lg-4 col-md-6 mt-5">	
+					 <div class="icon"> <span class="fa fa-microphone" aria-hidden="true"></span></div>
+					 <div class="icon-info">
+						<h5><a href="#">
+							Conferences and Seminars</a>
+						</h5>
+						<p> We support research conferences and unit seminars, introducing our faculty to industry experts and scholars from outside institutions.</p>
+						<a href="#" class="red mt-3">Read More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+			 </div> 
+				<div class="float-rt feature-gd col-lg-4 col-md-6 mt-5">	
+					 <div class="icon"> <span class="fa fa-folder-open-o" aria-hidden="true"></span></div>
+					 <div class="icon-info">
+						<h5><a href="https://luanar.ac.mw/apa/">Policy Briefs</a>
+						</h5>
+						<p> Our mission is to provide evidence-based and actionable insights that inform decision-making within the academic community, government and beyond.  </p>
+						<a href="https://luanar.ac.mw/apa/" class="red mt-3">Read More <span class="fa fa-angle-right pl-1"></span></a>
+					</div>
+			 </div>	
+             
+		  </div>  
+		 </div>
+	   </div>
+   <!-- //features -->
+</section>
+
+{% comment %} {% include 'partials/sliders.html' %} {% endcomment %}
 
   <script src="{% static 'assets/js/owl.carousel.js' %}"></script>
   <!-- script for -->
@@ -45,7 +157,7 @@
   <!-- //script -->
   <!-- /main-slider -->
 </section>
-<section class="w3l-feature-3" id="features">
+{% comment %} <section class="w3l-feature-3" id="features">
 	<div class="grid top-bottom mb-lg-5 pb-lg-5">
 		<div class="container">
 			
@@ -68,14 +180,15 @@
 					<p>We impact the world through increased  visibility and availability of advanced agricultural scientific knowledge...</p>
 					<a href="{% url 'publications' %}" class="btn btn-secondary btn-theme3 mt-4">Read More </a>
 				</div>
+        
 			</div>
 		</div>
 	</div>
-</section>
+</section> {% endcomment %}
 <!---728x90--->
 
 <!-- features-4 block -->
-<section class="w3l-index1" id="about">
+{% comment %} <section class="w3l-index1" id="about">
 	<div class="calltoaction-20  py-5 editContent">
 		<div class="container py-md-3">
 		
@@ -83,7 +196,7 @@
 				<div class="column center-align-self col-lg-6 pr-lg-5">
 					<h5 class="editContent">About LUANAR Research Database</h5>
 					<p class="more-gap editContent" style="text-align: justify;">This is a centralized repository of information that catalogs and organizes research studies, innovative projects, and publications in a specific field or across multiple disciplines. It serves as a valuable resource for researchers, professionals, and the general public to access and explore the latest advancements, findings, and insights within a particular area of interest.  
-            This system can also be accessed on our android and IOS applications.</p>
+                    This system can also be accessed on our android and IOS applications.</p>
 							
 				</div>
 				<div class="column ccont-left col-lg-6" style="border-radius: 6px">
@@ -92,9 +205,9 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> {% endcomment %}
 <!-- features-4 block -->
-<section class="services-12" id="course">
+{% comment %} <section class="services-12" id="course">
 	<div class="form-12-content">
 		<div class="container">
 			<div class="grid grid-column-2 ">
@@ -112,11 +225,11 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> {% endcomment %}
 <!---728x90--->
 <!--  form-12 -->
 
-{% if projects %}
+{% comment %} {% if projects %}
   <section class="w3l-features-8">
         <!-- /features -->
         <div class="features py-5" id="services">
@@ -125,69 +238,39 @@
           <h3 class=""><b>Latest Projects</b></h3>
           <div class="fea-gd-vv text-center row">
           
+
             {% for project in projects %}
               <div class="float-top col-lg-4 col-md-6 mt-5">	
                 {% if project.image_path %}
                     <a href="{% url 'project_details' project.id %}"><img src="{{project.image_path.url}}" class="img-responsive" alt=""></a>
+                {% else %}
+                    <a href="{% url 'project_details' project.id %}"><img src="{% static 'assets/images/project_default.jpg' %}" class="img-responsive" alt=""></a>
                 {% endif %}
                   <div class="float-lt feature-gd">	
                       <h3><a href="{% url 'project_details' project.id %}">{{project.title |truncatewords:6}}</a> </h3><br>
                       <p><span class="fa fa-user"> {{project.project_lead}}</p>
+                      <p><span class="fa fa-envelope-o"> {{project.user.email}}</p>
                       <hr>
-                      <p>{{project.description | truncatewords:15}} </p>
-                  </div>
+                      {% comment %} <p>{{project.description | truncatewords:15}} </p> {% endcomment %}
+                  {% comment %} </div>
               </div>	
             {% endfor %}	
             			 				 
             </div>
           <div class="column2">
-				<a class="btn btn-secondary btn-theme2 mt-3" href="{% url 'projects' %}" > View all Projects</a>
+				<a class="btn btn-secondary btn-theme2 mt-3" href="{% url 'projects' %}" >View all</a>
           </div>
             
           </div>
           
-          </div>
+          </div> {% endcomment %}
         <!-- //features -->
   </section>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %} 
 
- <!-- specifications -->
-    <section class="w3l-index2">
-        <div class="main-w3 py-5" id="stats">
-            <div class="container py-lg-3">
-               <div class="row main-cont-wthree-fea">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="grids-speci1">
-                            <h3 class="title-spe">{{current_researchers}}</h3>
-                            <p>ACTIVE <br>RESEARCHERS</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mt-sm-0 mt-4">
-                        <div class="grids-speci1">
-                            <h3 class="title-spe">{{current_year_publications}}</h3>
-                            <p> NEW PUBLICATIONS <br>EVERY YEAR</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6  mt-lg-0 mt-4">
-                        <div class="grids-speci1">
-                            <h3 class="title-spe">34</h3>
-                            <p>WEBNARS <br>EVERY MONTHS</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mt-lg-0 mt-4">
-                        <div class="grids-speci1">
-                            <h3 class="title-spe">{{total_articles}}</h3>
-                            <p>ARTICLES <br>PUBLISHED</p>
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
-        <!-- //specifications -->
-    </section>
 <!-- customers4 block -->
-<section class="w3l-customers-4" id="testimonials">
+{% comment %} <section class="w3l-customers-4" id="testimonials">
   <div id="customers4-block" class="py-5">
     <div class="container py-md-3">
   
@@ -213,39 +296,43 @@
         
   </div>
   </div>
-</section>
+</section> {% endcomment %}
 
 <!-- Publications here-->
-{% if publications %}
-  <section class="w3l-features-8">
+{% comment %} {% if publications %}
+  <section class="w3l-features-8"> {% endcomment %}
         <!-- /features -->
-        <div class="features py-5" id="services">
+        {% comment %} <div class="features py-5" id="services">
         <div class="container py-md-3">
         
           <h3 class=""><b>Latest Publications</b></h3>
           <div class="fea-gd-vv text-center row">
           
+
             {% for publication in publications %}
               <div class="float-top col-lg-4 col-md-6 mt-5">	
+                 
                   <div class="float-lt feature-gd">	
-                      <h6 class="pricehead" style="text-align: justify"><b><a href="{% url 'publication_details' publication.id %}">{{  publication.title | truncatewords:8}}</a></b></h6><br>
-                      <h8><span class="fa fa-user"></span> {{publication.author.title}} {{publication.author.first_name}} {{publication.author.last_name}} | {{publication.year_of_publication}}</h8>
+                      <h6 class="pricehead" style="text-align: justify"><b><a href="{% url 'publication_details' publication.id %}">{{  publication.title | truncatewords:10}}</a></b></h6><br>
+                      <h8><span class="fa fa-user"></span> {{publication.author.title}} {{publication.author.first_name}} {{publication.author.last_name}}  {{publication.co_authors}} | {{publication.year_of_publication}}</h8>
                       <hr>
-                      <p>{{publication.publication_type}}</p>                 
+                      <p>{{publication.publication_type}}</p>
+                      
+                      
                   </div>
               </div>
             {% endfor %}	
             			 				 
             </div><br>
           <div class="column2">
-				<a class="btn btn-secondary btn-theme2" href="{% url 'publications' %}"> View all Publications</a>
+				<a class="btn btn-secondary btn-theme2" href="{% url 'publications' %}">View all</a>
           </div>
             
           </div>
           
-          </div>
+          </div> {% endcomment %}
         <!-- //features -->
-  </section>
+  {% comment %} </section>
 {% endif %}
 
 <section class="w3l-customers-4" id="testimonials">
@@ -276,9 +363,9 @@
         
   </div>
   </div>
-</section>
+</section> {% endcomment %}
 <!-- End Publications here-->
-<section class="w3l-price-2" id="news">
+{% comment %} <section class="w3l-price-2" id="news">
     <div class="price-main py-5">
         <div class="container py-md-3">
              <div class="pricing-style-w3ls row py-md-5">
@@ -323,18 +410,17 @@
                         <div class="events-top mt-md-5 mt-4">
                             <div class="events-top-left">
                                     <div class="icon-top">
-                                       <h3>{{events.date.day}}</h3>
+                                        <h3>{{events.date.day}}</h3>
                                         <p>{{events.date |date:'F'}}</p>
-                                        <span>{{events.date.time}}</span> 
+                                        <span>{{events.date.year}}</span>
                                     </div>
                             </div>
                             <div class="events-top-right">
                                 <h6 class="pricehead"><a href="{% url "event_details" events.id %}">	
                                     {{ events.name}}</a></h6>
-                                    <p class="mb-2 mt-3" style="text-align: justify; font-size: 12px">{{ events.description }}</p>
+                                    <p class="mb-2 mt-3" style="text-align: justify; font-size: 12px">{{ events.description|truncatewords:18 }}</p>
                                     <hr>
                                     <li><b>{{events.event_type}}</b></li>
-                                    {% comment %} <li class="melb">{{events.date.time}}</li> {% endcomment %}
                                     <li class="melb">{{events.venue}}</li>
                             </div>
                         </div>
@@ -349,6 +435,6 @@
             </div>
         </div>
     </div>
-</section>
+</section> {% endcomment %}
 
 {% endblock %}

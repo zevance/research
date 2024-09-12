@@ -148,6 +148,13 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'usersupport@luanar.ac.mw'
+EMAIL_HOST_PASSWORD = 'Bunda@19'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSH = False
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

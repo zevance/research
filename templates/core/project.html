@@ -8,7 +8,7 @@
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
-      <h2>{{project.title}}</h2>
+      <h2>{{project.umbrella_project.title}}</h2>
       
     </div>
   </div>
@@ -22,7 +22,7 @@
             <div class="single-left">
               <div class="single-left1">
 
-                {% if project.image_path %}
+                {% comment %} {% if project.image_path %}
                   <div class="blg-img">
                     <a href="#"><img src="{{project.image_path.url}}" alt=" " class="img-responsive img-fluid">
                     <div class="bl-top">
@@ -36,7 +36,7 @@
                       <h4>{{project.date_from}}</h4>	
                     </div></a>
                   </div>
-                {% endif %} 
+                {% endif %}  {% endcomment %}
 
                 <div class="btom-cont1 pt-4">
                   <h5 class="card-title">{{ project.title }}</h5><hr>
@@ -71,7 +71,7 @@
                                       <div class="cont-add-rgt">
                                         <h4>Project Lead</h4><hr/>
                                         <p class="contact-text-sub">
-                                          <a href="#">{{project.project_pi }}</a></p>
+                                          <a href="#">{{project.user.title}} {{project.project_pi }}</a></p>
                                       </div> 
                                     </div>
 

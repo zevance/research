@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
+
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
-      <h2>Publications</h2>
-      <p>
-        <a href="{% url 'index' %}">Home</a> &nbsp; / Researcher&nbsp;
-        Publications
-      </p>
+    {% if researcher_publications %}
+      <h2>{{researcher_publication.0.author.title}}  {{ researcher_publication.0.author.first_name }} 
+          {{ researcher_publication.0.author.last_name }} Publications</h2>
+    {% endif %}
     </div>
   </div>
 </section>
@@ -19,119 +19,66 @@
         <!-- left side blog post content -->
         <div class="single-left">
           <div class="single-left1">
+            {% comment %} <h3>Showing: <span style="color:darkblue; font-style: italic"> <b>Publications</b> </span></h3>
+            <br> {% endcomment %}
+            <hr>
             {% for researcher_publication in researcher_publications %}
-            <div class="column-6">
-              <img
-                src="{% static 'assets/images/pub_default.jpg' %}"
-                alt=""
-                class="img-fluid"
-              />
+            <div class="single-left1">
+              
+              <div class="btom-cont">
+              <h5 class="card-title"><a href="{% url 'publication_details' researcher_publication.id %}">{{ researcher_publication.title |lower }}</a></h5>
+                      <hr>
+                        
+                      <p><b>Authors:</b> {{researcher_publication.author.title}} {{researcher_publication.author.first_name}} {{researcher_publication.author.last_name}},{{researcher_publication.co_authors}}</p>
+              
+              </div>
             </div>
-            <div class="btom-cont">
-              <h5 class="card-title">{{researcher_publication.publication_type|upper}} -
+                    
+              <br>
+
+            {% comment %} <div class="btom-cont">
+              <h5 class="card-title">
                 <a href="{% url 'publication_details' researcher_publication.id %}"
-                >{{ researcher_publication.title }}</a>
+                >{{ researcher_publication.title |lower }}</a
+                >
               </h5>
               <ul class="admin-post">
                 <li>
-                  <a href="#">Author: &nbsp;{{researcher_publication.author.first_name}}
-                     {{researcher_publication.author.last_name}}
-                    </a> 
+                <a href=""
+                  >{{ researcher_publication.publication_type |upper}}</a
+                >
                 </li>
                 <li>
-                  <a href="#">Year Of Publication:&nbsp;
-                    {{researcher_publication.year_of_publication}}</a>
-                </li><br/>
-                <li>
-              <ul><hr/>
-              <p class="">
-                {{ researcher_publication.abstract | truncatewords:30| striptags}}.
-              </p>
-              <a
-                href="{% url 'publication_details' researcher_publication.id %}"
-                class="btn btn-theme2 mt-3"
-                >Continue Reading</a
-              >
-            </div>
-            <br />
-            {% endfor %}
-
-            {% for  researcher_project in researcher_projects %}
-            <div class="column-6">
-              <img
-                src="{% static 'assets/images/pub_default.jpg' %}"
-                alt=""
-                class="img-fluid"
-              />
-            </div>
-            <div class="btom-cont">
-              <h5 class="card-title">{{researcher_project.project_title|upper}}
-                <a href="{% url 'project_details' researcher_project.id %}"
-                >{{ researcher_project.title }}</a>
-              </h5>
-              <ul class="admin-post">
-                <li>
-                  <a href="#">Project Lead: &nbsp;{{researcher_project.project_pi}} </a> 
+                <a href=""
+                  class="text-bl">{{ researcher_publication.author.first_name }} 
+                  {{ researcher_publication.author.last_name }}</a
+                >
                 </li>
                 <li>
-                  <a href="#">Project Status:&nbsp;
-                    {{researcher_project.project_status}}</a>
-                </li><br/>
-                <li>
-              <ul><hr/>
-              <p class="">
-                {{ researcher_project.description | truncatewords:30}}.
-              </p>
-              <a
-                href="{% url 'project_details' researcher_project.id %}"
-                class="btn btn-theme2 mt-3"
-                >Continue Reading</a
-              >
-            </div>
-            <br />
-            {% endfor %}
-
-            {% for researcher_innovation in researcher_innovations %}
-            
-            <div class="column-6">
-              <img
-                src="{% static 'assets/images/pub_default.jpg' %}"
-                alt=""
-                class="img-fluid"
-              />
-            </div>
-            <div class="btom-cont">
-              <h5 class="card-title">{{researcher_innovation.title|upper}}
-                <a href="{% url 'innovation_details' researcher_innovation.id %}"
-                >{{ researcher_innovation.title }}</a>
-              </h5>
-              <ul class="admin-post">
-                <li>
-                  <a href="#">Innovatior: &nbsp;{{researcher_innovation.user.title}}
-                    {{researcher_innovation.user.first_name}} {{researcher_innovation.user.last_name}}</a> 
+                <a href=""
+                  >{{ researcher_publication.co_authors }}</a
+                >
                 </li>
-                <li>
-                  <a href="#">Patent:&nbsp;
-                    {{researcher_innovation.patent}}</a>
-                </li><br/>
-                <li>
-              <ul><hr/>
-              <p class="">
-                {{ researcher_innovation.description | truncatewords:30}}.
-              </p>
-              <a
-                href="{% url 'innovation_details' researcher_innovation.id %}"
+              </ul> {% endcomment %}
+              {% comment %} <p class="">{{ publication.abstract | striptags | truncatewords:30}}.</p> {% endcomment %}
+              {% comment %} <div class="float-lt feature-gd col-lg-4 col-md-6">
+                <div class="icon-info">
+                <a href="{% url 'publication_details' researcher_publication.id %}" class="red mt-3">
+                  Read More <span class="fa fa-angle-right pl-1"></span></a>
+                </div>
+              </div> {% endcomment %}
+              {% comment %} <a
+                href="{% url 'publication_details' publication.id %}"
                 class="btn btn-theme2 mt-3"
                 >Continue Reading</a
-              >
-            </div>
-            <br />
-            {% endfor %}
+              > {% endcomment %}
+              {% comment %} </div><br /> {% endcomment %}
 
+           {% endfor %}
           </div>
 
           <!-- pagination -->
-          <div class="pagination">
+          {% comment %} <div class="pagination">
             <ul>
               <li>
                 {% if page_obj.has_previous %}
@@ -161,8 +108,8 @@
                 {% endif %}
               </li>
             </ul>
-          </div>
-        </div>
+          </div>{% endcomment %}
+        </div> 
         <!-- left side blog post content -->
 
         <!-- right side bar -->
@@ -187,28 +134,23 @@
             <ul class="category">
               <li>
                 <a href="#link"
-                  ><span class="fa fa-angle-right"></span> Year
-                  <label>(18)</label></a
+                  ><span class="fa fa-angle-right"></span>Publications
+                  <label>({{total_researcher_publications}})</label></a
                 >
               </li>
               <li>
                 <a href="#link"
-                  ><span class="fa fa-angle-right"></span> Countries
-                  <label>(18)</label></a
+                  ><span class="fa fa-angle-right"></span> Projects
+                  <label>({{total_researcher_projects}})</label></a
                 >
               </li>
               <li>
                 <a href="#link"
-                  ><span class="fa fa-angle-right"></span> Authors
-                  <label> (11)</label></a
+                  ><span class="fa fa-angle-right"></span> Innovations
+                  <label> ({{total_researcher_innovations}})</label></a
                 >
               </li>
-              <li>
-                <a href="#link"
-                  ><span class="fa fa-angle-right"></span> Journals
-                  <label>(24)</label></a
-                >
-              </li>
+              
             </ul>
           </aside>
         </div>

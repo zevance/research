@@ -6,7 +6,7 @@
 <section class="w3l-about-breadcrum">
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
-      <h2>{{ publication.title }}</h2>
+      <h2>{{ publication.project.title }}</h2>
       {% comment %} <p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Publication Details</p> {% endcomment %}
     </div>
   </div>
@@ -29,7 +29,7 @@
                       <ul style="list-style:none;">
                           <li>
                               <a>
-                                  <strong>Author:</strong> {{publication.author.first_name}} {{publication.author.last_name}}
+                                  <strong>Author:</strong>{{publication.author.title}} {{publication.author.first_name}} {{publication.author.last_name}}
                               </a> 
                           </li>
                           {% if publication.co_authors %}
@@ -89,27 +89,26 @@
             <!-- left side blog post content -->
             <!-- right side bar -->
             <div class="right-side-bar">
+              {% if author_details %}
               <aside class="posts border">
-                <ul class="category">
-                <li>
-                  <label> {{ publication.license }}</label>
-                </li>
-                <li>
-                  <label>{{ publication.collection }}</label>
-                </li>                
-              </aside>
-{% comment %} 
-              <aside class="posts p-4 border">
-                <h5 class="aside-title">More From Author</h5>
-                <ul class="category">
-                <li>
-                  <a href="#link"
-                  >
-                  <label></label></a
-                  >
-                </li>
-              </aside> {% endcomment %}
+                <div class="comments">
+                  <div class="media bod-1">
+                    <div class="team-img">
+                     <img src="{{author_details.image.url}}" class="img-fluid rounded" alt="" style="text-align:justify">
+                    </div>
+                    <br/>
+                      <div class="media-body">
+                        <div class="medi-top mb-1">
+                          <a href="#URL" class="name mt-0">{{ author_details.user.title }} {{ author_details.user.first_name }} {{ author_details.user.last_name }}</a> 
+                          </div>
+                          <p style="text-align:justify">{{author_details.bio}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </aside> 
               <!-- contact -->
+              {% endif %}
                 <!-- //contact -->    
               </div>
             </div>

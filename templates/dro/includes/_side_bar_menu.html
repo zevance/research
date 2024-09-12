@@ -36,7 +36,7 @@
                  class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               {% endif %}
             >
-            <a href="{% url 'landing' %}" class="menu-link"><span class="menu-icon fas fa-rocket"></span> <span class="menu-text">Dashboard</span></a>
+            <a href="{% url 'landing' %}" class="menu-link"><span class="menu-icon oi oi-home"></span> <span class="menu-text">Dashboard</span></a>
           </li><!-- /.menu-item -->
           </li><!-- /.menu-item -->
           <!-- .menu-item -->
@@ -47,7 +47,7 @@
                 {% endif %}
             >
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
-              <span class="menu-icon fas fa-book-reader"></span>
+              <span class="menu-icon oi oi-book"></span>
                <span class="menu-text">Journal Article</span></a> <!-- child menu -->
             <ul class="menu">
              
@@ -84,7 +84,7 @@
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                       {% endif %}
                   >
-                  <a href="{% url 'approved-publications' %}" class="menu-link">Declined Articles</a>
+                  <a href="#" class="menu-link">Declined Articles</a>
                   </li>
               {% endif %}
             </ul><!-- /child menu -->
@@ -96,7 +96,7 @@
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
             {% endif %}>
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
-              <span class="menu-icon fas fa-project-diagram"></span> <span class="menu-text">Research Project</span></a> <!-- child menu -->
+              <span class="menu-icon oi oi-fork"></span> <span class="menu-text">Research Project</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               {% if user.is_authenticated and user.position == 'Dro' %}
                     <li {% if 'projects' in request.path %}
@@ -144,7 +144,7 @@
                     class="menu-item" style="border-bottom: 1px solid #E8E8E8"
               {% endif %}>
               <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
-                <span class="menu-icon fas fa-history"></span> <span class="menu-text">Innovation</span></a> <!-- child menu -->
+                <span class="menu-icon oi oi-fire"></span> <span class="menu-text">Innovation</span></a> <!-- child menu -->
               <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
                 <li {% if 'innovation-list' in request.path %}
                           class="menu-item" style="border-bottom: 1px solid #E8E8E8"
@@ -172,34 +172,34 @@
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
-                  <a href="{% url 'innovations-waiting-approval' %}" class="menu-link">Declined Innovations</a>
+                  <a href="#" class="menu-link">Declined Innovations</a>
                 </li>
               {% endif %}
             </ul><!-- /child menu -->
           </li><!-- /.menu-item -->
               {% if user.is_authenticated and user.position == 'Dro' %}
               <!-- .menu-item -->
-              <li {% if 'application-calls' in request.path %}
+              <li {% if 'applications' in request.path %}
                     class="menu-item has-child" style="border-bottom: 1px solid #E8E8E8"
                 {% else %}
                       class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                 {% endif %}>
                 <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
-                  <span class="menu-icon fas fa-sync"></span> <span class="menu-text">Call For Applications</span></a> <!-- child menu -->
+                  <span class="menu-icon oi oi-puzzle-piece"></span> <span class="menu-text">Call For Applications</span></a> <!-- child menu -->
                 <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
                   <li {% if 'application-calls' in request.path %}
                             class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                         {% else %}
                             class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                         {% endif %}>
-                      <a href="{% url 'application-calls' %}" class="menu-link">Submit Call</a>
+                      <a href="{% url 'application-calls' %}" class="menu-link">Submit a Call</a>
                   </li>
-                  <li {% if 'approved-innovations' in request.path %}
+                  <li {% if 'application' in request.path %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% else %}
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
-                    <a href="#" class="menu-link">All Calls</a>
+                    <a href="{% url "application-list" %}" class="menu-link">Application Calls</a>
                   </li>
                 {% endif %}
             </ul><!-- /child menu -->
@@ -213,7 +213,7 @@
                   class="menu-item" style="border-bottom: 1px solid #E8E8E8"
             {% endif %}>
             <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
-              <span class="menu-icon fas fa-calendar"></span> <span class="menu-text">Events</span></a> <!-- child menu -->
+              <span class="menu-icon oi oi-calendar"></span> <span class="menu-text">Events</span></a> <!-- child menu -->
             <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
               {% if user.is_authenticated and user.position == 'Dro' %}
                     <li {% if 'event' in request.path %}
@@ -230,6 +230,23 @@
                         class="menu-item" style="border-bottom: 1px solid #E8E8E8"
                     {% endif %}>
                     <a href="{% url 'events' %}" class="menu-link">Events</a>
+                  </li>
+              {% endif %}
+            </ul><!-- /child menu -->
+          </li><!-- /.menu-item -->
+
+          <!-- .menu-item -->
+          <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
+            <a href="#" class="menu-link" style="border-bottom: 1px solid #E8E8E8">
+              <span class="menu-icon oi oi-bar-chart"></span> <span class="menu-text">Reports</span></a> <!-- child menu -->
+            <ul class="menu" style="border-bottom: 1px solid #E8E8E8">
+              {% if user.is_authenticated and user.position == 'Dro' %}
+                  <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
+                    <a href="{% url 'report' %}" class="menu-link">Bar Chart</a>
+                  </li>
+            
+                  <li class="menu-item" style="border-bottom: 1px solid #E8E8E8">
+                    <a href="" class="menu-link">Excel</a>
                   </li>
               {% endif %}
             </ul><!-- /child menu -->

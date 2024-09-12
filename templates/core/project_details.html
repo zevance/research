@@ -9,6 +9,7 @@
   <div class="breadcrum-bg py-sm-5 py-4">
     <div class="container py-lg-3">
       <h2>{{umbrellaProject.title}}</h2>
+      
     </div>
   </div>
 </section>
@@ -21,7 +22,7 @@
             <div class="single-left">
               <div class="single-left1">
 
-                {% if umbrellaProject.image_path %}
+                {% comment %} {% if umbrellaProject.image_path %}
                   <div class="blg-img">
                     <a href="#"><img src="{{umbrellaProject.image_path.url}}" alt=" " class="img-responsive img-fluid">
                     <div class="bl-top">
@@ -35,7 +36,7 @@
                       <h4>{{umbrellaProject.date_from}}</h4>	
                     </div></a>
                   </div>
-                {% endif %} 
+                {% endif %}  {% endcomment %}
 
                 <div class="btom-cont1 pt-4">
                   <h5 class="card-title">{{ umbrellaProject.title }}</h5><hr>
@@ -43,41 +44,147 @@
                   <p class="mb-3" style="text-align: justify">{{ umbrellaProject.description }}</p>
               </div>
               <br/>
-              <hr/> 
-
+              
               {% if umbrellaProject.project_set.exists %}
                 <div>
-                  <h5><b>Related sub projects</b></h5><hr/>
-                      {% for project in umbrellaProject.project_set.all %}
+                  <h5><b>Related sub projects</b></h5><br/>
+                      {% comment %} {% for project in umbrellaProject.project_set.all %}
                           <a class="nav-link" href="{% url 'project' project.id %}">
                             {{project.title | truncatewords:10}}
                           </a>
-                      {% endfor %}
+                      {% endfor %} {% endcomment %}
+                       <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-480">Title</th>
+                                        <th class="hidden-480">Principle Investigator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for project in umbrellaProject.project_set.all %}
+                                    <tr>
+                                         <td class="hidden-480">
+                                           <a class="nav-link" href="{% url 'project' project.id %}">
+                                               {{project.title | truncatewords:8}}
+                                           </a>
+                                         </td>
+                                         <td class="hidden-480"><a class="nav-link">{{project.user.title}} {{project.project_pi}}</a></td>
+                                    </tr>
+                                     {% endfor %}
+                                </tbody>
+                            </table>
                 </div> 
-                <hr/><br/>
+                <br/>
               {% endif %} 
+
               {% if umbrellaProject.publication_set.exists %}
                 <div>
-                  <h5><b>Related publications</b></h5><hr/>
-                      {% for publication in umbrellaProject.publication_set.all %}
+                  <h5><b>Related publications</b></h5><br/>
+                  <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-480">Title</th>
+                                        <th class="hidden-480">Author</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for publication in umbrellaProject.publication_set.all %}
+                                    <tr>
+                                         <td>
+                                           <a class="nav-link" href="{% url 'publication_details' publication.id %}">
+                                               {{publication.title  | truncatewords:5}}
+                                           </a>
+                                         </td>
+                                         <td class="hidden-480"><a class="nav-link">{{publication.author.title}} {{publication.author.first_name}} {{publication.author.last_name}}</a></td>
+                                    </tr>
+                                     {% endfor %}
+                                </tbody>
+                            </table>
+                      {% comment %} {% for publication in umbrellaProject.publication_set.all %}
                           <a class="nav-link" href="{% url 'publication_details' publication.id %}">
                             {{publication.title | truncatewords:10}}
                           </a>
-                      {% endfor %}
+                      {% endfor %} {% endcomment %}
                 </div> 
-                <hr/><br/>
+                <br/>
                 {% endif %} 
                 
                 {% if umbrellaProject.innovation_set.exists %}
                   <div>
-                    <h5><b>Related innovations</b></h5><hr/>
-                        {% for innovation in umbrellaProject.innovation_set.all %}
+                    <h5><b>Related innovations</b></h5><br/>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-480">Title</th>
+                                        <th class="hidden-480">Innovator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for innovation in umbrellaProject.innovation_set.all %}
+                                    <tr>
+                                         <td class="hidden-480">
+                                           <a class="nav-link" href="{% url 'innovation_details' innovation.id %}">
+                                               {{innovation.title | truncatewords:8}}
+                                           </a>
+                                         </td>
+                                         <td class="hidden-480"><a class="nav-link">{{innovation.user.title}} {{innovation.user.first_name}} {{innovation.user.last_name}}</a></td>
+                                    </tr>
+                                     {% endfor %}
+                                </tbody>
+                            </table>
+                        {% comment %} {% for innovation in umbrellaProject.innovation_set.all %}
                               <a class="nav-link" href="{% url 'innovation_details' innovation.id %}">
                                 {{innovation.title | truncatewords:10}}
                               </a>
-                        {% endfor %}
-                  </div> 
+                        {% endfor %} {% endcomment %}
+                  </div> <br/>
                 {% endif %}
+
+                {% if umbrellaProject.projectscholarship_set.exists %}
+                <div>
+                  <h5><b>Project  Scholarships</b></h5><br/>
+                          {% comment %} <a class="nav-link" href="{% url 'project' projectscholarship.id %}">
+                            {% if projectscholarship.get_scholarship_type_display == "Msc" %}                             
+                                  <ul class="category">
+                                  <li>Masters Programmes <label>({{projectscholarship.total_offered}})</label></li>
+                                  </ul>
+                            {% endif %}
+                           </a> {% endcomment %}
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-480">Scholarship Type</th>
+                                        <th class="hidden-480" colspan="5">Total Offered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for projectscholarship in umbrellaProject.projectscholarship_set.all %}
+                                    <tr>
+                                         <td class="hidden-480">
+                                           {% if projectscholarship.get_scholarship_type_display == "Phd" %} 
+                                              <p>Doctor of philosophy</p>
+                                            {% elif projectscholarship.get_scholarship_type_display == "Msc" %} 
+                                               <p>Masters Programmes</p>
+                                            {% elif projectscholarship.get_scholarship_type_display == "Bsc" %} 
+                                               <p>Bachelors Degree</p>
+                                            {% elif projectscholarship.get_scholarship_type_display == "Cet" %} 
+                                               <p>Certificate</p>
+                                            {% elif projectscholarship.get_scholarship_type_display == "Dip" %} 
+                                               <p>Diploma</p>
+                                            {% elif projectscholarship.get_scholarship_type_display == "Shc" %} 
+                                               <p>ShortCourse</p>
+                                            {% endif %}
+                                         </td>
+                                         
+                                         <td class="hidden-490">{{projectscholarship.total_offered}}</td>
+                                    </tr>
+                                     {% endfor %}
+                                </tbody>
+                            </table>
+                        </div> 
+                       <br/>
+                {% endif %} 
+
               </div>
             </div>
             <!-- left side blog post content -->
@@ -102,16 +209,15 @@
                                     <div class="cont-add add-2">     
                                       <div class="cont-add-rgt">
                                         <h4>Project Lead</h4><hr/>
-                                        <p class="contact-text-sub">
-                                          <a href="#">{{umbrellaProject.project_lead }}</a></p>
+                                        <p>
+                                         {{umbrellaProject.user.title}} {{umbrellaProject.project_lead }}</p>
                                       </div> 
                                     </div>
 
                                     <div class="cont-add add-2">
                                       <div class="cont-add-rgt">
                                       <h4>Project Cost</h4><hr/>
-                                        <p class="contact-text-sub">
-                                          <a href="#">$ {{ umbrellaProject.total_value | intcomma  }}</a></p>
+                                        <p>$ {{ umbrellaProject.total_value | intcomma  }}</p>
                                       </div>
                                     </div>
 
@@ -180,5 +286,17 @@
                   </div>
     <!---728x90--->
   <!-- grids block 5 -->
+
+  <script>
+        $(document).ready(function() {
+            $('#dynamic-table').DataTable({
+				select: {
+                style: 'single'
+            }
+			}
+
+			);
+        });
+  </script>
 
 {% endblock %}

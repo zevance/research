@@ -4,45 +4,55 @@
 
 {% block content %}
 
-	<section class="w3l-about-breadcrum">
+<section class="w3l-about-breadcrum">
 	<div class="breadcrum-bg py-sm-5 py-4">
 		<div class="container py-lg-3">
-		<h2>Researchers</h2>
-		<p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Researchers</p>
+			<h2>Researchers</h2>
+			<p><a href="{% url 'index' %}">Home</a> &nbsp; / &nbsp; Researchers</p>
 		</div>
 	</div>
-	</section>
+</section>
 
-{% if page_obj  %}
+{% if page_obj  %}	
 <section class="w3l-blog-single">
 	<div class="single blog py-4">
-		<div class="fea-gd-vv text-center row">
-				{% for author in page_obj %} 
-				    <div class="float-top col-lg-2 col-md-2 mt-md-0 mt-5">		
-						<a href="{% url 'researcher_publications' author.id %}">
-							<img src="{% static 'assets/images/researcher_default.png' %}" class="img-responsive" alt="">
-						</a>
-						<div class="float-lt feature-gd">	
-							<h5><a href="{% url 'researcher_publications' author.id %}">
-								{{author.first_name}} {{author.last_name}}</a> 
-							</h5><br/>
-							<p> {{author.position}} </p>
-						</div>
+		<div class="container py-md-3">
+			<div class="row mb-3">
+			<div class="col-md-12">
+				<form class="search-form" action="{% url 'researchers_search' %}" method="get">
+					<input
+						class="form-control"
+						type="search"
+						name="query"
+						placeholder="Search by name"
+						aria-label="search"
+						required=""
+					/>
+				</form>
+			</div>
+		</div>
+			<div class="fea-gd-vv text-center row">
+			   {% for author in page_obj %}
+				<div class="float-top col-lg-3 col-md-6">	
+					<a href="{% url 'researcher_publications' author.id %}"><img src={% static 'assets/images/researcher_default.jpg' %} class="img-responsive" alt="" size="80"></a>
+					<div class="float-lt feature-gd">	
+						<h7><a href="{% url 'researcher_publications' author.id %}"><b>{{author.first_name}} {{author.last_name}}</b></a> </h7>
+						<p>{{author.position}} </p>
 					</div>
-				{% endfor %}	
+					<p><br></p>
+				</div>
+			   {% endfor %}					 
 			</div>  
 		</div>
 	</div>
-
-	<!-- pagination -->
-	<div class="pagination" style="padding-left:60px;padding-bottom:50px;padding-top:0px;">
+   <div class="pagination" style="padding-left:60px;padding-bottom:50px;padding-top:0px;">
 		<ul>
 			<li>
 				{% if page_obj.has_previous %}
 					<a
 					href="?page={{ page_obj.previous_page_number }}"
-					class="not-allowed"
-					disabled=""
+					{% comment %} class="not-allowed"
+					disabled="" {% endcomment %}
 					>
 					<span
 						class="fa fa-angle-double-left"
@@ -71,7 +81,8 @@
 			</li>
 		</ul>
 	</div> 
-</section>
+
+</section> 
 
 {% else %}
 {% endif %} 

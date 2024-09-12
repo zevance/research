@@ -14,11 +14,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db import connection
 from account.models import Profile
+from . import functions
 from datetime import datetime
 from django.http import HttpResponse
+import xlwt
 from datetime import datetime
+from organisation.models import Faculty
 from account.models import User
-
+from django.core.mail import send_mail
 # Create your views here.
 class DashboardPageView(LoginRequiredMixin, TemplateView):
     template_name ='research/dashboard.html'
@@ -75,12 +78,6 @@ class UploadPublicationPageView(LoginRequiredMixin, View):
 
 add_publication_view = UploadPublicationPageView.as_view()
 
-class AuthorListView(View):
-    def get(self,id, *args, **kwargs):
-        obj = get_object_or_404(Publication, pk=id)
-        co_author = User.objects.order_by('last_name')
-        return render(self.request, 'research/co_author.html', {'co_author': co_author,'publication': obj})
-        
 def author_view(request, id):
     obj = get_object_or_404(Publication, pk=id)
     co_author = User.objects.order_by('last_name')
@@ -125,14 +122,19 @@ class UploadPublicationView(LoginRequiredMixin, View):
                         publication_type=publication_type,author_id=author_id,co_authors=co_authors,
                         number_of_pages=number_of_pages,volume=volume,project_id=project_id)
             publication.save()
-            return render(request, 'research/co_author.html', pk=publication.id)
+            last_saved_row = Publication.objects.latest('pk')  
+            detail_url = last_saved_row.get_absolute_url()
+
+            # Redirect to the detail view of the last saved row
+            return redirect(detail_url)
+            # return render(request, 'research/co_author.html', {'publication':publication.id})
         return render(request, 'research/add_publication.html')
     
 upload_publication_view = UploadPublicationView.as_view()
 
 
 class PublicationListView(LoginRequiredMixin, ListView):
-    template_name = 'research/publications.html'
+    template_name = 'research/all_publications.html'
     model = Publication
     
     def dispatch(self, request, *args, **kwargs):
@@ -154,9 +156,30 @@ publication_list_view = PublicationListView.as_view()
 class ApprovePublicationView(View):
     def post(self, request, *args, **kwargs):
         id = request.POST['id']
+        updated = Publication.objects.filter(id=id).update(response=True, is_approved=True)
+        if updated:
+            messages.success(self.request, 'Publication has been approved successfully')
 
-        Publication.objects.filter(id=id).update(response=True, is_approved=True)
-        messages.success(self.request, 'Publication has been approved successfully')
+            publication = Publication.objects.get(id=id)
+            publication_title = publication.title
+            author_name = f"{publication.author.first_name} {publication.author.last_name}"
+            co_authors = publication.co_authors if publication.co_authors else ' '
+            doi_link = publication.doi if publication.doi else ' ' 
+
+            subject = 'New Publication Alert'
+            message = (
+                f'Dear All,\n\n'
+                f'A new publication titled "{publication_title}" by {author_name} and {co_authors} has been approved.\n\n'
+                f'You can access the article through this link: {doi_link}\n\n'
+                f'Best regards,\n\n'
+                f'The DRO Team'
+            )
+            from_email = 'dro@luanar.ac.mw'
+            recipient_list = ['staff-all@luanar.ac.mw']
+            send_mail(subject, message, from_email, recipient_list)
+        else:
+            messages.error(self.request, 'There was an error approving the publication.')
+
         return redirect('dro_publications')
 
 approve_publication_view = ApprovePublicationView.as_view()
@@ -172,6 +195,16 @@ class DeclinePublicationView(View):
 
 decline_publication_view = DeclinePublicationView.as_view()
 
+
+#Project DRO Functions
+#projects that needs dro approval
+def dro_project_list_view(request):
+    if request.user.is_authenticated and request.user.position == 'Dro':
+        projects = Project.objects.filter(response__isnull=True)  # Retrieve data based on your conditions
+    else:
+        projects = None  # Set data to None or handle accordingly
+
+    return render(request, 'research/dro_projects_list.html', {'projects': projects})
 
 class ApproveProjectView(View):
     def post(self, request, *args, **kwargs):
@@ -218,6 +251,7 @@ class DeclineInnovationView(View):
 decline_innovation_view = DeclineInnovationView.as_view()
     
 #END OF DRO FUNCTIONS
+
 class PublicationDetailsView(LoginRequiredMixin, DetailView):
     html = '<jats:p>'
     stripped = strip_tags(html)
@@ -227,6 +261,7 @@ class PublicationDetailsView(LoginRequiredMixin, DetailView):
     queryset = Publication.objects.all()
 
 publication_details_view = PublicationDetailsView.as_view()
+
 
 class ApprovedPublicationListView(LoginRequiredMixin, ListView):
     template_name = 'research/approved_publications.html'
@@ -245,6 +280,7 @@ class ApprovedPublicationListView(LoginRequiredMixin, ListView):
         
 approved_publication_list_view = ApprovedPublicationListView.as_view()
 
+
 def associated_umbrella_project(request):
     projects = UmbrellaProject.objects.order_by('-created_at').filter(is_approved=True)
     return projects
@@ -258,6 +294,7 @@ class DeletePublicationView(LoginRequiredMixin, DeleteView):
         return reverse('publication_list')
 
 delete_publication_view = DeletePublicationView.as_view()
+
 
 class AddProjectView(LoginRequiredMixin, View):
     template_name = 'research/add_project.html'
@@ -301,6 +338,7 @@ class AddProjectView(LoginRequiredMixin, View):
             return render(request, self.template_name)
         
 add_project_view = AddProjectView.as_view()
+
 
 class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'research/all_projects.html'
@@ -548,6 +586,8 @@ class UpdateUserProfileView(View):
 update_user_profile_view = UpdateUserProfileView.as_view()
 
 #End of User Profile View
+
+
 def staffReport(request):
 
     with connection.cursor() as cursor:
@@ -599,9 +639,15 @@ def departmentReportCustom(request):
             ordinal = "Fourth"
         description = f"({ordinal} Quarter of {year})"
         
+
+    
     report = functions.departmentReport(startDate, endDate)
     
+
+    
     return render(request, 'research/department_report.html', {'data': report, 'description' : description});
+
+
 
 def staffReportCustom(request):
     year = request.GET.get('year')
@@ -628,9 +674,14 @@ def staffReportCustom(request):
             ordinal = "Fourth"
         description = f"({ordinal} Quarter of {year})"
         
+
+    
     report = functions.staffReport(startDate, endDate)
     
+
+    
     return render(request, 'research/staff_report.html', {'data': report, 'description' : description});
+
 
 def Charts(request):
     year = request.GET.get('year')
@@ -649,9 +700,12 @@ def Charts(request):
     for i in facultyReport:
         print(i)
     
+
+
     return render(request, 'research/report_charts.html', {'departmentReport': departmentReport, 'facultyReport': facultyReport, 'description': description, 'year' : year});
     
 def downloadExcel(request, year = None):
+    
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Research Report.xls"'
     style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
@@ -680,6 +734,9 @@ def downloadExcel(request, year = None):
         wp.write(i, 6, j["abstract"])
         i= i + 1
     
+
+    
+
     wi = wb.add_sheet("Innovations")
     wi.write(0, 0, 'Faculty', style0)
     wi.write(0, 1, 'Departmant', style0)
@@ -698,6 +755,8 @@ def downloadExcel(request, year = None):
         wi.write(i, 4, j["description"])
         wi.write(i, 5, j["year_of_innovation"])
         i = i + 1
+
+
 
     wpj = wb.add_sheet("Projects")
     wpj.write(0, 0, 'Faculty', style0)
@@ -721,10 +780,15 @@ def downloadExcel(request, year = None):
         wpj.write(i, 6, j["expected_completion_date"])
         i = i + 1
     
+
+    
+
     wb.save(response)
     return response
 
+
 def test(request):
+
     data = functions.facultyInnovationReport()
     for i in data:
         print(i)

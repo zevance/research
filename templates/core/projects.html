@@ -15,7 +15,7 @@
   </div>
 </section>
 
-{% if page_obj %}
+{% comment %} {% if umbrella_projects %} {% endcomment %}
 <section class="w3l-blog-single">
 	<div class="single blog py-4">
 		<div class="container py-md-2">
@@ -37,54 +37,27 @@
 					</button>
 				</form>
 		
-			{% for project in page_obj %}
-			<div class="single-left1">
-				{% if project.image_path %}
-					<div class="blg-img">
-						<a href="#"><img src="{{project.image_path.url}}" alt=" " class="img-responsive img-fluid">
-						<div class="bl-top">
-							<h4>{{project.date_from}}</h4>	
-						</div></a>
-					</div>
-				{% else %}
-					<div class="blg-img">
-						<a href="#"><img src="{% static 'assets/images/project_default.jpg' %}" alt=" " class="img-responsive img-fluid">
-						<div class="bl-top">
-							<h4>{{project.date_from}}</h4>	
-						</div></a>
-					</div>
-				{% endif %}
+			{% for project in umbrella_projects %}
+				<div class="single-left1">	
+				<div class="btom-cont">
+					<h5 class="card-title"><a href="{% url 'project_details' project.id %}">{{ project.title |lower }}</a></h5>
+					
+                    <p style="font-size: 15px"><b>Project Lead:</b> {{project.project_lead}} | <b>Email address:</b> {{project.user.email}} | <b>Start Date: </b>{{project.date_from}} | <b>Status:</b> {{project.project_status}}</p>
+					
+				</div>
+				</div>
 				
-					<div class="btom-cont">
-						<h5 class="card-title">
-							<a href="{% url 'project_details' project.id %}"
-							>{{ project.title }}</a
-							>
-						</h5>
-						<ul class="admin-post">
-							<li>
-							<a href="#"></a>
-								Project Lead: <b>{{project.project_lead}}</b>
-							</li>
-						</ul>
-						<p class="">{{ project.description | truncatewords:20 }}</p>
-						<a
-							href="{% url 'project_details' project.id %}"
-							class="btn btn-theme2 mt-3"
-							>Continue Reading</a
-						>
-					</div>
-					<br />
-		</div>
-		{% endfor %}
+			{% endfor %}
+
+		
 
 			<!-- pagination -->
 			<div class="pagination">
 				<ul>
 				<li>
-					{% if page_obj.has_previous %}
+					{% if umbrella_projects.has_previous %}
 						<a
-						href="?page={{ page_obj.previous_page_number }}"
+						href="?page={{ umbrella_projects.previous_page_number }}"
 						class="not-allowed"
 						disabled=""
 						>
@@ -95,17 +68,17 @@
 						</a>
 					{% endif %}
 				</li>
-				{% for page_number in page_obj.paginator.page_range %}
+				{% for page_number in umbrella_projects.paginator.page_range %}
 				<li>
-					<a {% if page_obj.number == page_number %} class="active" {% endif %}
+					<a {% if umbrella_projects.number == page_number %} class="active" {% endif %}
 					href="?page={{ page_number }}">
 					{{ page_number }}
 					</a>
 				</li>
 				{% endfor %}
 				<li>
-					{% if page_obj.has_next %}
-						<a href="?page={{ page_obj.next_page_number }}">
+					{% if umbrella_projects.has_next %}
+						<a href="?page={{ umbrella_projects.next_page_number }}">
 						<span
 							class="fa fa-angle-double-right"
 							aria-hidden="true"
@@ -115,56 +88,75 @@
 				</li>
 				</ul>
 			</div>
-			</div>
+			</div> 
 			<!-- left side blog post content -->
 
 			<!-- right side bar -->
 		<div class="right-side-bar">
-			
-			<aside class="posts p-4 border">
-				<h3 class="aside-title">Categories</h3>
+			<section class="w3l-form-12">
+			<div class="posts p-4 border">
+				<div>
+					<div>
+					
+					<div class="column1">
+						<h4 class="tagline">SEARCH FILTERS</h4>
+							<form action="{% url "search" %}">
+								<div class="">
+									<select id="sel1" name="project_type">
+										<option value="">By Project Type</option>
+										<option value="Grant based">Grant Based</option>
+										<option value="Consultancy">Consultancy</option>
+									  </select>
+								</div>
+								<div class="">
+									<select id="sel1" name="project_status">
+										<option value="">By Project Status</option>
+										<option value="In progress">On Going</option>
+										<option value="Completed">Completed</option>
+									  </select>
+								</div>
+								
+								<button type="submit" class="btn btn-secondary btn-theme2">Submit Filters</button>
+							</form>
+						</div>
+						</div>
+					</div>
+				</div>
+                <br>
+                <aside class="posts p-4 border">
+				<h3 class="aside-title">LUANAR Projects stats</h3>
 				<ul class="category">
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Year
-					<label>(18)</label></a
-					>
+					<a href="#link">On Going:
+                        <label>({{ongoing_projects}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Countries
-					<label>(1)</label></a
-					>
+					<a href="#link">Completed
+                        <label>({{completed_projects}})</label></a>
+					
 				</li>
 				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Project Status
-					<label> (2)</label></a
-					>
+					<a href="#link">Total Projects
+                        <label> ({{total_umbrella_projects}})</label></a>
+					
 				</li>
-				<li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span> Project Lead
-					<label>(24)</label></a
-					>
-				</li>
-                <li>
-					<a href="#link"
-					><span class="fa fa-angle-right"></span>Project Type
-					<label>(3)</label></a
-					>
-				</li>
+				
+                
 				</ul>
 			</aside>
-			</div>
-			<!-- //right side bar -->
-		</div>
+			</section>
+			<br/>	
+		  </div>
+          
+            
+		  </div>
 		</div>
 	</div>
 </section>
 	<!-- grids block 5 -->
-{% else %}
-{% endif %} 
+{% comment %} {% else %}
+{% endif %}  {% endcomment %}
 <!-- //features -->
 
 {% endblock %}

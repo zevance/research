@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg py-sm-5 py-4">
+    <div class="container py-lg-3">
+      <h2>Projects</h2>
+      <p>Search Results</p>
+    </div>
+  </div>
+</section>
+
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+			<div class="d-grid grid-colunm-2">
+				<!-- left side blog post content -->
+				<div class="single-left py-4">
+				
+		
+					{% for project in projects %}
+					
+					<div class="single-left1">	
+						<div class="btom-cont">
+							<h5 class="card-title"><a href="{% url 'project_details' project.id %}">{{ project.title |lower }}</a></h5>
+							
+							<p style="font-size: 15px"><b>Project Lead:</b> {{project.project_lead}} | <b>Email address:</b> {{project.user.email}} | <b>Start Date: </b>{{project.date_from}} | <b>Status:</b> {{project.project_status}}</p>
+						</div>
+					</div>
+					
+					{% endfor %}
+
+					<!-- pagination -->
+					<div class="pagination">
+						<ul>
+							<li>
+								{% if projects.has_previous %}
+									<a
+									href="?page={{ projects.previous_page_number }}"
+									class="not-allowed"
+									disabled=""
+									>
+									<span
+										class="fa fa-angle-double-left"
+										aria-hidden="true"
+									></span>
+									</a>
+								{% endif %}
+							</li>
+							<li>
+								<a class="active" href="#"> {{ projects.number }} </a>
+							</li>
+							<li>
+								{% if projects.has_next %}
+									<a href="?page={{ projects.next_page_number }}">
+									<span
+										class="fa fa-angle-double-right"
+										aria-hidden="true"
+									></span>
+									</a>
+								{% endif %}
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+					<div class="right-side-bar">
+			<section class="w3l-form-12">
+			<div class="posts p-4 border">
+				<div>
+					<div>
+					
+					<div class="column1">
+						<h4 class="tagline">SEARCH FILTERS</h4>
+							<form action="{% url "search" %}">
+								<div class="">
+									<select id="sel1" name="project_type">
+										<option value="">By Project Type</option>
+										<option value="Grant based">Grant Based</option>
+										<option value="Consultancy">Consultancy</option>
+									  </select>
+								</div>
+								<div class="">
+									<select id="sel1" name="project_status">
+										<option value="">By Project Status</option>
+										<option value="In progress">On Going</option>
+										<option value="Completed">Completed</option>
+									  </select>
+								</div>
+								
+								<button type="submit" class="btn btn-secondary btn-theme2">Submit Filters</button>
+							</form>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</section>
+
+
+{% endblock %}

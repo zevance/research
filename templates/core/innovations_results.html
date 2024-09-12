@@ -1,0 +1,106 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+
+<section class="w3l-about-breadcrum">
+	<div class="breadcrum-bg py-sm-5 py-4">
+		<div class="container py-lg-3">
+			<h2>Innovations</h2>
+			<p>Search Results</p>			
+		</div>
+	</div>
+</section>
+
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+		<div class="d-grid">
+			<!-- left side blog post content -->
+			<div class="single-left">
+			
+				<!--<p>{{total_results}} Innovations</p>-->
+				
+			<div class="single-left1">
+                {% for innovation in innovations %}
+                
+				
+					<div class="btom-cont">
+					<h5 class="card-title">
+						<a href="{% url 'innovation_details' innovation.id %}"
+						>{{ innovation.title }}</a
+						>
+					</h5>
+					<ul class="admin-post">
+						<li>
+							<a><span class="fa fa-user"></span>
+								{{innovation.user.title}} {{innovation.user.first_name}} {{innovation.user.last_name}}
+							</a>
+						</li>
+						{% if innovation.patent %}
+							<li>
+							<a href="#"><b>Patent No: </b>{{ innovation.patent }}</a>							</li>
+						{% endif %}
+						<li>
+						<a href="#"
+							class="text-bl"><b>Year of Release: </b>{{ innovation.year_of_innovation }}</a
+						>
+						</li>
+					</ul>
+					<p class="">{{ innovation.description | truncatewords:100}}</p>
+					<a
+						href="{% url 'innovation_details' innovation.id %}"
+						class="btn btn-theme2 mt-3"
+						>Continue Reading</a
+					>
+					</div>
+
+					<br />
+				{% endfor %}
+			</div>
+
+			<!-- pagination -->
+			<div class="pagination">
+				<ul>
+				<li>
+					{% if innovations.has_previous %}
+						<a
+						href="?page={{ innovations.previous_page_number }}"
+						class="not-allowed"
+						disabled=""
+						>
+						<span
+							class="fa fa-angle-double-left"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				<li>
+					<a class="active" href="#"> {{ innovations.number }} </a>
+				</li>
+				<li>
+					{% if innovations.has_next %}
+						<a href="?page={{ innovations.next_page_number }}">
+						<span
+							class="fa fa-angle-double-right"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				</ul>
+			</div>
+			</div>
+			<!-- left side blog post content -->
+
+			
+		</div>
+		</div>
+	</div>
+	</section>
+	<!-- grids block 5 -->
+
+{% endblock %}

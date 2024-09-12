@@ -1,0 +1,85 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block content %}
+
+
+<section class="w3l-about-breadcrum"> 
+	<div class="breadcrum-bg py-sm-5 py-4">
+		<div class="container py-lg-3">
+			<h2>Publications</h2> 
+			<p>Search Results</p>
+			
+		</div>
+	</div>
+</section>
+
+<section class="w3l-blog-single">
+	<div class="single blog py-4">
+		<div class="container py-md-2">
+		<div class="d-grid">
+			<!-- left side blog post content -->
+			<div class="single-left">
+			
+			<!--<p>{{total_results}} Publications</p>-->
+				
+			<div class="single-left1">
+            {% for publication in publications %}
+				<div class="single-left1">
+				
+			  <div class="btom-cont">
+				<h5 class="card-title"><a href="{% url 'publication_details' publication.id %}">{{ publication.title |lower }}</a></h5>
+                <hr>
+                  
+                <p><b>Authors:</b> {{publication.author.first_name}} {{publication.author.last_name}},{{publication.co_authors}}</p>
+				
+			  </div>
+			</div>
+			{% endfor %}
+			</div>
+
+			<!-- pagination -->
+			<div class="pagination">
+				<ul>
+				<li>
+					{% if publications.has_previous %}
+						<a
+						href="?page={{ publications.previous_page_number }}"
+						class="not-allowed"
+						disabled=""
+						>
+						<span
+							class="fa fa-angle-double-left"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				<li>
+					<a class="active" href="#"> {{ publications.number }} </a>
+				</li>
+				<li>
+					{% if publications.has_next %}
+						<a href="?page={{ publications.next_page_number }}">
+						<span
+							class="fa fa-angle-double-right"
+							aria-hidden="true"
+						></span>
+						</a>
+					{% endif %}
+				</li>
+				</ul>
+			</div>
+			</div>
+			<!-- left side blog post content -->
+
+			
+		</div>
+		</div>
+	</div>
+</section>
+	<!-- grids block 5 -->
+
+
+{% endblock %}
