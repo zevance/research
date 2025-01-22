@@ -90,9 +90,9 @@ WSGI_APPLICATION = 'foodma.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'foodma',
-        'USER': 'postgres',
-	    'PASSWORD': 'xxxx',
+        'NAME': '0000',
+        'USER': '0000',
+	    'PASSWORD': '0000',
 	    'HOST':  'localhost'
     }
 }
